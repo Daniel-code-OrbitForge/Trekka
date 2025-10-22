@@ -24,6 +24,6 @@ const fleetSchema = new Schema({
         type: String,
         required: true
     }
-})
+});
 
 module.exports = mongoose.model('Fleet', fleetSchema)
