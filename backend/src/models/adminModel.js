@@ -1,43 +1,15 @@
-const mongoose = require('mongoose');
-const Schema = mongoose.Schema;
+import mongoose from "mongoose";
 
-const adminSchema = new Schema({
-    firstName: {
-        type: String,
-        required: true
-    },
-    lastName: {
-        type: String,
-        required: true
-    },
-    email: {
-        type: String,
-        Unique: true,
-        required: true
-    },
-    role: {
-        type: String,
-        enum: ['superadmin','admin','modeator', 'support'],
-        required:true
-    },
-    passwordHash: {
-        type: String,
-        required: true
-    },
-    createdDate: {
-        type: Date,
-        default:Date.now
-    },
-    lastActive: {
-        type: Date,
-        default: Date.now
-    },
-    updatedAt: {
-        type: Date,
-        default: Date.now
-    },
+const adminSchema = new mongoose.Schema(
+  {
+    username: { type: String, required: true },
+    email: { type: String, required: true, unique: true, lowercase: true },
+    password: { type: String, required: true, minlength: 6 },
+    role: { type: String, default: "admin" },
+    lastLogin: { type: Date, default: Date.now },
+    permissions: { type: [String], default: [] },
+  },
+  { timestamps: true }
+);
 
-    
-});
-
-module.export = mongoose.model(Admin, adminSchema);
+export default mongoose.model("Admin", adminSchema);
