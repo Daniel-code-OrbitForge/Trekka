@@ -1,17 +1,12 @@
-const express = require('express');
+import express from "express";
+import userAuthRoutes from "./routes/userAuth.js";
+import companyAuthRoutes from "./routes/companyAuth.js";
+import adminAuthRoutes from "./routes/adminAuth.js";
+
 const router = express.Router();
 
-router.get('/', (req, res) => {
-    res.send({message: "Welcome to Trekka API | Trekka Backend API is running"});
-});
+router.use("/api/user", userAuthRoutes);
+router.use("/api/company", companyAuthRoutes);
+router.use("/api/admin", adminAuthRoutes);
 
-// Importing all sub-routes
-router.use('/auth', require('./authRoutes'));
-router.use('/users', require('./userRoutes'));
-router.use('/bookings', require('./bookingRoutes'));
-router.use('/companies', require('./companyRoutes'));
-router.use('/drivers', require('./driverRoutes'));
-router.use('/fleet', require('./adminRoutes'));
-router.use('/payments', require('./paymentRoutes'));
-
-module.exports = router;
+export default router;
