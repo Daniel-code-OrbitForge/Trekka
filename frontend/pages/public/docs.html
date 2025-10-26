@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- SEO Optimization Meta Tags -->
+    <title>API Documentation | Trekka Developer Resources</title>
+    <meta name="description" content="Comprehensive API documentation for Trekka platform. Learn how to integrate transportation booking features into your application.">
+    <meta name="keywords" content="Trekka API, API Documentation, Developer Resources, Transportation API, Booking API, Travel Integration">
+    <link rel="canonical" href="https://trekka.com/documentation">
+    
+    <!-- Open Graph -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://trekka.com/documentation">
+    <meta property="og:title" content="API Documentation - Trekka">
+    <meta property="og:description" content="Developer resources and API documentation for Trekka platform integration.">
+    <meta property="og:image" content="https://trekka.com/assets/images/og-docs.jpg">
+    
+    <!-- Linking External Stylesheets -->
+    <link rel="stylesheet" href="../../styles/global.css">
+    <link rel="stylesheet" href="../../styles/media.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Header Navigation -->
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <a href="index.html">
+                        <i class="fas fa-route"></i>
+                        <span>Trekka</span>
+                    </a>
+                </div>
+                
+                <nav class="nav" id="nav">
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="about.html">About</a></li>
+                        <li><a href="faq.html">FAQ</a></li>
+                        <li><a href="careers.html">Careers</a></li>
+                        <li><a href="partnership.html">Partner with Us</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                    </ul>
+                </nav>
+                
+                <div class="header-actions">
+                    <a href="../auth/login.html" class="btn btn-outline">Sign In</a>
+                    <a href="../auth/signupUser.html" class="btn btn-primary">Get Started</a>
+                </div>
+                
+                <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Page Hero -->
+    <section class="page-hero">
+        <div class="container">
+            <div class="page-hero-content">
+                <h1 class="fade-in">API Documentation</h1>
+                <p class="fade-in">Build transportation features into your application</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Documentation Content -->
+    <section class="documentation">
+        <div class="container">
+            <div class="doc-layout">
+                <!-- Sidebar -->
+                <aside class="doc-sidebar">
+                    <nav class="doc-nav">
+                        <h3>Getting Started</h3>
+                        <ul>
+                            <li><a href="#introduction">Introduction</a></li>
+                            <li><a href="#authentication">Authentication</a></li>
+                            <li><a href="#api-base">API Base URL</a></li>
+                        </ul>
+                        
+                        <h3>Endpoints</h3>
+                        <ul>
+                            <li><a href="#auth-endpoints">Authentication</a></li>
+                            <li><a href="#booking-endpoints">Bookings</a></li>
+                            <li><a href="#payment-endpoints">Payments</a></li>
+                            <li><a href="#company-endpoints">Companies</a></li>
+                        </ul>
+                        
+                        <h3>Resources</h3>
+                        <ul>
+                            <li><a href="#errors">Error Handling</a></li>
+                            <li><a href="#rate-limits">Rate Limits</a></li>
+                            <li><a href="#webhooks">Webhooks</a></li>
+                        </ul>
+                    </nav>
+                </aside>
+                
+                <!-- Main Content -->
+                <main class="doc-content">
+                    <!-- Introduction Message -->
+                    <section id="introduction" class="doc-section">
+                        <h2>Introduction</h2>
+                        <p>Welcome to the Trekka API documentation. The Trekka API enables seamless integration of intercity transport booking and management features into your application.</p>
+                        <p>This documentation provides details on authentication, endpoints, data structures, and implementation best practices to help you build efficiently on the Trekka platform.</p>
+                        
+                        <div class="api-test-card">
+                            <h3>Test the API</h3>
+                            <p>Check if the API is running:</p>
+                            <div class="code-block">
+                                <code>GET /api/ping</code>
+                            </div>
+                            <button onclick="testAPI()" class="btn btn-primary">Test API Now</button>
+                            <div id="apiResult" class="api-result"></div>
+                        </div>
+                    </section>
+
+                    <!-- API Base URL -->
+                    <section id="api-base" class="doc-section">
+                        <h2>API Base URL</h2>
+                        <p>Production:</p>
+                        <div class="code-block">
+                            <code>https://api.trekka.com/api</code>
+                        </div>
+                        <p>Development:</p>
+                        <div class="code-block">
+                            <code>http://localhost:5000/api</code>
+                        </div>
+                    </section>
+                    
+                    <!-- Authentication -->
+                    <section id="authentication" class="doc-section">
+                        <h2>Authentication</h2>
+                        <p>Trekka API uses JWT (JSON Web Tokens) for authentication. Include your token in the Authorization header of all requests.</p>
+                        
+                        <h3>Get Token</h3>
+                        <p>First, register or login to receive a JWT token:</p>
+                        <div class="code-block">
+                            <pre><code>POST /api/auth/login
+                                Content-Type: application/json
+
+                                {
+                                "email": "user@example.com",
+                                "password": "your_password"
+                                }
+
+                                Response:
+                                {
+                                "success": true,
+                                "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
+                                "user": { ... }
+                                }</code>
+                            </pre>
+                        </div>
+                        
+                        <h3>Using the Token</h3>
+                        <p>Include the token in the Authorization header:</p>
+                        <div class="code-block">
+                            <pre><code>GET /api/bookings
+                                Authorization: Bearer YOUR_JWT_TOKEN</code></pre>
+                        </div>
+                    </section>
+                
+                    
+                    <!-- Auth Endpoints -->
+                    <section id="auth-endpoints" class="doc-section">
+                        <h2>API ENDPOINTS</h2>
+                        
+                        <div class="endpoint-card">
+                            <div class="endpoint-header">
+                                <span class="http-method post">POST</span>
+                                <code>/api/auth/register</code>
+                            </div>
+                            <p>Register a new account.</p>
+                            <div class="code-block">
+                                <pre><code>Request Body:
+                                        {
+                                        "firstName": "John",
+                                        "lastName": "Doe",
+                                        "email": "john@example.com",
+                                        "phone": "+2348012345678",
+                                        "password": "securePassword123"
+                                        }</code>
+                                </pre>
+                            </div>
+                        </div>
+                        
+                        <div class="endpoint-card">
+                            <div class="endpoint-header">
+                                <span class="http-method post">POST</span>
+                                <code>/api/auth/login</code>
+                            </div>
+                            <p>Login and get JWT token.</p>
+                        </div>
+                        
+                        <div class="endpoint-card">
+                            <div class="endpoint-header">
+                                <span class="http-method get">GET</span>
+                                <code>/api/auth/me</code>
+                            </div>
+                            <p>Retrieve current user profile (requires authentication).</p>
+                        </div>
+                    </section>
+                    
+                    <!-- Booking Endpoints -->
+                    <section id="booking-endpoints" class="doc-section">
+                        <h2>BOOKINGS ENDPOINTS</h2>
+                        
+                        <div class="endpoint-card">
+                            <div class="endpoint-header">
+                                <span class="http-method post">POST</span>
+                                <code>/api/bookings</code>
+                            </div>
+                            <p>Create a new booking.</p>
+                            <div class="code-block">
+                                <pre>
+                                    <code>
+                                        Request Body:
+                                    {
+                                    "pickupLocation": {
+                                        "address": "123 Main St, Lagos"
+                                    },
+                                    "dropoffLocation": {
+                                        "address": "456 Park Ave, Abuja"
+                                    },
+                                    "pickupDateTime": "2024-12-25T10:00:00Z",
+                                    "numberOfPassengers": 2,
+                                    "companyId": "company_id_here"
+                                    }
+                                    </code>
+                                </pre>
+                            </div>
+                        </div>
+                        
+                        <div class="endpoint-card">
+                            <div class="endpoint-header">
+                                <span class="http-method get">GET</span>
+                                <code>/api/bookings</code>
+                            </div>
+                            <p>Get all user bookings</p>
+                        </div>
+                        
+                        <div class="endpoint-card">
+                            <div class="endpoint-header">
+                                <span class="http-method get">GET</span>
+                                <code>/api/bookings/:id</code>
+                            </div>
+                            <p>Get booking details.</p>
+                        </div>
+                        
+                        <div class="endpoint-card">
+                            <div class="endpoint-header">
+                                <span class="http-method post">POST</span>
+                                <code>/api/bookings/:id/cancel</code>
+                            </div>
+                            <p>Cancel a booking.</p>
+                        </div>
+                    </section>
+                    
+                    <!-- Payment Endpoints -->
+                    <section id="payment-endpoints" class="doc-section">
+                        <h2>PAYMENTS ENDPOINTS</h2>
+                        
+                        <div class="endpoint-card">
+                            <div class="endpoint-header">
+                                <span class="http-method post">POST</span>
+                                <code>/api/payments/initialize</code>
+                            </div>
+                            <p>Initialize payment</p>
+                            <div class="code-block">
+                                <pre><code>Request Body:
+                                    {
+                                    "bookingId": "booking_id_here",
+                                    "paymentMethod": "card"
+                                    }
+
+                                    Response:
+                                    {
+                                    "success": true,
+                                    "paymentUrl": "https://checkout.paystack.com/...",
+                                    "reference": "PAY-20241225-123456"
+                                    }</code>
+                                </pre>
+                            </div>
+                        </div>
+                        
+                        <div class="endpoint-card">
+                            <div class="endpoint-header">
+                                <span class="http-method get">GET</span>
+                                <code>/api/payments/verify/:reference</code>
+                            </div>
+                            <p>Verify payment</p>
+                        </div>
+                    </section>
+                    
+                    <!-- Company Endpoints -->
+                    <section id="company-endpoints" class="doc-section">
+                        <h2>COMPANIES ENDPOINTS</h2>
+                        
+                        <div class="endpoint-card">
+                            <div class="endpoint-header">
+                                <span class="http-method get">GET</span>
+                                <code>/api/companies</code>
+                            </div>
+                            <p>Get list of transport companies.</p>
+                        </div>
+                        
+                        <div class="endpoint-card">
+                            <div class="endpoint-header">
+                                <span class="http-method get">GET</span>
+                                <code>/api/companies/:id</code>
+                            </div>
+                            <p>Get details of a specific company.</p>
+                        </div>
+                    </section>
+                    <br>
+                    <!-- BACKEND DATA FLOW AND LOGICS -->
+                    <section id="webhooks" class="doc-section">
+                        <h2>BACKEND DATA FLOWS & LOGIC</h2>
+                        <p>This section explains how the Trekka back-end powers the above API endpoints.</p>
+                        
+                        <h3>BOOKING LIFECYCLE</h3>
+                        <ul>
+                            <li>Search: User selects pickup and drop-off points.</li>
+                            <li>Match: Backend queries available companies/vehicle.</li>
+                            <li>Booking Creation: API saves booking with pending status.</li>
+                            <li>Payment: User initializes and completes payment.</li>
+                            <li>Confirmation: Partner or system confirms booking.</li>
+                            <li>Completion: Trip marked completed and rating recorded.</li>
+                        </ul>
+                    </section>
+                    
+                    <!-- Error Handling -->
+                    <section id="errors" class="doc-section">
+                        <h2>Error Handling</h2>
+                        <p>The API uses standard HTTP status codes and returns errors in a consistent 
+                        format:</p>
+                        <div class="code-block">
+                            <pre><code>{
+                                "success": false,
+                                "message": "Error description",
+                                "errors": {
+                                    "field": "Specific error details"
+                                }
+                                }</code>
+                            </pre>
+                        </div>
+                        
+                        <h3>Common Status Codes</h3>
+                        <ul>
+                            <li><strong>200 OK</strong> - Request successful</li>
+                            <li><strong>201 Created</strong> - Resource created successfully</li>
+                            <li><strong>400 Bad Request</strong> - Invalid request data</li>
+                            <li><strong>401 Unauthorized</strong> - Authentication required or failed</li>
+                            <li><strong>403 Forbidden</strong> - Insufficient permissions</li>
+                            <li><strong>404 Not Found</strong> - Resource not found</li>
+                            <li><strong>500 Internal Server Error</strong> - Server error</li>
+                        </ul>
+                    </section>
+                    <br>
+                    
+                    <!-- Rate Limits -->
+                    <section id="rate-limits" class="doc-section">
+                        <h2>RATE LIMITS</h2>
+                        <p>To ensure fair usage, the API has the following rate limits:</p>
+                        <ul>
+                            <li>100 requests per 15 minutes per IP address</li>
+                            <li>1000 requests per day per authenticated user</li>
+                        </ul>
+                        <p>Rate limit headers are included in all responses:</p>
+                        <div class="code-block">
+                            <h2>HEADERS:</h2>
+                            <pre>
+                                <code>
+                                    X-RateLimit-Limit: 100
+                                    X-RateLimit-Remaining: 95
+                                    X-RateLimit-Reset: 1640000000
+                                </code>
+                            </pre>
+                        </div>
+                    </section>
+                    <br>
+                    
+                    <!-- Webhooks -->
+                    <section id="webhooks" class="doc-section">
+                        <h2>WEBHOOKS</h2>
+                        <p>Web-hooks events notify your of updates in real-time.</p>
+                        
+                        <h3>Setting Up Webhooks</h3>
+                        <p>Contact our support team to configure webhook endpoints for your account.</p>
+                        
+                        <h3>Webhook Events</h3>
+                        <ul>
+                            <li><code>booking.created</code></li>
+                            <li><code>booking.confirmed</code></li>
+                            <li><code>booking.completed</code></li>
+                            <li><code>payment.success</code></li>
+                            <li><code>payment.failed</code></li>
+                        </ul>
+                    </section>
+                    <br>
+                    <!-- SECURITY & VERIFICATION -->
+                    <section id="webhooks" class="doc-section">
+                      <p>
+                        <ol>
+                          <li>HTTPS enforced for all API calls.</li>
+                          <li>JWT tokens verified on each request.</li>
+                          <li>Partner companies undergo KYC validation before activation.</li>
+                          <li>Driver licenses and vehicle documents are verified via admin dashboard.</li>
+                          <li>Payment data handled securely via Paystack or Flutterwave (no card data stored).</li>
+                          <li>Compliant wwith NDPR (Nigeria Data Protection Regulations).</li>
+                        </ol>
+                      </p>
+                    </section>
+                    <br>
+                    <!-- VERSIONING & MAINTENANCE -->
+                    <section id="webhooks" class="doc-section">
+                      <p>
+                        <ol>
+                          <li>Current API version: v1.0</li>
+                          <li>All future versions will follow semantic versioning (v1.1,v2).</li>
+                          <li>Deprecations and breaking changes are announced (2) weeks before rollout.</li>
+                          <li>Partners receive release notes via email or dashboard notifications.</li>
+                        </ol>
+                      </p>
+                    </section>
+                    <br>
+                    <!-- USER-FACING ALIGNMENT -->
+                    <section id="webhooks" class="doc-section">
+                      <p>
+                        <ol>
+                          <li>"100% Verified Drivers" &#8594; backed by the driver verification system.</li>
+                          <li>"Transparent Pricing" &#8594; pricing breakdown reflected in back-end data models.</li>
+                          <li>Front-end field names
+                            (e.g,)
+                            <pre>
+                            <code>pickupLocation, pickupLocation</code>
+                          </pre> directly mirror back-end models to ensure consistency.</li>
+                        </ol>
+                      </p>
+                    </section>
+                    
+                    <!-- Support -->
+                    <section id="support" class="doc-section">
+                        <h2>Need Help?</h2>
+                        <p>If you have questions or need assistance with the API:</p>
+                        <ul>
+                            <li>Email: <a href="mailto:developers@trekka.com">developers@trekka.com</a></li>
+                            <li>Visit our <a href="contact.html">Contact Page</a></li>
+                            <li>Check our <a href="faq.html">FAQ</a></li>
+                        </ul>
+                    </section>
+                </main>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <div class="footer-logo">
+                        <i class="fas fa-route"></i>
+                        <span>Trekka</span>
+                    </div>
+                    <p class="footer-description">Connecting travelers with reliable transportation 
+                    across cities. Safe, comfortable, and affordable journeys for everyone.</p>
+                    <div class="social-links">
+                        <a href="#" aria-label="Facebook"><i class="fab fa-facebook"></i></a>
+                        <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                        <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                        <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
+                    </div>
+                </div>
+                
+                <div class="footer-column">
+                    <h4>Company</h4>
+                    <ul>
+                        <li><a href="about.html">About Us</a></li>
+                        <li><a href="careers.html">Careers</a></li>
+                        <li><a href="press.html">Press</a></li>
+                        <li><a href="partnership.html">Partnership</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h4>Support</h4>
+                    <ul>
+                        <li><a href="faq.html">FAQ</a></li>
+                        <li><a href="contact.html">Contact Us</a></li>
+                        <li><a href="docs.html">Documentation</a></li>
+                        <li><a href="#">Help Center</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h4>Legal</h4>
+                    <ul>
+                        <li><a href="privacy.html">Privacy Policy</a></li>
+                        <li><a href="terms.html">Terms of Service</a></li>
+                        <li><a href="refund.html">Refund Policy</a></li>
+                        <li><a href="cookies.html">Cookie Policy</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h4>Stay Updated</h4>
+                    <p>Subscribe to our newsletter for updates and special offers.</p>
+                    <form class="newsletter-form" id="newsletterForm">
+                        <input type="email" placeholder="Your email address" required>
+                        <button type="submit" class="btn btn-primary">Subscribe</button>
+                    </form>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2025 Trekka. All rights reserved.</p>
+                <p>Built with <i class="fas fa-heart"></i> for better travel experiences</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="../../scripts/animation.js"></script>
+    <script src="../../scripts/main.js"></script>
+    <script src="../../scripts/public/docs.js"></script>
+</body>
+</html>
