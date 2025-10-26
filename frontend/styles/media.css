@@ -1,0 +1,579 @@
+/* ==========================================
+   TREKKA RESPONSIVE STYLES
+   Mobile-first media queries
+   Breakpoint: 768px (tablets and mobile)
+   Minimum supported width: 380px
+   ========================================== */
+
+/* ==========================================
+   TABLET & BELOW (max-width: 768px)
+   ========================================== */
+
+@media (max-width: 768px) {
+  /* Typography adjustments */
+  :root {
+    --font-size-5xl: 2.25rem;  /* 36px */
+    --font-size-4xl: 1.875rem; /* 30px */
+    --font-size-3xl: 1.5rem;   /* 24px */
+    --spacing-3xl: 4rem;       /* 64px */
+    --spacing-2xl: 3rem;       /* 48px */
+  }
+
+  /* Container padding */
+  .container {
+    padding: 0 var(--spacing-sm);
+  }
+
+  /* Section spacing */
+  .section {
+    padding: var(--spacing-2xl) 0;
+  }
+
+  /* ==========================================
+     HEADER & NAVIGATION
+     ========================================== */
+
+  .header-content {
+    flex-wrap: wrap;
+  }
+
+  /* Show mobile toggle button */
+  .nav-toggle {
+    display: flex;
+    order: 3;
+  }
+
+  /* Hide navigation by default on mobile */
+  .nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: var(--bg-white);
+    z-index: 999;
+    display: none;
+  padding-top: var(--header-height, 80px);
+    overflow-y: auto;
+  }
+
+  .nav.active {
+    display: block;
+  }
+
+  .nav ul {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0;
+    padding: var(--spacing-lg);
+  }
+
+  .nav li {
+    border-bottom: 1px solid var(--border-light);
+  }
+
+  .nav a {
+    display: block;
+    padding: var(--spacing-md) 0;
+    font-size: var(--font-size-lg);
+  }
+
+  /* Header actions - stack on mobile */
+  .header-actions {
+    width: 100%;
+    order: 4;
+    margin-top: var(--spacing-md);
+    justify-content: stretch;
+  }
+
+  .header-actions .btn {
+    flex: 1;
+  }
+
+  
+
+  /* ==========================================
+     HERO SECTION
+     ========================================== */
+
+  .hero {
+    min-height: 500px;
+    padding: calc(var(--spacing-2xl) + var(--header-height, 80px)) 0 var(--spacing-2xl);
+  }
+
+  .hero-title {
+    font-size: var(--font-size-4xl);
+  }
+
+  .hero-subtitle {
+    font-size: var(--font-size-lg);
+  }
+
+  .hero-cta {
+    flex-direction: column;
+  }
+
+  .hero-cta .btn {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .trust-badges {
+    flex-direction: column;
+    gap: var(--spacing-md);
+  }
+
+  /* Page Hero */
+  .page-hero {
+    padding: calc(var(--spacing-2xl) + var(--header-height, 80px)) 0 var(--spacing-xl);
+  }
+
+  .page-hero-content h1 {
+    font-size: var(--font-size-3xl);
+  }
+
+  .page-hero-content p {
+    font-size: var(--font-size-lg);
+  }
+
+  /* ==========================================
+     STATS BANNER
+     ========================================== */
+
+  .stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--spacing-lg);
+  }
+
+  .stat-number {
+    font-size: var(--font-size-3xl);
+  }
+
+  /* ==========================================
+     HOW IT WORKS
+     ========================================== */
+
+  .steps-grid {
+    grid-template-columns: 1fr;
+    gap: var(--spacing-xl);
+  }
+
+  .step-arrow {
+    display: none;
+  }
+
+  .step-item {
+    padding: var(--spacing-md);
+  }
+
+  /* ==========================================
+     FEATURES
+     ========================================== */
+
+  .features-grid {
+    grid-template-columns: 1fr;
+    gap: var(--spacing-md);
+  }
+
+  .feature-card {
+    padding: var(--spacing-lg);
+  }
+
+  /* ==========================================
+     TESTIMONIALS
+     ========================================== */
+
+  .testimonials-grid {
+    grid-template-columns: 1fr;
+    gap: var(--spacing-md);
+  }
+
+  .testimonial-card {
+    padding: var(--spacing-lg);
+  }
+
+  /* ==========================================
+     PARTNERS
+     ========================================== */
+
+  .partners-carousel {
+    justify-content: center;
+    gap: var(--spacing-md);
+  }
+
+  .partner-logo {
+    font-size: var(--font-size-base);
+    padding: var(--spacing-sm) var(--spacing-md);
+  }
+
+  /* ==========================================
+     CTA SECTION
+     ========================================== */
+
+  .cta-content h2 {
+    font-size: var(--font-size-3xl);
+  }
+
+  .cta-content p {
+    font-size: var(--font-size-lg);
+  }
+
+  .cta-buttons {
+    flex-direction: column;
+  }
+
+  .cta-buttons .btn {
+    width: 100%;
+  }
+
+  /* ==========================================
+     FOOTER
+     ========================================== */
+
+  .footer-content {
+    grid-template-columns: 1fr;
+    gap: var(--spacing-xl);
+  }
+
+  .footer-bottom {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .newsletter-form {
+    flex-direction: column;
+  }
+
+  .newsletter-form button {
+    width: 100%;
+  }
+
+  /* ==========================================
+     CONTACT PAGE
+     ========================================== */
+
+  .contact-grid {
+    grid-template-columns: 1fr;
+    gap: var(--spacing-lg);
+  }
+
+  .quick-help-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  /* ==========================================
+     ABOUT PAGE
+     ========================================== */
+
+  .values-grid,
+  .team-grid,
+  .timeline-grid,
+  .benefits-grid {
+    grid-template-columns: 1fr;
+  }
+
+  /* ==========================================
+     CAREERS PAGE
+     ========================================== */
+
+  .position-header {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .position-action {
+    width: 100%;
+  }
+
+  .position-action .btn {
+    width: 100%;
+  }
+
+  .position-meta {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  /* ==========================================
+     FAQ PAGE
+     ========================================== */
+
+  .faq-categories {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  /* ==========================================
+     PARTNERSHIP PAGE
+     ========================================== */
+
+  .partner-types {
+    grid-template-columns: 1fr;
+  }
+
+  /* ==========================================
+     GENERAL GRIDS
+     ========================================== */
+
+  .grid-2,
+  .grid-3,
+  .grid-4 {
+    grid-template-columns: 1fr;
+  }
+
+  /* ==========================================
+     BUTTONS
+     ========================================== */
+
+  .btn-large {
+    padding: 0.875rem 1.5rem;
+    font-size: var(--font-size-base);
+  }
+
+  /* ==========================================
+     TOAST NOTIFICATIONS
+     ========================================== */
+
+  .toast-container {
+    left: 20px;
+    right: 20px;
+    top: 80px;
+  }
+
+  .toast {
+    min-width: auto;
+  }
+}
+
+/* ==========================================
+   SMALL MOBILE (max-width: 480px)
+   ========================================== */
+
+@media (max-width: 480px) {
+  /* Further reduce font sizes */
+  :root {
+    --font-size-5xl: 1.875rem; /* 30px */
+    --font-size-4xl: 1.5rem;   /* 24px */
+    --font-size-3xl: 1.25rem;  /* 20px */
+  }
+
+  /* Stats - single column */
+  .stats-grid {
+    grid-template-columns: 1fr;
+  }
+
+  /* FAQ categories - single column */
+  .faq-categories {
+    grid-template-columns: 1fr;
+  }
+
+  /* Quick help - single column */
+  .quick-help-grid {
+    grid-template-columns: 1fr;
+  }
+
+  /* Social links - wrap better */
+  .social-links {
+    flex-wrap: wrap;
+  }
+
+  /* Hero CTA buttons - full width */
+  .hero-cta .btn-large {
+    padding: 0.75rem 1rem;
+  }
+
+  /* Form adjustments */
+  .form-group input,
+  .form-group textarea,
+  .form-group select {
+    font-size: var(--font-size-sm);
+  }
+}
+
+/* ==========================================
+   MINIMUM WIDTH SUPPORT (380px)
+   Ensure all content is accessible
+   ========================================== */
+
+@media (max-width: 380px) {
+  /* Container minimum padding */
+  .container {
+    padding: 0 12px;
+  }
+
+  /* Reduce all spacing slightly */
+  :root {
+    --spacing-lg: 1.5rem;
+    --spacing-xl: 2rem;
+    --spacing-2xl: 2.5rem;
+    --spacing-3xl: 3rem;
+  }
+
+  /* Make sure buttons don't overflow */
+  .btn {
+    font-size: var(--font-size-sm);
+    padding: 0.625rem 1rem;
+  }
+
+  /* Logo size */
+  .logo a {
+    font-size: var(--font-size-lg);
+  }
+
+  /* Hero title */
+  .hero-title {
+    font-size: 1.75rem;
+  }
+
+  /* Stat numbers */
+  .stat-number {
+    font-size: var(--font-size-2xl);
+  }
+
+  /* Step numbers */
+  .step-number {
+    width: 50px;
+    height: 50px;
+    font-size: var(--font-size-xl);
+    line-height: 50px;
+  }
+
+  /* Feature icons */
+  .feature-icon,
+  .value-icon,
+  .benefit-icon {
+    width: 50px;
+    height: 50px;
+  }
+
+  .feature-icon i,
+  .value-icon i,
+  .benefit-icon i {
+    font-size: var(--font-size-2xl);
+  }
+
+  /* Author avatar */
+  .author-avatar {
+    width: 40px;
+    height: 40px;
+  }
+
+  /* Info icon */
+  .info-icon {
+    width: 40px;
+    height: 40px;
+    font-size: var(--font-size-lg);
+  }
+
+  /* Partner type icon */
+  .partner-type-icon {
+    width: 60px;
+    height: 60px;
+    font-size: var(--font-size-2xl);
+  }
+
+  /* Card padding reduction */
+  .card,
+  .feature-card,
+  .testimonial-card,
+  .value-card,
+  .benefit-card,
+  .position-card {
+    padding: var(--spacing-md);
+  }
+
+  /* Form spacing */
+  .form-group {
+    margin-bottom: var(--spacing-md);
+  }
+
+  /* Newsletter form */
+  .newsletter-form input {
+    font-size: var(--font-size-xs);
+  }
+}
+
+/* ==========================================
+   LANDSCAPE ORIENTATION (Mobile)
+   ========================================== */
+
+@media (max-height: 500px) and (orientation: landscape) {
+  .hero {
+    min-height: 400px;
+  }
+
+  .page-hero {
+    padding: calc(var(--spacing-xl) + 80px) 0 var(--spacing-lg);
+  }
+}
+
+/* ==========================================
+   PRINT STYLES
+   ========================================== */
+
+@media print {
+  /* Hide navigation and interactive elements */
+  .header,
+  .nav-toggle,
+  .header-actions,
+  .cta-section,
+  .newsletter-form,
+  .toast-container {
+    display: none !important;
+  }
+
+  /* Remove animations */
+  .fade-in,
+  .slide-up {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+
+  /* Optimize for print */
+  body {
+    background: white;
+  }
+
+  .section {
+    page-break-inside: avoid;
+  }
+
+  /* Remove shadows and gradients for better print */
+  .card,
+  .feature-card,
+  .testimonial-card {
+    box-shadow: none;
+    border: 1px solid #ddd;
+  }
+}
+
+/* ==========================================
+   HOVER SUPPORT
+   Only apply hover effects on devices that support it
+   ========================================== */
+
+@media (hover: none) {
+  /* Remove hover transforms on touch devices */
+  .btn-primary:hover,
+  .card:hover,
+  .feature-card:hover {
+    transform: none;
+  }
+
+  /* Keep color changes but remove movement */
+  .btn-outline:hover {
+    background: var(--color-primary);
+    color: var(--text-white);
+  }
+}
+
+/* ==========================================
+   HIGH DPI DISPLAYS
+   ========================================== */
+
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+  /* Sharper rendering for high DPI screens */
+  body {
+    -webkit-font-smoothing: subpixel-antialiased;
+  }
+}
