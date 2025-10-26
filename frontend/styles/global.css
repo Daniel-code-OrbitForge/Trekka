@@ -621,8 +621,8 @@ ul, ol {
   font-size: var(--font-size-3xl);
   background: var(--bg-gradient);
   -webkit-background-clip: text;
+  background-clip: text; /* Added for compatibility */
   -webkit-text-fill-color: transparent;
-  background-clip: text;
 }
 
 .feature-card h3 {
