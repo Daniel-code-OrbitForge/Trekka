@@ -6,6 +6,8 @@ import mongoose from "mongoose";
 import cors from "cors";
 import cookieParser from "cookie-parser";
 
+import { setupSwagger } from "./swagger/swagger.js";
+
 // routes
 import userAuthRoutes from "./routes/userAuth.js";
 import adminAuthRoutes from "./routes/adminAuth.js";
@@ -17,6 +19,8 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 app.use(cookieParser());
+
+setupSwagger(app);
 
 app.get("/", (req, res) => {
   res.send("Auth Service is running");

@@ -21,7 +21,7 @@
   /* Text Colors */
   --text-primary: #0b2140;
   --text-secondary: #4a5568;
-  --text-muted: #4a5568;
+  --text-muted: #6b7280;
   --text-white: #ffffff;
   
   /* Background Colors */
@@ -498,14 +498,15 @@ ul, ol {
   font-weight: 700;
   background: var(--bg-gradient);
   -webkit-background-clip: text;
-  -webkit-text-fill-color: var(--border-light);
+  -webkit-text-fill-color: whitesmoke;
   background-clip: text;
   margin-bottom: 0.5rem;
 }
 
 .stat-label {
   font-size: var(--font-size-base);
-  color: #4a5568;
+  color: var(--text-muted);
+  -webkit-text-fill-color: whitesmoke;
 }
 
 /* ==========================================
@@ -621,8 +622,8 @@ ul, ol {
   font-size: var(--font-size-3xl);
   background: var(--bg-gradient);
   -webkit-background-clip: text;
-  background-clip: text; /* Added for compatibility */
   -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
 .feature-card h3 {
