@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <!-- SEO Meta Tags -->
+  <title>Verify Email | Trekka | Confirm Your Account</title>
+  <meta name="description" content="Verify your Trekka account email address. Enter the 6-digit code sent to your email to activate your account.">
+  <link rel="canonical" href="https://trekka.com/auth/verify-email">
+  
+  <!-- Open Graph Tags for Social Media -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Verify Email — Trekka">
+  <meta property="og:description" content="Verify your Trekka account email address to get started.">
+  <meta property="og:image" content="../../assets/images/login.jpg">
+  <meta property="og:url" content="https://trekka.com/auth/verify-email">
+  
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="../../styles/auth.css">
+</head>
+<body>
+  <!-- Centered single-card layout -->
+  <div class="auth-layout-centered">
+    <div class="form-card">
+      <!-- Form Header -->
+      <div class="form-card-header">
+        <!-- Logo -->
+        <a href="../../pages/public/index.html" style="display: inline-block; margin-bottom: var(--spacing-lg);">
+          <div style="font-size: var(--font-size-2xl); font-weight: 700; color: var(--primary-blue); text-decoration: none;">
+            Trekka
+          </div>
+        </a>
+        
+        <h2 class="form-card-title">Verify Your Email</h2>
+        <p class="form-card-subtitle">
+          We sent a 6-digit code to <strong id="userEmail" style="color: var(--primary-blue);"></strong>
+        </p>
+      </div>
+      
+      <!-- Verification Form -->
+      <form id="verificationForm" novalidate>
+        <!-- OTP Input Container -->
+        <div class="otp-container" role="group" aria-label="Enter verification code">
+          <input 
+            type="text" 
+            class="otp-input" 
+            id="otp1" 
+            maxlength="1" 
+            pattern="\d"
+            inputmode="numeric"
+            data-testid="input-otp-1"
+            aria-label="Digit 1"
+            autocomplete="off">
+          <input 
+            type="text" 
+            class="otp-input" 
+            id="otp2" 
+            maxlength="1" 
+            pattern="\d"
+            inputmode="numeric"
+            data-testid="input-otp-2"
+            aria-label="Digit 2"
+            autocomplete="off">
+          <input 
+            type="text" 
+            class="otp-input" 
+            id="otp3" 
+            maxlength="1" 
+            pattern="\d"
+            inputmode="numeric"
+            data-testid="input-otp-3"
+            aria-label="Digit 3"
+            autocomplete="off">
+          <input 
+            type="text" 
+            class="otp-input" 
+            id="otp4" 
+            maxlength="1" 
+            pattern="\d"
+            inputmode="numeric"
+            data-testid="input-otp-4"
+            aria-label="Digit 4"
+            autocomplete="off">
+          <input 
+            type="text" 
+            class="otp-input" 
+            id="otp5" 
+            maxlength="1" 
+            pattern="\d"
+            inputmode="numeric"
+            data-testid="input-otp-5"
+            aria-label="Digit 5"
+            autocomplete="off">
+          <input 
+            type="text" 
+            class="otp-input" 
+            id="otp6" 
+            maxlength="1" 
+            pattern="\d"
+            inputmode="numeric"
+            data-testid="input-otp-6"
+            aria-label="Digit 6"
+            autocomplete="off">
+        </div>
+        
+        <!-- Error Message -->
+        <div id="otpError" class="form-error" style="text-align: center; margin-top: var(--spacing-md);" role="alert" aria-live="polite"></div>
+        
+        <!-- Timer -->
+        <div class="text-center" style="margin: var(--spacing-lg) 0;">
+          <div class="timer" id="timer">
+            <svg class="timer-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="10"></circle>
+              <polyline points="12 6 12 12 16 14"></polyline>
+            </svg>
+            <span>Code expires in <strong id="timerCountdown">5:00</strong></span>
+          </div>
+        </div>
+        
+        <!-- Submit Button -->
+        <button 
+          type="submit" 
+          class="btn btn-primary" 
+          id="verifyBtn"
+          data-testid="button-verify-account">
+          Verify Account
+        </button>
+        
+        <!-- Resend Code Button -->
+        <div class="text-center mt-4">
+          <button 
+            type="button" 
+            class="text-link text-sm" 
+            id="resendBtn"
+            data-testid="button-resend-code"
+            style="background: none; border: none; cursor: pointer; padding: var(--spacing-sm);">
+            Didn't receive the code? <strong>Resend Code</strong>
+          </button>
+          <p id="resendCooldown" class="text-sm text-muted mt-2 hidden">
+            You can resend the code in <strong id="resendTimer">60</strong> seconds
+          </p>
+        </div>
+        
+        <!-- Success State (hidden initially) -->
+        <div id="successState" class="success-state hidden">
+          <div class="success-icon">✓</div>
+          <h3 class="success-title">Email Verified!</h3>
+          <p class="success-message">Your account has been successfully verified. Redirecting to your dashboard...</p>
+        </div>
+      </form>
+    </div>
+  </div>
+  
+  <!-- Toast Container for notifications -->
+  <div class="toast-container" id="toastContainer" role="region" aria-live="polite" aria-label="Notifications"></div>
+  
+  <!-- JavaScript -->
+  <script src="../../scripts/auth/verifyEmail.js"></script>
+</body>
+</html>

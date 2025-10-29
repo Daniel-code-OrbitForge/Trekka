@@ -1,27 +1,6 @@
-<<<<<<< HEAD
-import nodemailer from "nodemailer";
-
-export const emailService = {
-  async sendEmail(to, subject, html) {
-    const transporter = nodemailer.createTransport({
-      service: "Gmail",
-      auth: {
-        user: process.env.EMAIL_USER,
-        pass: process.env.EMAIL_PASS,
-      },
-    });
-
-    await transporter.sendMail({
-      from: `"Support" <${process.env.EMAIL_USER}>`,
-      to,
-      subject,
-      html,
-    });
-  },
-=======
 /**
  * Email Service
- * 
+ *
  * Handles sending transactional emails including payment receipts and booking passes.
  * Uses Nodemailer for email delivery.
  */
@@ -29,18 +8,25 @@ export const emailService = {
 const nodemailer = require('nodemailer');
 const logger = require('../utils/logger');
 const QRCode = require('qrcode');
-const path = require('path');
-const fs = require('fs').promises;
+// const path = require('path');
+// const fs = require('fs').promises; // currently unused but kept for future attachments
 
-// Initialize nodemailer transporter
+// Initialize nodemailer transporter using SMTP env vars. If not provided, fall back to Gmail
 const transporter = nodemailer.createTransport({
-  host: process.env.SMTP_HOST,
-  port: process.env.SMTP_PORT,
-  secure: process.env.SMTP_SECURE === 'true',
-  auth: {
-    user: process.env.SMTP_USER,
-    pass: process.env.SMTP_PASS
-  }
+  host: process.env.SMTP_HOST || undefined,
+  port: process.env.SMTP_PORT ? Number(process.env.SMTP_PORT) : undefined,
+  secure: process.env.SMTP_SECURE === 'true' || false,
+  auth: process.env.SMTP_USER
+    ? {
+        user: process.env.SMTP_USER,
+        pass: process.env.SMTP_PASS,
+      }
+    : process.env.EMAIL_USER
+    ? {
+        user: process.env.EMAIL_USER,
+        pass: process.env.EMAIL_PASS,
+      }
+    : undefined,
 });
 
 /**
@@ -168,5 +154,4 @@ async function sendBookingPass(bookingData) {
 module.exports = {
   sendPaymentReceipt,
   sendBookingPass
->>>>>>> 6e021b1 (Resolve merge conflicts in userModel and paymentModel)
 };
