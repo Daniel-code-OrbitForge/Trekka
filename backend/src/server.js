@@ -12,6 +12,7 @@ import { setupSwagger } from "./swagger/swagger.js";
 import userAuthRoutes from "./routes/userAuth.js";
 import adminAuthRoutes from "./routes/adminAuth.js";
 import companyAuthRoutes from "./routes/companyAuth.js";
+import fleetRoutes from "./routes/fleetRoutes.js";
 
 const app = express();
 
@@ -30,6 +31,7 @@ app.get("/", (req, res) => {
 app.use("/api/user", userAuthRoutes);
 app.use("/api/admin", adminAuthRoutes);
 app.use("/api/company", companyAuthRoutes);
+app.use("/api/fleet", fleetRoutes);
 
 // connect to MongoDB and start server
 mongoose

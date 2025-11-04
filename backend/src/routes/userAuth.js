@@ -12,12 +12,10 @@ import {
   deleteUserAccount,
   checkAuthStatus,
 } from "../controllers/userAuthController.js";
-
-import { authMiddleware } from "../middlewares/authMiddleware.js";
+import { protect } from "../middlewares/authMiddleware.js";
 
 const router = express.Router();
 
-// Public routes
 /**
  * @swagger
  * tags:
@@ -25,7 +23,6 @@ const router = express.Router();
  *   description: API endpoints for user authentication and management
  */
 
-router.post("/signup", signup);
 /**
  * @swagger
  * /api/user/signup:
@@ -33,30 +30,30 @@ router.post("/signup", signup);
  *     summary: Register a new user
  *     tags: [User Authentication]
  *     requestBody:
- *      required: true
- *     content:
- *      application/json:
- *       schema:
- *        type: object
- *        required:
- *         - name
- *         - email
- *        - password
- *       properties:
- *        name:
- *        type: string
- *        example: Sam Loco
- *       email:
- *        type: string
- *        example: samloco@example.com
- *      password:
- *       type: string
- *       example: strongpassword123
- *    responses:
- *      201:
- *        description: User registered successfully
- *      400:
- *        description: Invalid input or user already exists.
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - name
+ *               - email
+ *               - password
+ *             properties:
+ *               name:
+ *                 type: string
+ *                 example: Sam Loco
+ *               email:
+ *                 type: string
+ *                 example: samloco@example.com
+ *               password:
+ *                 type: string
+ *                 example: strongpassword123
+ *     responses:
+ *       201:
+ *         description: User registered successfully
+ *       400:
+ *         description: Invalid input or user already exists.
  */
 router.post("/signup", signup);
 
@@ -67,53 +64,48 @@ router.post("/signup", signup);
  *     summary: Login an existing user
  *     tags: [User Authentication]
  *     requestBody:
- *      required: true
- *     content:
- *      application/json:
- *       schema:
- *        type: object
- *        required:
- *         - name
- *         - email
- *        - password
- *       properties:
- *        name:
- *        type: string
- *        example: Sam Loco
- *       email:
- *        type: string
- *        example: samloco@example.com
- *      password:
- *       type: string
- *       example: strongpassword123
- *    responses:
- *      200:
- *        description: Login successful, returns JWT token
- *      401:
- *        description: Invalid email or password.
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - email
+ *               - password
+ *             properties:
+ *               email:
+ *                 type: string
+ *                 example: samloco@example.com
+ *               password:
+ *                 type: string
+ *                 example: strongpassword123
+ *     responses:
+ *       200:
+ *         description: Login successful, returns JWT token
+ *       401:
+ *         description: Invalid email or password.
  */
 router.post("/login", login);
 
 /**
  * @swagger
  * /api/user/verify-email/{token}:
- *   post:
+ *   get:
  *     summary: Verify user email
  *     tags: [User Authentication]
  *     parameters:
- *      - in: path
- *       name: token
- *       schema:
- *        type: string
- *       required: true
- *       description: Email verification token sent to user's email
- *    responses:
- *      200:
- *        description: Email verified successfully
- *      400:
- *        description: Invalid token.
+ *       - in: path
+ *         name: token
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: Email verification token sent to user's email
+ *     responses:
+ *       200:
+ *         description: Email verified successfully
+ *       400:
+ *         description: Invalid token.
  */
-
 router.get("/verify-email/:token", verifyEmail);
 
 /**
@@ -123,20 +115,20 @@ router.get("/verify-email/:token", verifyEmail);
  *     summary: Resend email verification
  *     tags: [User Authentication]
  *     requestBody:
- *      required: true
- *     content:
- *      application/json:
- *       schema:
- *        type: object
- *        properties:
- *         email:
- *          type: string
- *          example: samloco@example.com
- *    responses:
- *      200:
- *        description: Verification email resent successfully
- *      400:
- *        description: Invalid email or user already verified.
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               email:
+ *                 type: string
+ *                 example: samloco@example.com
+ *     responses:
+ *       200:
+ *         description: Verification email resent successfully
+ *       400:
+ *         description: Invalid email or user already verified.
  */
 router.post("/resend-verification-email", resendVerificationEmail);
 
@@ -147,20 +139,20 @@ router.post("/resend-verification-email", resendVerificationEmail);
  *     summary: Request password reset
  *     tags: [User Authentication]
  *     requestBody:
- *      required: true
- *     content:
- *      application/json:
- *       schema:
- *        type: object
- *        properties:
- *         email:
- *          type: string
- *          example: samloco@example.com
- *    responses:
- *      200:
- *        description: Password reset email sent successfully
- *      400:
- *        description: Invalid or unregistered email.
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               email:
+ *                 type: string
+ *                 example: samloco@example.com
+ *     responses:
+ *       200:
+ *         description: Password reset email sent successfully
+ *       400:
+ *         description: Invalid or unregistered email.
  */
 router.post("/forgot-password", forgotPassword);
 
@@ -170,32 +162,31 @@ router.post("/forgot-password", forgotPassword);
  *   post:
  *     summary: Reset user password using valid token
  *     tags: [User Authentication]
- *    parameters:
- *    - in: path
- *      name: token
- *      required: true
- *      description: Password reset token
- *      schema:
- *        type: string
- *    requestBody:
- *      required: true
- *      content:
- *        application/json:
+ *     parameters:
+ *       - in: path
+ *         name: token
+ *         required: true
+ *         description: Password reset token
  *         schema:
- *         type: object
- *        properties:
- *        newPassword:
- *          type: string
- *          example: newstrongpassword123
- *    responses:
- *      200:
- *        description: Password reset successfully
- *      400:
- *        description: Invalid or expired token.
+ *           type: string
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               newPassword:
+ *                 type: string
+ *                 example: newstrongpassword123
+ *     responses:
+ *       200:
+ *         description: Password reset successfully
+ *       400:
+ *         description: Invalid or expired token.
  */
 router.post("/reset-password/:token", resetPassword);
 
-// Protected routes (require auth)
 /**
  * @swagger
  * /api/user/logout:
@@ -210,7 +201,7 @@ router.post("/reset-password/:token", resetPassword);
  *       401:
  *         description: Unauthorized or missing token.
  */
-router.post("/logout", authMiddleware("user"), logout);
+router.post("/logout", protect("user"), logout);
 
 /**
  * @swagger
@@ -241,7 +232,7 @@ router.post("/logout", authMiddleware("user"), logout);
  *       401:
  *         description: Unauthorized.
  */
-router.post("/change-password", authMiddleware("user"), changePassword);
+router.post("/change-password", protect("user"), changePassword);
 
 /**
  * @swagger
@@ -272,7 +263,7 @@ router.post("/change-password", authMiddleware("user"), changePassword);
  *       401:
  *         description: Unauthorized.
  */
-router.put("/update-profile", authMiddleware("user"), updateUserProfile);
+router.put("/update-profile", protect("user"), updateUserProfile);
 
 /**
  * @swagger
@@ -288,7 +279,7 @@ router.put("/update-profile", authMiddleware("user"), updateUserProfile);
  *       401:
  *         description: Unauthorized.
  */
-router.delete("/delete-account", authMiddleware("user"), deleteUserAccount);
+router.delete("/delete-account", protect("user"), deleteUserAccount);
 
 /**
  * @swagger
@@ -304,6 +295,6 @@ router.delete("/delete-account", authMiddleware("user"), deleteUserAccount);
  *       401:
  *         description: Invalid or expired token.
  */
-router.get("/auth-status", authMiddleware("user"), checkAuthStatus);
+router.get("/auth-status", protect("user"), checkAuthStatus);
 
 export default router;

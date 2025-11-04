@@ -1,9 +1,10 @@
+// src/middlewares/authMiddleware.js
 import jwt from "jsonwebtoken";
 import User from "../models/userModel.js";
 import Admin from "../models/adminModel.js";
 import Company from "../models/companyModel.js";
 
-export const authMiddleware = (entity = "user") => {
+export const protect = (entity = "any") => {
   return async (req, res, next) => {
     try {
       const authHeader = req.headers.authorization;
@@ -16,7 +17,8 @@ export const authMiddleware = (entity = "user") => {
       const token = authHeader.split(" ")[1];
       const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
-      if (decoded.role !== entity && entity !== "any") {
+      // Entity filtering (optional)
+      if (entity !== "any" && decoded.role !== entity) {
         return res.status(403).json({ message: "Forbidden: Invalid role" });
       }
 
@@ -42,8 +44,7 @@ export const authMiddleware = (entity = "user") => {
           .json({ message: "Unauthorized: Account not found" });
       }
 
-      // dynamically assign the account to req.user, req.company, or req.admin
-      req[entity] = account;
+      req.user = account; // unified property
       req.role = decoded.role;
 
       next();

@@ -11,7 +11,7 @@ import {
   checkAdminAuthStatus,
 } from "../controllers/adminAuthController.js";
 
-import { authMiddleware } from "../middlewares/authMiddleware.js";
+import { protect } from "../middlewares/authMiddleware.js";
 
 const router = express.Router();
 
@@ -88,7 +88,7 @@ router.post("/admin-login", adminLogin);
  *       401:
  *         description: Unauthorized
  */
-router.post("/admin-logout", authMiddleware("admin"), adminLogout);
+router.post("/admin-logout", protect("admin"), adminLogout);
 
 /**
  * @swagger
@@ -119,11 +119,7 @@ router.post("/admin-logout", authMiddleware("admin"), adminLogout);
  *       401:
  *         description: Unauthorized
  */
-router.post(
-  "/admin-create-company",
-  authMiddleware("admin"),
-  adminCreateCompany
-);
+router.post("/admin-create-company", protect("admin"), adminCreateCompany);
 
 /**
  * @swagger
@@ -139,7 +135,7 @@ router.post(
  *       401:
  *         description: Unauthorized
  */
-router.get("/admin-all-users", authMiddleware("admin"), adminGetAllUsers);
+router.get("/admin-all-users", protect("admin"), adminGetAllUsers);
 
 /**
  * @swagger
@@ -155,11 +151,7 @@ router.get("/admin-all-users", authMiddleware("admin"), adminGetAllUsers);
  *       401:
  *         description: Unauthorized
  */
-router.get(
-  "/admin-all-companies",
-  authMiddleware("admin"),
-  adminGetAllCompanies
-);
+router.get("/admin-all-companies", protect("admin"), adminGetAllCompanies);
 
 /**
  * @swagger
@@ -184,11 +176,7 @@ router.get(
  *       401:
  *         description: Unauthorized
  */
-router.delete(
-  "/admin-delete-user/:userId",
-  authMiddleware("admin"),
-  adminDeleteUser
-);
+router.delete("/admin-delete-user/:userId", protect("admin"), adminDeleteUser);
 
 /**
  * @swagger
@@ -215,7 +203,7 @@ router.delete(
  */
 router.delete(
   "/admin-delete-company/:companyId",
-  authMiddleware("admin"),
+  protect("admin"),
   adminDeleteCompany
 );
 
@@ -233,6 +221,6 @@ router.delete(
  *       401:
  *         description: Unauthorized
  */
-router.get("/admin-auth-status", authMiddleware("admin"), checkAdminAuthStatus);
+router.get("/admin-auth-status", protect("admin"), checkAdminAuthStatus);
 
 export default router;
