@@ -1,9 +1,14 @@
-export const roleMiddleware = (...allowedRoles) => {
+// src/middlewares/roleMiddleware.js
+export const authorize = (...allowedRoles) => {
   return (req, res, next) => {
-    const userRole = req.user.role;
+    const userRole = req.role;
+
     if (!allowedRoles.includes(userRole)) {
-      return res.status(403).json({ message: "Forbidden: Access is denied" });
+      return res.status(403).json({
+        message: "Forbidden: Access is denied",
+      });
     }
+
     next();
   };
 };

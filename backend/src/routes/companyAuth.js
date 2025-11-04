@@ -13,7 +13,7 @@ import {
   checkCompanyAuthStatus,
 } from "../controllers/companyAuthController.js";
 
-import { authMiddleware } from "../middlewares/authMiddleware.js";
+import { protect } from "../middlewares/authMiddleware.js";
 
 const router = express.Router();
 
@@ -190,7 +190,7 @@ router.post("/company-reset-password/:token", companyResetPassword);
  *       401:
  *         description: Unauthorized
  */
-router.post("/company-logout", authMiddleware("company"), companyLogout);
+router.post("/company-logout", protect("company"), companyLogout);
 
 /**
  * @swagger
@@ -221,7 +221,7 @@ router.post("/company-logout", authMiddleware("company"), companyLogout);
  */
 router.post(
   "/company-change-password",
-  authMiddleware("company"),
+  protect("company"),
   companyChangePassword
 );
 
@@ -256,11 +256,7 @@ router.post(
  *       401:
  *         description: Unauthorized
  */
-router.put(
-  "/update-company-profile",
-  authMiddleware("company"),
-  updateCompanyProfile
-);
+router.put("/update-company-profile", protect("company"), updateCompanyProfile);
 
 /**
  * @swagger
@@ -278,7 +274,7 @@ router.put(
  */
 router.delete(
   "/delete-company-account",
-  authMiddleware("company"),
+  protect("company"),
   deleteCompanyAccount
 );
 
@@ -296,10 +292,6 @@ router.delete(
  *       401:
  *         description: Unauthorized or token expired
  */
-router.get(
-  "/company-auth-status",
-  authMiddleware("company"),
-  checkCompanyAuthStatus
-);
+router.get("/company-auth-status", protect("company"), checkCompanyAuthStatus);
 
 export default router;
