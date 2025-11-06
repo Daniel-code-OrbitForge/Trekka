@@ -60,6 +60,7 @@ body{
     margin: 0;
     display: flex;
     align-items: center;
+    justify-content: center;
     padding: 15px 0px;
     min-height: 100vh;
     background-color: lightgray;
@@ -76,13 +77,15 @@ p{
     position: relative;
     max-width: 75rem;
     margin: auto;
-    /* max-height: 850px; */
-    max-height: 900px;
+    /* max-height: 900px; */
+    max-height: 850px;
+    min-height: 650px;
     width: 80%;
     height: 90vh;
     overflow: hidden;
-    align-content: center;
-    justify-items: center;
+    display: flex; 
+    align-items: center; 
+    justify-content: center;
     animation: fadeIn 1s ease;
 
 }
@@ -401,14 +404,19 @@ label{
     flex-direction: row;
     flex-wrap: wrap;
     margin: 50px 0px 10px 0px;
+    justify-content: center;
 }
 
 .option{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
     font-size: 1rem;
     font-family: var(--font-poppins);
     font-weight: 500;
     text-align: center;
-    align-content: center; justify-items: center;
+    /* align-content: center; justify-items: center; */
     color: var(--text-white);
     background-color: var(--bg-deepBlue);
     border-radius: var(--radius-xs); border-width: 0px;
@@ -451,8 +459,9 @@ label{
     border-bottom-left-radius: var(--radius-big);
     border-top-left-radius: var(--radius-big);
     padding: 20px;
-    align-content: center;
-    justify-items: center;
+    align-items: center;
+    justify-content: center;
+    display: flex;
 }
 
 #user-bg-img, #bg-section-user #gradient{
@@ -479,14 +488,15 @@ label{
 }
 
 #info-card-user{
+    display: grid;
     position: relative;
     /* width: 300px; */
     z-index: 3;
     border-radius: 1rem;
     border: 1px solid rgba(255, 255, 255, 0.20);
     background: rgba(255, 255, 255, 0.10);
-    /* width: 85%; */
-    padding: 25px; justify-items: center;
+    padding: 25px 40px; 
+    justify-items: center;
     color: var(--text-white);
 }
 
@@ -507,7 +517,8 @@ label{
 .form-section{
     flex-grow: 1;
     padding: 30px 20px 30px 30px;
-    justify-items: center;
+    display: flex;
+    justify-content: center;
     align-content: center;
     /* overflow-y: auto; */
 }
@@ -688,8 +699,9 @@ label{
     background: linear-gradient(180deg, #06234E 0%, #0A3566 100%);
     width: 50%;
     padding: 20px;
-    align-content: center;
-    justify-items: center;
+    align-items: center;
+    justify-content: center;
+    display: flex;
 }
 
 .form-card.company{
@@ -753,7 +765,7 @@ label{
     width: 100%;
     text-align: center;
 }
-/* styleing the secon paragraph of the achievements */
+/* styleing the second paragraph of the achievements */
 #companies p:nth-child(2), #trips p:nth-child(2), 
 #satisfaction p:nth-child(2){
     color: var(--bg-grayBlue);
@@ -772,18 +784,32 @@ label{
 }
 .forgotPassword-container{
     width: 350px;
-    height: 250px;
-    background-color: #00C923;
+    /* height: 250px; */
+    /* background-color: #00C923; */
+    padding: 10px;
 }
 
-.forgotPassword-container p:nth-child(1){
+.reset-step{
+    animation: slideDown ease 1s;
+}
+
+.reset-step.hidden{
+    display: none;
+}
+
+@keyframes slideDown {
+    from{opacity: 0; transform: translateY(-15px);}
+    to{ opacity: 1; transform: translateY(0px)}
+}
+
+.reset-step p:nth-child(1){
     font-family: var(--font-poppins);
     font-weight: 500;
     font-size:1.25rem ;
     margin: 5px 0px;
 }
 
-.forgotPassword-container p:nth-child(2){
+.reset-step p:nth-child(2){
     font-size: var(--font-size-xs);
     color: var(--text-input);
     margin: 5px 0px;
@@ -791,4 +817,95 @@ label{
 
 .forgotPassword-container label{
     font-weight: 500;
+}
+.resetInputField{
+    margin: 0px auto;
+    width: 100%;
+    border-radius: var(--radius-xs);
+    background-color: #F3F3F5;
+    height: 40px;
+    border: var(--border-sm) solid var(--border-gray) ;
+    padding: 4px;
+    /* color:#717182 ; */
+}
+
+
+.reset-section-input, #request-token, .email-section-input{
+    margin-top: 25px;
+
+}
+
+.otp-container{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    /* width: 100%; */
+}
+.otp-container input{
+    margin-top:10px ;
+    height: 3.5rem;
+    width: 3.5rem;
+    border-radius: var(--radius-vsm);
+    /* border-width: 0px; */
+    border: 2px solid #E1E1E1;
+    text-align: center;
+    font-size: 20px;
+    font-weight: 200;
+
+}
+
+#token-section label{
+    margin-top:15px;
+}
+
+/* styling the buttons and giving then effects for hover */
+#request-token{
+    width: 100%;
+    border-radius: var(--radius-xs);
+    /* background-color: var(--bg-grayBlue); */
+    background-color: rgba(111, 112, 113, 0.5);
+    height: 32px;
+    border: var(--border-sm) solid var(--border-gray) ;
+    font-weight: 500; font-family: var(--font-poppins);
+    color: whitesmoke;
+}
+
+#verify-token, #update-password, #reset-successful{
+    width: 100%;
+    height: 32px;
+    margin-top: 30px;
+    border-radius: 0.625rem;
+    background-color: rgba(111, 112, 113, 0.5);
+    font-weight: 500; font-family: var(--font-poppins);
+    color: whitesmoke;
+    border: var(--border-sm) solid var(--border-gray) ;
+}
+
+#verify-token:hover, #update-password:hover, #request-token:hover, #reset-successful:hover{
+    /* background-color: rgba(111, 112, 113, 0.5); */
+    background: #8B8B8B;
+
+}
+
+#verify-token:disabled, #request-token:disabled, #update-password:disabled{
+    background-color: #dedede;
+    color: white;
+    border-width: 0px;
+}
+
+.resend-email{
+    margin: 20px 0px 0px 0px;
+    color: #989898;
+    font-weight: 600;
+    line-height: 1.25rem; /* 125% */
+    letter-spacing: -0.03125rem;
+    font-size: var(--font-size-xs);
+    text-align: center;
+}
+
+/* .otp-container input:invalid{
+    border: 1px solid red;
+} */
+#password_match_message{
+    font-size: var(--font-size-xxs1);
 }

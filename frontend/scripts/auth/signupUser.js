@@ -73,6 +73,7 @@ document.addEventListener('DOMContentLoaded', ()=>{
             signUpstep.firstElementChild.textContent = 'Step 2 of 3'
             signUpstep.lastElementChild.textContent = '67%'
         }
+        // else{ logic to submit form to API and go to user profile}
     })
     console.log(cards[0])
     console.log(nextBtn1)

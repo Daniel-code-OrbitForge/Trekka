@@ -50,9 +50,8 @@ document.addEventListener('DOMContentLoaded', ()=>{
             cards[2].classList.toggle('active')
             progress[1].classList.toggle('active-stage')
             progress[2].classList.toggle('active-stage')
-        }else{
-            
         }
+        // else (logic to sumbit form and go to company profile)
     })
 
     console.log(cards)

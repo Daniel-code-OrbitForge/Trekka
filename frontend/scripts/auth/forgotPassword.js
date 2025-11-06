@@ -37,10 +37,13 @@ document.addEventListener('DOMContentLoaded', ()=>{
 
 
 
-
+    //===== buttons======
     const request_token = document.querySelector('#request-token')
     const verify_token = document.querySelector('#verify-token')
     const update_password = document.querySelector('#update-password')
+    const reset_complete =document.querySelector('#reset-complete')
+    //===================
+
     const email = document.querySelector('.resetInputField')
     const reset_step = document.querySelectorAll('.reset-step')
     const otpInputs = document.querySelectorAll('.otp-container input')
@@ -155,8 +158,16 @@ document.addEventListener('DOMContentLoaded', ()=>{
         // for(const step of reset_step){
         //     step.classList.toggle('hidden')
         // }
-        //update new password and go back to login page
+        //update new password in server and go to sucessful screen
         e.preventDefault()
+        reset_step[2].classList.toggle('hidden')
+        reset_step[3].classList.toggle('hidden')
+
+    })
+
+    reset_complete.addEventListener('click', (e)=>{
+        e.preventDefault()
+        // submit the form details and go to sign in page
         document.location.assign('../../pages/auth/login.html')
 
     })
