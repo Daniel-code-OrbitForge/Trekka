@@ -1,105 +1,185 @@
 <!DOCTYPE html>
-<html lang="en"></html>
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>User SignUp</title>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>SignUp User/Driver</title>
 
-    <link rel="stylesheet" href="../../styles/auth.css">
-</head>
-<body>
-    <div class="signUp-container">
-        <!-- <div id="signUp-card-container"> -->
-            <div id="signUp-card">
-                <form action="">
-                    <h2>Let's get you started!</h2>
-                    <div>
-                        <div class="signUp-input" id="name-input">
-                            <label for="name">Full Name</label>
-                            <input type="text" name="userName" id="name" class="inputField">
-                        </div>
-                        
-                        <div class="signUp-input">
-                            <label for="phone">Phone Number</label>
-                            <input type="tel" name="phone" id="phone" class="inputField">
-                        </div>
-                    
-                        <div class="signUp-input">
-                            <label for="email">Email address</label>
-                            <input type="text" name="userEmail" id="email" class="inputField">
-                        </div>
-                    
-                        <!-- <label for="name">Full Name</label>
-                        <input type="text" name="userName" id="name"> -->
-                        <div class="signUp-input">
-                            <label for="nextOfKin">Gender</label>
-                            <select name="gender" id="gender" class="inputField">
-                                <option value="" selected disabled hidden></option>
-                                <option value="Male">Male</option>
-                                <option value="Female">Female</option>
-                            </select>
-                        </div>
+        <link rel="stylesheet" href="../../styles/auth.css">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Aclonica&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+    </head>
+    <body>
+        <div class="container role-selection">
+            <div class="role-selection-card">
+                <div>
+                    <h3>Select User Type</h3>
+                    <p>Choose the role that best describes you</p>
+                </div>
 
-                        <div class="signUp-input">
-                            <label for="nextOfKin">Next of Kin Name</label>
-                            <input type="text" name="userNextOfKin" id="nextOfKin" class="inputField">
+                <div class="role-options">
+                    <button type="button" class="option">
+                        <div id="user">
+                            <img src="../../assets/images/userRoleIcon.svg" alt="">
                         </div>
-                    
-                        <div>
-                            <label for="nextOfKinPhone">Next of Kin Phone Number</label>
-                            <input type="text" name="nextOfKinPhone" id="nextOfKinPhone" class="inputField">
-                        </div>
-                    
-                        <div class="signUp-input">
-                            <label for="password">Password</label>
-                            <input type="password" name="userPassword" id="password" class="inputField">
-                        </div>
-
-                        <div class="signUp-input">
-                            <label for="confirm">Confrim Password</label>
-                            <input type="password" name="confirm" id="confirm" class="inputField">
-                        </div>
-
-                        <div class="termsOfAgreement">
-                            <label>
-                                <input type="checkbox" name="terms" value="Yes">I agree to the 
-                                <span><a href="">terms & policy</a></span>
-                            </label>
-                        </div>
-                        
-                        <!-- <input type="submit" name="" id=""> -->
-                        <button type="submit" class="btn" id="signUp-btn">Sign Up</button>
-                        
-                    </div>
-                </form>
-
-
-                <div class="divider"><span>or</span></div>
-
-                <div class="alternativeSignIn">
-                    <button class="btn" id="google-btn">
-                        <img src="../../assets/images/icons8-google 1.svg" alt="Google Logo" class="icon">
-                        <span>Sign in with Google</span>
+                        User
                     </button>
-
-                    <button id="apple-btn" class="btn">
-                        <img src="../../assets/images/icons8-apple-logo 1.svg" alt="Apple Logo" class="icon">
-                        Sign in with apple
+                    <button type="button" class="option">
+                        <div id="driver">
+                            <img src="../../assets/images/driverRoleIcon.svg" alt="">
+                        </div>Driver
+                    </button>
+                    <button type="button" class="option">
+                        <div id="company"><img src="../../assets/images/companyRoleIcon.svg" alt=""></div>
+                        Company
+                    </button>
+                    <button type="button" class="option">
+                        <div id="admin"><img src="../../assets/images/adminRoleIcon.svg" alt=""></div>
+                        Admin
                     </button>
                 </div>
-                
-                <div class="dont-have-an-acct">
-                <span>Have an account?</span>
-                <a href="../auth/login.html">SignIn</a>
+            </div>
+        </div>
+
+        <div class="container deactivate"> 
+            <div class="form-section">
+                <div class="form-card user">
+                    <form action="" id="signUpForm">
+                        <div class='logo-and-progress'>
+                            <div id="logo">
+                                <img src="../../assets/images/trekkaIcon-dark.svg" alt=""><span>rekka</span>
+                                <p>INTERCITY TRAVEL</p>
+                            </div>
+
+                            <div class="signup-step">
+                                <p>Step 1 of 3</p>
+                                <p>33%</p>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress"></div>
+                            </div>
+                        </div>
+
+                        <div class="card active ">
+                            <div class="card-title-user">
+                                <p>Let's get you started!</p>
+                                <p>Tell us about yourself</p>
+                            </div>
+
+                            <div class="input">
+                                <label for="firstName">First Name</label>
+                                <input type="text" name="firstName" id="firstName" class="inputField" placeholder="Enter your first name">
+                            </div>
+                            
+                            <div class="input">
+                                <label for="lastName">Last Name</label>
+                                <input type="text" name="lasttName" id="lastName" class="inputField" placeholder="Enter your last name">
+                            </div>
+                            
+                            <div class="input">
+                                <label for="email">Email Address</label>
+                                <input type="text" name="email" id="email" class="inputField" placeholder="Enter your email">
+                            </div>
+
+                            <div>
+                                <button class="btn user-next-btn1" id="" type="button">Next      ›</button>
+                            </div>
+                        </div>
+
+                        <div class="card">
+                            <div class="card-title-user">
+                                <p>Contact information</p>
+                                <p>How can we reach you?</p>
+                            </div>
+
+                            <div class="input">
+                                <label for="phone">Phone Number</label>
+                                <input type="tel" name="phone" id="phone" class="inputField" placeholder="Enter your phone number">
+                            </div>
+                            
+                            <div class="input country">
+                                <label for="country">Country</label>
+                                <input type="text" name="country" id="country" class="inputField" placeholder="Input your country">
+                            </div>
+                            
+                            <div class="next">
+                                <button class="btn user-back-btn1" id="bck-btn1" type="button">‹  Back</button>
+                                <button class="btn user-next-btn2" id="next-btn2" type="button">Next  ›</button>
+                            </div>
+                        </div>
+
+
+                        <div class="card">
+                            <div class="card-title-user">
+                                <p>Secure Your Account</p>
+                                <p>Create a strong password</p>
+                            </div>
+
+                            <div class="input">
+                                <label for="password">Password</label>
+                                <input type="password" name="password" id="password" class="inputField" placeholder="Create a strong password">
+                            </div>
+                            
+                            <div class="input confirm">
+                                <label for="confirm">Confirm Password</label>
+                                <input type="password" name="confrim" id="confirm" class="inputField" placeholder="Re-enter your password">
+                            </div>
+
+                            <div class="termsOfAgreement">
+                                <label>
+                                    <input type="checkbox" name="terms" value="Yes">I agree to the 
+                                    <span><a href="">terms & policy</a></span>
+                                </label>
+                            </div>
+
+                            <div class="divider"><span>Or continue with</span></div>
+
+                            <div class="alternativeSignIn">
+                                <button class="btn" id="google-btn" type="button">
+                                    <img src="../../assets/images/icons8-google 1.svg" alt="Google Logo" class="icon">
+                                    <span>Google</span>
+                                </button>
+
+                                <button id="apple-btn" class="btn" type="button">
+                                    <img src="../../assets/images/icons8-apple-logo 1.svg" alt="Apple Logo" class="icon">
+                                    Apple
+                                </button>
+                            </div>
+
+                            <div class="next" id="signUp">
+                                <button class="btn user-back-btn1" id="bck-btn2" type="button">‹  Back</button>
+                                <button class="btn user-next-btn2" type="submit">Create account</button>
+                            </div>
+
+                        </div> 
+
+                        <div id="signin-or-signup">
+                            <span>Have an account?</span>
+                            <a href="../auth/login.html">SignIn</a>
+                        </div>
+                    </form>
                 </div>
             </div>
 
-        <!-- </div> -->
+            <div id="bg-section-user">
+                <img src="../../assets/images/userSignUpImg.jpg" alt="" id="user-bg-img">
+                <div id="gradient"></div>
+                <div id="info-card-user">
+                    <h2>Trekka</h2>
+                    <div><img src="../../assets/images/trekkaIcon.svg" alt=""><span>rekka<span></div>
 
-        <img class="signUp-container-bgImg" src="../../assets/images/signUpBkgrnd.jpg" alt="background">
+                    <p> INTERCITY TRAVEL</p>
 
+                    <p>Welcome to Trekka</p>
+                    <p>Join our platform to streamline your intercity travel <br>
+                    and transportation with cutting edge technology.</p>
+                </div>
+            </div>
+        </div>
 
+        <script src="../../scripts/auth/signupUser.js"></script>
 
-    </div>
-    
-</body>
+    </body>
+</html>
