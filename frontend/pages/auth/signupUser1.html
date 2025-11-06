@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en"></html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User SignUp</title>
+
+    <link rel="stylesheet" href="../../styles/auth.css">
+</head>
+<body>
+    <div class="signUp-container">
+        <!-- <div id="signUp-card-container"> -->
+            <div id="signUp-card">
+                <form action="">
+                    <h2>Let's get you started!</h2>
+                    <div>
+                        <div class="signUp-input" id="name-input">
+                            <label for="name">Full Name</label>
+                            <input type="text" name="userName" id="name" class="inputField">
+                        </div>
+                        
+                        <div class="signUp-input">
+                            <label for="phone">Phone Number</label>
+                            <input type="tel" name="phone" id="phone" class="inputField">
+                        </div>
+                    
+                        <div class="signUp-input">
+                            <label for="email">Email address</label>
+                            <input type="text" name="userEmail" id="email" class="inputField">
+                        </div>
+                    
+                        <!-- <label for="name">Full Name</label>
+                        <input type="text" name="userName" id="name"> -->
+                        <div class="signUp-input">
+                            <label for="nextOfKin">Gender</label>
+                            <select name="gender" id="gender" class="inputField">
+                                <option value="" selected disabled hidden></option>
+                                <option value="Male">Male</option>
+                                <option value="Female">Female</option>
+                            </select>
+                        </div>
+
+                        <div class="signUp-input">
+                            <label for="nextOfKin">Next of Kin Name</label>
+                            <input type="text" name="userNextOfKin" id="nextOfKin" class="inputField">
+                        </div>
+                    
+                        <div>
+                            <label for="nextOfKinPhone">Next of Kin Phone Number</label>
+                            <input type="text" name="nextOfKinPhone" id="nextOfKinPhone" class="inputField">
+                        </div>
+                    
+                        <div class="signUp-input">
+                            <label for="password">Password</label>
+                            <input type="password" name="userPassword" id="password" class="inputField">
+                        </div>
+
+                        <div class="signUp-input">
+                            <label for="confirm">Confrim Password</label>
+                            <input type="password" name="confirm" id="confirm" class="inputField">
+                        </div>
+
+                        <div class="termsOfAgreement">
+                            <label>
+                                <input type="checkbox" name="terms" value="Yes">I agree to the 
+                                <span><a href="">terms & policy</a></span>
+                            </label>
+                        </div>
+                        
+                        <!-- <input type="submit" name="" id=""> -->
+                        <button type="submit" class="btn" id="signUp-btn">Sign Up</button>
+                        
+                    </div>
+                </form>
+
+
+                <div class="divider"><span>or</span></div>
+
+                <div class="alternativeSignIn">
+                    <button class="btn" id="google-btn">
+                        <img src="../../assets/images/icons8-google 1.svg" alt="Google Logo" class="icon">
+                        <span>Sign in with Google</span>
+                    </button>
+
+                    <button id="apple-btn" class="btn">
+                        <img src="../../assets/images/icons8-apple-logo 1.svg" alt="Apple Logo" class="icon">
+                        Sign in with apple
+                    </button>
+                </div>
+                
+                <div class="dont-have-an-acct">
+                <span>Have an account?</span>
+                <a href="../auth/login.html">SignIn</a>
+                </div>
+            </div>
+
+        <!-- </div> -->
+
+        <img class="signUp-container-bgImg" src="../../assets/images/signUpBkgrnd.jpg" alt="background">
+
+
+
+    </div>
+    
+</body>
