@@ -1,0 +1,911 @@
+/* ==========================================
+   TREKKA AUTHENTICATION STYLES
+   Modern Blue Gradient Theme
+   ========================================== */
+
+:root{
+
+    /* text colors */
+    --text-white: #ffffff;
+    --text-primary: #334155;
+    --text-gray: #989898;
+    --text-minor:  #1C398E;
+    --text-input: #717182;
+    --text-color: #06234E;
+    --text-secondary: #4a5565;
+
+
+    /* Background colors */
+    --bg-lightBlue:  #DAEDFC;
+    /* --bg-signInCard: rgba(58, 91, 34, 0.1); */
+    --bg-grayBlue : #94a3b8;
+    --bg-deepBlue: #06234e;
+
+    /* Borders */
+    --border-thick: 4px;
+    --border-md: 2px;
+    --border-sm: 1px;
+    /* --text-color: #06234E; */
+    --border-gray: #979494;
+    --border-lightblue: #D9E9FF;
+
+    /* Border radius */
+    --radius-big: 40px;
+    --radius-med: 24px;
+    --radius-xs: 10px;
+    --radius-sm: 14px;
+    --radius-vsm: 12px;
+
+    /* Typography */
+    --font-poppins: "Poppins", sans-serif;
+    --font-inter: 'Inter', sans-serif;
+    --font-aclonica: "Aclonica", "sans-serif";
+    --font-size-sm: 0.875rem;   /* 14px */
+    --font-size-xs: 0.75rem;    /* 12px */
+    --font-size-xs1: 0.81rem;   /* 13px */
+    --font-size-xxs: 0.56rem;   /* 9px */
+    --font-size-bg: 1.75rem;    /* 28px */
+    --font-size-xxs1: 0.625rem; /* 10px */
+
+}
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body{
+    font-family: var(--font-inter);
+    margin: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 15px 0px;
+    min-height: 100vh;
+    background-color: lightgray;
+}
+
+p{
+    font-weight: 400;
+}
+
+/* ==========================================
+   LOG IN PAGE
+   ========================================== */
+.login-container{
+    position: relative;
+    max-width: 75rem;
+    margin: auto;
+    /* max-height: 900px; */
+    max-height: 850px;
+    min-height: 650px;
+    width: 80%;
+    height: 90vh;
+    overflow: hidden;
+    display: flex; 
+    align-items: center; 
+    justify-content: center;
+    animation: fadeIn 1s ease;
+
+}
+
+#login-container-gradient{
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0px; right: 0px;
+    background: linear-gradient(135deg, rgba(6, 35, 78, 0.70) 0%, rgba(6, 35, 78, 0.50) 50%, rgba(10, 47, 95, 0.60) 100%);
+    z-index: 1;
+}
+
+#login-container-img{
+    width: 100%;
+    /* height: 850px; */
+    height: 1000px;
+    position: absolute;
+    top: -80px; left: 0px;
+    z-index: 0;
+}
+
+.card-container{
+    position: relative;
+    align-self: center;
+    z-index: 10;
+    display: flex;
+    flex-direction: row;
+    /* background-color: wheat; */
+    margin: 20px;
+    
+}
+
+.login-card{
+    background-color: white;
+    border-radius: var(--radius-med);
+    padding: 25px;
+    gap: 1.25rem;
+}
+.login-card h3{
+    font-family: var(--font-poppins);
+    font-size: var(--font-size-bg);
+    color: var(--text-color);
+    /* H3 - Heading 3 */
+    font-weight: 500;
+    line-height: 150%; /* 2.625rem */
+    letter-spacing: -0.00525rem;
+}
+
+.login-card> h3 + p{
+    color: #64748B;
+    /* Small Text */
+    font-size: var(--font-size-sm);
+    font-style: normal;
+    font-weight: 400;
+    line-height: 150%; /* 1.3125rem */
+    letter-spacing: -0.00525rem;
+}
+
+label{
+    display: block;     /* puts label on its own line */
+    font-size: var(--font-size-sm);
+    margin: 2px 0px;
+    color: var(--text-primary);
+    font-weight: 400;
+}
+
+#email-login{
+    margin-top: 30px;
+    margin-bottom: 15px;
+}
+
+.inputField{
+    width: 100%;
+    border-radius: var(--radius-xs);
+    background-color: #F3F3F5;
+    height: 32px;
+    border: var(--border-sm) solid var(--border-gray) ;
+    padding: 4px;
+    color:#717182 ;
+}
+
+.forgotPassword{
+    display: flex;
+    flex-direction: row;
+    margin: 15px 0px;
+    justify-content: space-between;
+    align-items: center;
+    /* font-size: var(--font-size-sm); */
+}
+
+.forgotPassword label{
+    color: var(--bg-grayBlue);
+}
+
+.forgotPassword a, .forgotPassword label,
+.termsOfAgreement a, .termsOfAgreement label{
+    font-size: var(--font-size-sm);
+    display: flex;             /*keep items on same line*/
+    align-items: center;       /* vertically center checkbox & text */
+    gap: 6px;
+    line-height: 100%;
+}
+
+.forgotPassword a:hover{
+    color: red;
+}
+
+.btn{
+    display: inline-flex;
+    border-radius: var(--radius-xs);
+    height: 32px;
+    align-items: center;
+    justify-content: center;
+    margin: 5px 0px;
+}
+
+.btn:hover{
+    /* background-color: #d8e4ff; */
+    background-color: var(--bg-grayBlue);
+    color: black;
+}
+.btn:active{
+    background-color:#6d8cb6 ;
+}
+
+#login-btn{
+    width: 100%;
+    background-color:var(--bg-deepBlue) ;
+    font-weight: 700;
+    color: var(--text-white);
+    border-width: 0px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.10), 0 2px 4px -2px rgba(0, 0, 0, 0.10);
+}
+
+.divider {
+  /* Layout: Centers the content (the lines and the 'or') */
+  display: flex;
+  align-items: center; /* Vertically center the 'or' text */
+  text-align: center; /* A fallback, but flex alignment is better */
+  margin: 20px 0; /* Add some space above and below */
+  color: var(--bg-grayBlue); /* Color for the 'or' text */
+  font-size: var(--font-size-xs); /* Adjust text size */
+  
+}
+
+.divider::before,
+.divider::after {
+  content: ''; /* Essential for pseudo-elements to display */
+  flex-grow: 1; /* Makes the lines take up all available space */
+  height: 1px; /* Thickness of the line */
+  background-color: var(--bg-grayBlue); /* Color of the line */
+  margin: 0 5px; /* Space between the line and the 'or' text */
+}
+
+.alternativeSignIn{
+    display: flex;
+    justify-content: space-between;
+    /* margin-bottom: 20px; */
+}
+
+#google-btn, #apple-btn{
+    /* width: 200px; */
+    width: 45%;
+    display: inline-flex;
+    align-items: center;
+    background-color: transparent;
+    /* font-weight: 700; */
+    border: 1px solid #E2E8F0;
+}
+
+#google-btn .icon, #apple-btn img {
+    /* Set the icon size */
+    width: 24px;
+    height: 24px;
+    /* Create spacing */
+    margin-right: 8px;
+    
+}
+
+#signin-or-signup{
+    font-size: var(--font-size-sm);
+    margin: 25px auto 10px auto;
+    text-align: center;
+    color: var(--bg-grayBlue);
+}
+
+#signin-or-signup a {
+    text-decoration: none;
+    color: var(--text-color) ;
+}
+
+#signin-or-signup a:hover, .termsOfAgreement a:hover{
+    color: red;
+}
+#info-card{
+    margin: 20px;
+    color: var(--text-white);
+}
+
+#logo-login{
+    /* width: 13.75rem; */
+    width: 200px;
+    height: 8.9375rem;
+    border-radius: var(--radius-sm);
+    border: 4px solid #e5e5e5;
+    background: var(--bg-deepBlue);
+    padding: 18px;
+    margin-top: 30px; margin-bottom: 25px;
+}
+
+#logo-login span{
+    font-size: 24px;
+    font-family: var(--font-poppins);
+}
+#logo-login p{
+    font-size: 10px;
+}
+/* successful login section display is none until login is successful */
+.login-successful{
+    display: none;
+    width: 270px;
+    text-align: center;
+    font-weight: 500;
+    z-index: 10;
+    position: relative;
+}
+.login-successful img{
+    width: 126px;
+    height: 126px;
+    margin: 8px 0px;
+}
+#completed-indicator{
+    background-color: #06234E80;
+    width: 250px;
+    margin: 8px 0px;
+    font-weight: 400;
+    font-size: var(--font-size-sm);
+    color: var(--text-white);
+}
+
+
+/* ==========================================
+   SIGN UP PAGE
+   ========================================== */
+
+.card{
+    display: none;
+}
+
+.card.active{
+    display: block;
+    animation: slideIn 0.5s ease;
+    /* animation: slide-in 2s ease-out infinite alternate; */
+
+}
+
+@keyframes fadeIn{
+    from{opacity: 0; transform: scale(0.95);}
+    to{opacity: 1; transform: scale(1);}
+}
+
+@keyframes slideIn{
+    from{opacity: 0; transform: translateX(-15px);}
+    to{opacity: 1; transform: translateX(0px);}
+}
+
+/* @keyframes slide-in {
+  0% { transform: translateX(-100%); }
+  50% { transform: translateX(0); }
+  100% { transform: translateX(50%); }
+} */
+
+/* *****USER**** */
+.container{
+    display: flex;
+    flex-direction: row;
+    /* max-width: 75rem; */
+    max-width: 81.25rem;
+    margin: auto;
+    max-height: 850px;
+    min-height: 650px;
+    width: 80%;
+    height: 90vh;
+    overflow: hidden;
+    background-color: white;
+    /* animation: fadeIn 0.5s ease; */
+    animation: slideIn 0.5s ease-in;
+
+}
+.deactivate{
+    display: none;
+}
+
+.role-selection{
+    align-items: center;
+    justify-content: center;
+}
+
+.role-selection-card{
+    align-content: center;
+    justify-items: center;
+    font-family: var(--font-poppins);
+    /* background-color: plum; */
+    background-color: #bdcce9;
+    box-shadow:4px 4px 4px #808283 ;
+    border-radius:var(--radius-big) ;
+    width: 70%;
+    height: 75%;
+    text-align: center;
+    color: var(--bg-deepBlue);
+}
+
+.role-options{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    margin: 50px 0px 10px 0px;
+    justify-content: center;
+}
+
+.option{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+    font-family: var(--font-poppins);
+    font-weight: 500;
+    text-align: center;
+    /* align-content: center; justify-items: center; */
+    color: var(--text-white);
+    background-color: var(--bg-deepBlue);
+    border-radius: var(--radius-xs); border-width: 0px;
+    margin: 5px;
+    width: 120px;
+    height: 120px;
+    transition: transform ease 0.2s;
+}
+.option:hover{
+    transform: translateY(-5px);
+}
+
+.option img{
+    width: 24px; height: 24px;
+}
+#user, #driver, #company, #admin{
+    width: 50px;
+    height: 50px;
+    justify-items: center; align-content: center;
+    /* background-color: pink; */
+    border-radius: 25px;
+}
+#user{
+    background-color: #0180CC;
+}
+#driver{
+    background-color: #00C923;
+}
+#company{
+    background-color: #AF8FE9;
+}
+#admin{
+    background-color: orange;
+}
+
+#bg-section-user{
+    position: relative;
+    width: 55%;
+    /* background-color: red; */
+    border-bottom-left-radius: var(--radius-big);
+    border-top-left-radius: var(--radius-big);
+    padding: 20px;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+}
+
+#user-bg-img, #bg-section-user #gradient{
+    border-bottom-left-radius: var(--radius-big);
+    border-top-left-radius: var(--radius-big);
+}
+
+#bg-section-user #gradient{
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    top: 0px; left: 0px;
+    background: linear-gradient(135deg, rgba(6, 35, 78, 0.80) 0%, rgba(78, 134, 255, 0.60) 50%, rgba(216, 228, 255, 0.70) 100%);
+    z-index: 1;
+}
+
+#user-bg-img{
+    position: absolute;
+    z-index: 0;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    height: 100%;
+}
+
+#info-card-user{
+    display: grid;
+    position: relative;
+    /* width: 300px; */
+    z-index: 3;
+    border-radius: 1rem;
+    border: 1px solid rgba(255, 255, 255, 0.20);
+    background: rgba(255, 255, 255, 0.10);
+    padding: 25px 40px; 
+    justify-items: center;
+    color: var(--text-white);
+}
+
+#info-card-user div{
+    margin: 10px 0px;
+    font-family: var(--font-poppins);
+    font-size: 24px;
+}
+#info-card-user p{
+    font-size: var(--font-size-sm);
+}
+#info-card-user p:nth-child(2),
+#info-card-user p:nth-child(3){
+    /* font-size: var(--font-size-sm); */
+    margin: 10px 0px;
+}
+
+.form-section{
+    flex-grow: 1;
+    padding: 30px 20px 30px 30px;
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    /* overflow-y: auto; */
+}
+
+.form-card{  
+    width: 80%;
+    padding: 25px;
+    overflow-y: auto;
+    /* height: 100%; */
+    max-height: 100%;
+
+}
+/* .form-card:hover{
+    overflow-y: auto;
+} */
+
+.form-card.user{
+    box-shadow: 5px 10px 18px #808283;
+    border-radius: var(--radius-med);
+    margin-left: 40px;
+}
+
+.card-title-user{
+    margin: 20px 0px;
+    color: var(--text-secondary);
+    font-size: var(--font-size-sm);
+}
+.card-title-user p:first-child{
+    color: var(--text-color);
+    font-size: 1rem;
+}
+
+#firstName, #lastName{
+    margin-bottom: 10px;
+}
+
+
+#logo{
+    margin: 15px 0px;
+}
+#logo span{
+    font-size: 20px;
+    font-family: var(--font-poppins);
+    color: var(--text-color);
+}
+#logo p{
+    font-size: var(--font-size-xxs);
+    color: var(--text-color);
+}  
+.input.country{
+    margin-top: 15px;
+}
+.signup-step{
+    display: inline-flex;
+    flex-direction: row;
+    justify-content:space-between;
+    width: 100%;
+    color:var(--text-secondary);
+}
+.progress-bar{
+    margin: 5px 0px;
+    /* width: 100%; */
+    align-self: stretch;
+    height: 6px;
+    border-radius: 3px;
+    background-color: #d8e4ff;
+}
+
+.progress{
+    width: 33%;
+    background-color: #06234E;
+    height: 100%;
+    border-radius: 3px;
+    transition: width ease 1s;
+}
+
+.user-next-btn1{
+    width: 100%;
+    background-color:var(--bg-deepBlue) ;
+    color: var(--text-white);
+    border-width: 0px;
+    margin: 20px 0px;
+}
+
+.next{
+    display: flex;
+    margin: 15px 0px;
+    justify-content: space-between;
+    /* align-self: stretch; */
+}
+
+.user-back-btn1{
+    width: 48%;
+    border: 1px solid #E2E8F0;
+    background-color: white;
+}
+
+.user-next-btn2{
+    width: 48%;
+    border: 1px solid #E2E8F0;
+    background-color: var(--bg-deepBlue);
+    color: var(--text-white);
+}
+
+.input.confirm{
+    margin: 10px 0px;
+}
+
+
+
+/* ================================
+        COMPANY SIGN UP PAGE
+   ================================*/
+.company-form-title h3{
+    font-family: var(--font-poppins);
+    font-size: 18px;
+    font-weight: 500;
+    color: var(--text-color);
+}
+.company-form-title p{
+    font-size: var(--font-size-sm);
+    color: var(--text-secondary);
+}
+
+.progress-indicator{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    margin: 10px 0px;
+}
+.stage{
+    justify-items: center;
+    transition: transform ease 0.5s;
+}
+.stage p{
+    font-size: var(--font-size-xs);
+    color: var(--text-secondary);
+}
+.stage div{
+    width: 22px;
+    height: 22px;
+    align-content: center;
+    text-align: center;
+    border-radius: 22px;
+    background-color: #e5e7eb;
+    color: #6a7252;
+    margin: 3px;
+}
+
+.stage.active-stage{
+    transform: translateY(-4px)
+}
+
+.stage.active-stage div{
+    background-color: #06234E;
+    color: white;
+}
+
+#companyName, #companyEmail, #companyPhone, 
+#certificate, #website{
+    margin-bottom: 5px;
+}
+
+.company-back-btn{
+    padding: 0px 30px;
+    border: 1px solid #E2E8F0;
+    background-color: white;
+}
+
+.company-next-btn{
+    padding: 0px 30px;
+    border: 1px solid #E2E8F0;
+    background-color: var(--bg-deepBlue);
+    color: var(--text-white);
+}
+.bg-section{
+    background: linear-gradient(180deg, #06234E 0%, #0A3566 100%);
+    width: 50%;
+    padding: 20px;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+}
+
+.form-card.company{
+    box-shadow: 5px 10px 18px #808283;
+    width: 400px;
+}
+#input-guide{
+    font-size: var(--font-size-xs);
+    color: var(--text-secondary);
+}
+
+.card-title-company{
+    margin: 12px 0px;
+    color: var(--text-secondary);
+    font-size: var(--font-size-sm);
+    
+}
+.card-title-company p:first-child{
+    color: var(--text-color);
+    font-size: var(--font-size-sm);
+    font-weight: 700;
+}
+
+/* .card{
+    max-height: 375px;
+    overflow-y: auto;
+} */
+
+#info-guide{
+    color: var(--text-minor);
+    /* text-align: center; */
+    font-size: var(--font-size-xxs1);
+    border-radius: 0.625rem;
+    border: 1px solid #BEDBFF;
+    background: #EFF6FF;
+    padding: 8px 0px;
+    margin-top: 10px;
+    /* align-items: center; 
+    flex-direction: row ; */
+    
+}
+
+#info-guide img{
+    float: left;
+    margin-left: 10px
+}
+#terms-and-pol-company{
+    /* font-size: var(--font-size-xs); */
+    margin-top: 8px;
+}
+
+#terms-and-pol-company a, #terms-and-pol-company span{
+    font-size: var(--font-size-xs);
+    
+}
+
+#achievements{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
+    text-align: center;
+}
+/* styleing the second paragraph of the achievements */
+#companies p:nth-child(2), #trips p:nth-child(2), 
+#satisfaction p:nth-child(2){
+    color: var(--bg-grayBlue);
+    font-size: var(--font-size-xs);
+}
+
+#company-confirm, #company-password{
+    margin: 15px 0px;
+}
+
+/* ==========================================
+            FORGOT PASSWORD
+   ========================================== */
+.forgotPassword-body{
+    background-color: white;
+}
+.forgotPassword-container{
+    width: 350px;
+    /* height: 250px; */
+    /* background-color: #00C923; */
+    padding: 10px;
+}
+
+.reset-step{
+    animation: slideDown ease 1s;
+}
+
+.reset-step.hidden{
+    display: none;
+}
+
+@keyframes slideDown {
+    from{opacity: 0; transform: translateY(-15px);}
+    to{ opacity: 1; transform: translateY(0px)}
+}
+
+.reset-step p:nth-child(1){
+    font-family: var(--font-poppins);
+    font-weight: 500;
+    font-size:1.25rem ;
+    margin: 5px 0px;
+}
+
+.reset-step p:nth-child(2){
+    font-size: var(--font-size-xs);
+    color: var(--text-input);
+    margin: 5px 0px;
+}
+
+.forgotPassword-container label{
+    font-weight: 500;
+}
+.resetInputField{
+    margin: 0px auto;
+    width: 100%;
+    border-radius: var(--radius-xs);
+    background-color: #F3F3F5;
+    height: 40px;
+    border: var(--border-sm) solid var(--border-gray) ;
+    padding: 4px;
+    /* color:#717182 ; */
+}
+
+
+.reset-section-input, #request-token, .email-section-input{
+    margin-top: 25px;
+
+}
+
+.otp-container{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    /* width: 100%; */
+}
+.otp-container input{
+    margin-top:10px ;
+    height: 3.5rem;
+    width: 3.5rem;
+    border-radius: var(--radius-vsm);
+    /* border-width: 0px; */
+    border: 2px solid #E1E1E1;
+    text-align: center;
+    font-size: 20px;
+    font-weight: 200;
+
+}
+
+#token-section label{
+    margin-top:15px;
+}
+
+/* styling the buttons and giving then effects for hover */
+#request-token{
+    width: 100%;
+    border-radius: var(--radius-xs);
+    /* background-color: var(--bg-grayBlue); */
+    background-color: rgba(111, 112, 113, 0.5);
+    height: 32px;
+    border: var(--border-sm) solid var(--border-gray) ;
+    font-weight: 500; font-family: var(--font-poppins);
+    color: whitesmoke;
+}
+
+#verify-token, #update-password, #reset-successful{
+    width: 100%;
+    height: 32px;
+    margin-top: 30px;
+    border-radius: 0.625rem;
+    background-color: rgba(111, 112, 113, 0.5);
+    font-weight: 500; font-family: var(--font-poppins);
+    color: whitesmoke;
+    border: var(--border-sm) solid var(--border-gray) ;
+}
+
+#verify-token:hover, #update-password:hover, #request-token:hover, #reset-successful:hover{
+    /* background-color: rgba(111, 112, 113, 0.5); */
+    background: #8B8B8B;
+
+}
+
+#verify-token:disabled, #request-token:disabled, #update-password:disabled{
+    background-color: #dedede;
+    color: white;
+    border-width: 0px;
+}
+
+.resend-email{
+    margin: 20px 0px 0px 0px;
+    color: #989898;
+    font-weight: 600;
+    line-height: 1.25rem; /* 125% */
+    letter-spacing: -0.03125rem;
+    font-size: var(--font-size-xs);
+    text-align: center;
+}
+
+/* .otp-container input:invalid{
+    border: 1px solid red;
+} */
+#password_match_message{
+    font-size: var(--font-size-xxs1);
+}

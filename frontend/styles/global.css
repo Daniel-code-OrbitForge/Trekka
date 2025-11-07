@@ -498,7 +498,7 @@ ul, ol {
   font-weight: 700;
   background: var(--bg-gradient);
   -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+  -webkit-text-fill-color: whitesmoke;
   background-clip: text;
   margin-bottom: 0.5rem;
 }
@@ -506,6 +506,7 @@ ul, ol {
 .stat-label {
   font-size: var(--font-size-base);
   color: var(--text-muted);
+  -webkit-text-fill-color: whitesmoke;
 }
 
 /* ==========================================
