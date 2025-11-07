@@ -40,4 +40,8 @@ const adminSchema = new Schema({
     
 });
 
+<<<<<<< HEAD
 module.exportmongoose.model(Admin, adminSchema)
+=======
+module.export = mongoose.model(Admin, adminSchema);
+>>>>>>> fcb629f98e8706813c486e845909a9a2bbbc375e
