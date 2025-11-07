@@ -105,10 +105,8 @@
                     <!-- Introduction Message -->
                     <section id="introduction" class="doc-section">
                         <h2>Introduction</h2>
-                        <p>Welcome to the Trekka API documentation. Our RESTful API allows you to 
-                           integrate transportation booking features directly into your application.</p>
-                        <p>This documentation covers authentication, available endpoints, 
-                           request/response formats, and best practices for integration.</p>
+                        <p>Welcome to the Trekka API documentation. The Trekka API enables seamless integration of intercity transport booking and management features into your application.</p>
+                        <p>This documentation provides details on authentication, endpoints, data structures, and implementation best practices to help you build efficiently on the Trekka platform.</p>
                         
                         <div class="api-test-card">
                             <h3>Test the API</h3>
@@ -120,71 +118,74 @@
                             <div id="apiResult" class="api-result"></div>
                         </div>
                     </section>
+
+                    <!-- API Base URL -->
+                    <section id="api-base" class="doc-section">
+                        <h2>API Base URL</h2>
+                        <p>Production:</p>
+                        <div class="code-block">
+                            <code>https://api.trekka.com/api</code>
+                        </div>
+                        <p>Development:</p>
+                        <div class="code-block">
+                            <code>http://localhost:5000/api</code>
+                        </div>
+                    </section>
                     
                     <!-- Authentication -->
                     <section id="authentication" class="doc-section">
                         <h2>Authentication</h2>
                         <p>Trekka API uses JWT (JSON Web Tokens) for authentication. Include your token in the Authorization header of all requests.</p>
                         
-                        <h3>Getting a Token</h3>
+                        <h3>Get Token</h3>
                         <p>First, register or login to receive a JWT token:</p>
                         <div class="code-block">
                             <pre><code>POST /api/auth/login
-Content-Type: application/json
+                                Content-Type: application/json
 
-{
-  "email": "user@example.com",
-  "password": "your_password"
-}
+                                {
+                                "email": "user@example.com",
+                                "password": "your_password"
+                                }
 
-Response:
-{
-  "success": true,
-  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
-  "user": { ... }
-}</code></pre>
+                                Response:
+                                {
+                                "success": true,
+                                "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
+                                "user": { ... }
+                                }</code>
+                            </pre>
                         </div>
                         
                         <h3>Using the Token</h3>
                         <p>Include the token in the Authorization header:</p>
                         <div class="code-block">
                             <pre><code>GET /api/bookings
-Authorization: Bearer YOUR_JWT_TOKEN</code></pre>
+                                Authorization: Bearer YOUR_JWT_TOKEN</code></pre>
                         </div>
                     </section>
-                    
-                    <!-- API Base URL -->
-                    <section id="api-base" class="doc-section">
-                        <h2>API Base URL</h2>
-                        <p>All API requests should be made to:</p>
-                        <div class="code-block">
-                            <code>https://api.trekka.com/api</code>
-                        </div>
-                        <p>For development/testing:</p>
-                        <div class="code-block">
-                            <code>http://localhost:5000/api</code>
-                        </div>
-                    </section>
+                
                     
                     <!-- Auth Endpoints -->
                     <section id="auth-endpoints" class="doc-section">
-                        <h2>Authentication Endpoints</h2>
+                        <h2>API ENDPOINTS</h2>
                         
                         <div class="endpoint-card">
                             <div class="endpoint-header">
                                 <span class="http-method post">POST</span>
                                 <code>/api/auth/register</code>
                             </div>
-                            <p>Register a new user account.</p>
+                            <p>Register a new account.</p>
                             <div class="code-block">
                                 <pre><code>Request Body:
-{
-  "firstName": "John",
-  "lastName": "Doe",
-  "email": "john@example.com",
-  "phone": "+2348012345678",
-  "password": "securePassword123"
-}</code></pre>
+                                        {
+                                        "firstName": "John",
+                                        "lastName": "Doe",
+                                        "email": "john@example.com",
+                                        "phone": "+2348012345678",
+                                        "password": "securePassword123"
+                                        }</code>
+                                </pre>
                             </div>
                         </div>
                         
@@ -193,7 +194,7 @@ Authorization: Bearer YOUR_JWT_TOKEN</code></pre>
                                 <span class="http-method post">POST</span>
                                 <code>/api/auth/login</code>
                             </div>
-                            <p>Login and receive JWT token.</p>
+                            <p>Login and get JWT token.</p>
                         </div>
                         
                         <div class="endpoint-card">
@@ -201,13 +202,13 @@ Authorization: Bearer YOUR_JWT_TOKEN</code></pre>
                                 <span class="http-method get">GET</span>
                                 <code>/api/auth/me</code>
                             </div>
-                            <p>Get current user profile (requires authentication).</p>
+                            <p>Retrieve current user profile (requires authentication).</p>
                         </div>
                     </section>
                     
                     <!-- Booking Endpoints -->
                     <section id="booking-endpoints" class="doc-section">
-                        <h2>Booking Endpoints</h2>
+                        <h2>BOOKINGS ENDPOINTS</h2>
                         
                         <div class="endpoint-card">
                             <div class="endpoint-header">
@@ -216,18 +217,22 @@ Authorization: Bearer YOUR_JWT_TOKEN</code></pre>
                             </div>
                             <p>Create a new booking.</p>
                             <div class="code-block">
-                                <pre><code>Request Body:
-{
-  "pickupLocation": {
-    "address": "123 Main St, Lagos"
-  },
-  "dropoffLocation": {
-    "address": "456 Park Ave, Abuja"
-  },
-  "pickupDateTime": "2024-12-25T10:00:00Z",
-  "numberOfPassengers": 2,
-  "companyId": "company_id_here"
-}</code></pre>
+                                <pre>
+                                    <code>
+                                        Request Body:
+                                    {
+                                    "pickupLocation": {
+                                        "address": "123 Main St, Lagos"
+                                    },
+                                    "dropoffLocation": {
+                                        "address": "456 Park Ave, Abuja"
+                                    },
+                                    "pickupDateTime": "2024-12-25T10:00:00Z",
+                                    "numberOfPassengers": 2,
+                                    "companyId": "company_id_here"
+                                    }
+                                    </code>
+                                </pre>
                             </div>
                         </div>
                         
@@ -236,7 +241,7 @@ Authorization: Bearer YOUR_JWT_TOKEN</code></pre>
                                 <span class="http-method get">GET</span>
                                 <code>/api/bookings</code>
                             </div>
-                            <p>Get all bookings for the authenticated user.</p>
+                            <p>Get all user bookings</p>
                         </div>
                         
                         <div class="endpoint-card">
@@ -244,7 +249,7 @@ Authorization: Bearer YOUR_JWT_TOKEN</code></pre>
                                 <span class="http-method get">GET</span>
                                 <code>/api/bookings/:id</code>
                             </div>
-                            <p>Get details of a specific booking.</p>
+                            <p>Get booking details.</p>
                         </div>
                         
                         <div class="endpoint-card">
@@ -258,27 +263,28 @@ Authorization: Bearer YOUR_JWT_TOKEN</code></pre>
                     
                     <!-- Payment Endpoints -->
                     <section id="payment-endpoints" class="doc-section">
-                        <h2>Payment Endpoints</h2>
+                        <h2>PAYMENTS ENDPOINTS</h2>
                         
                         <div class="endpoint-card">
                             <div class="endpoint-header">
                                 <span class="http-method post">POST</span>
                                 <code>/api/payments/initialize</code>
                             </div>
-                            <p>Initialize payment for a booking.</p>
+                            <p>Initialize payment</p>
                             <div class="code-block">
                                 <pre><code>Request Body:
-{
-  "bookingId": "booking_id_here",
-  "paymentMethod": "card"
-}
+                                    {
+                                    "bookingId": "booking_id_here",
+                                    "paymentMethod": "card"
+                                    }
 
-Response:
-{
-  "success": true,
-  "paymentUrl": "https://checkout.paystack.com/...",
-  "reference": "PAY-20241225-123456"
-}</code></pre>
+                                    Response:
+                                    {
+                                    "success": true,
+                                    "paymentUrl": "https://checkout.paystack.com/...",
+                                    "reference": "PAY-20241225-123456"
+                                    }</code>
+                                </pre>
                             </div>
                         </div>
                         
@@ -287,20 +293,20 @@ Response:
                                 <span class="http-method get">GET</span>
                                 <code>/api/payments/verify/:reference</code>
                             </div>
-                            <p>Verify payment status after completion.</p>
+                            <p>Verify payment</p>
                         </div>
                     </section>
                     
                     <!-- Company Endpoints -->
                     <section id="company-endpoints" class="doc-section">
-                        <h2>Company Endpoints</h2>
+                        <h2>COMPANIES ENDPOINTS</h2>
                         
                         <div class="endpoint-card">
                             <div class="endpoint-header">
                                 <span class="http-method get">GET</span>
                                 <code>/api/companies</code>
                             </div>
-                            <p>Get list of all transport companies.</p>
+                            <p>Get list of transport companies.</p>
                         </div>
                         
                         <div class="endpoint-card">
@@ -308,8 +314,24 @@ Response:
                                 <span class="http-method get">GET</span>
                                 <code>/api/companies/:id</code>
                             </div>
-                            <p>Get detailed information about a specific company.</p>
+                            <p>Get details of a specific company.</p>
                         </div>
+                    </section>
+                    <br>
+                    <!-- BACKEND DATA FLOW AND LOGICS -->
+                    <section id="webhooks" class="doc-section">
+                        <h2>BACKEND DATA FLOWS & LOGIC</h2>
+                        <p>This section explains how the Trekka back-end powers the above API endpoints.</p>
+                        
+                        <h3>BOOKING LIFECYCLE</h3>
+                        <ul>
+                            <li>Search: User selects pickup and drop-off points.</li>
+                            <li>Match: Backend queries available companies/vehicle.</li>
+                            <li>Booking Creation: API saves booking with pending status.</li>
+                            <li>Payment: User initializes and completes payment.</li>
+                            <li>Confirmation: Partner or system confirms booking.</li>
+                            <li>Completion: Trip marked completed and rating recorded.</li>
+                        </ul>
                     </section>
                     
                     <!-- Error Handling -->
@@ -319,12 +341,13 @@ Response:
                         format:</p>
                         <div class="code-block">
                             <pre><code>{
-  "success": false,
-  "message": "Error description",
-  "errors": {
-    "field": "Specific error details"
-  }
-}</code></pre>
+                                "success": false,
+                                "message": "Error description",
+                                "errors": {
+                                    "field": "Specific error details"
+                                }
+                                }</code>
+                            </pre>
                         </div>
                         
                         <h3>Common Status Codes</h3>
@@ -338,10 +361,11 @@ Response:
                             <li><strong>500 Internal Server Error</strong> - Server error</li>
                         </ul>
                     </section>
+                    <br>
                     
                     <!-- Rate Limits -->
                     <section id="rate-limits" class="doc-section">
-                        <h2>Rate Limits</h2>
+                        <h2>RATE LIMITS</h2>
                         <p>To ensure fair usage, the API has the following rate limits:</p>
                         <ul>
                             <li>100 requests per 15 minutes per IP address</li>
@@ -349,28 +373,75 @@ Response:
                         </ul>
                         <p>Rate limit headers are included in all responses:</p>
                         <div class="code-block">
-                            <pre><code>X-RateLimit-Limit: 100
-X-RateLimit-Remaining: 95
-X-RateLimit-Reset: 1640000000</code></pre>
+                            <h2>HEADERS:</h2>
+                            <pre>
+                                <code>
+                                    X-RateLimit-Limit: 100
+                                    X-RateLimit-Remaining: 95
+                                    X-RateLimit-Reset: 1640000000
+                                </code>
+                            </pre>
                         </div>
                     </section>
+                    <br>
                     
                     <!-- Webhooks -->
                     <section id="webhooks" class="doc-section">
-                        <h2>Webhooks</h2>
-                        <p>Webhooks allow you to receive real-time notifications about events in your Trekka integration.</p>
+                        <h2>WEBHOOKS</h2>
+                        <p>Web-hooks events notify your of updates in real-time.</p>
                         
                         <h3>Setting Up Webhooks</h3>
-                        <p>Contact our support team to configure webhook endpoints for your account. We'll send POST requests to your specified URL when events occur.</p>
+                        <p>Contact our support team to configure webhook endpoints for your account.</p>
                         
                         <h3>Webhook Events</h3>
                         <ul>
-                            <li><code>booking.created</code> - New booking created</li>
-                            <li><code>booking.confirmed</code> - Booking confirmed by company</li>
-                            <li><code>booking.completed</code> - Trip completed</li>
-                            <li><code>payment.success</code> - Payment successful</li>
-                            <li><code>payment.failed</code> - Payment failed</li>
+                            <li><code>booking.created</code></li>
+                            <li><code>booking.confirmed</code></li>
+                            <li><code>booking.completed</code></li>
+                            <li><code>payment.success</code></li>
+                            <li><code>payment.failed</code></li>
                         </ul>
+                    </section>
+                    <br>
+                    <!-- SECURITY & VERIFICATION -->
+                    <section id="webhooks" class="doc-section">
+                      <p>
+                        <ol>
+                          <li>HTTPS enforced for all API calls.</li>
+                          <li>JWT tokens verified on each request.</li>
+                          <li>Partner companies undergo KYC validation before activation.</li>
+                          <li>Driver licenses and vehicle documents are verified via admin dashboard.</li>
+                          <li>Payment data handled securely via Paystack or Flutterwave (no card data stored).</li>
+                          <li>Compliant wwith NDPR (Nigeria Data Protection Regulations).</li>
+                        </ol>
+                      </p>
+                    </section>
+                    <br>
+                    <!-- VERSIONING & MAINTENANCE -->
+                    <section id="webhooks" class="doc-section">
+                      <p>
+                        <ol>
+                          <li>Current API version: v1.0</li>
+                          <li>All future versions will follow semantic versioning (v1.1,v2).</li>
+                          <li>Deprecations and breaking changes are announced (2) weeks before rollout.</li>
+                          <li>Partners receive release notes via email or dashboard notifications.</li>
+                        </ol>
+                      </p>
+                    </section>
+                    <br>
+                    <!-- USER-FACING ALIGNMENT -->
+                    <section id="webhooks" class="doc-section">
+                      <p>
+                        <ol>
+                          <li>"100% Verified Drivers" &#8594; backed by the driver verification system.</li>
+                          <li>"Transparent Pricing" &#8594; pricing breakdown reflected in back-end data models.</li>
+                          <li>Front-end field names
+                            (e.g,)
+                            <pre>
+                            <code>pickupLocation, pickupLocation</code>
+                          </pre> directly mirror back-end models to ensure consistency.</li>
+                        </ol>
+                      </p>
                     </section>
                     
                     <!-- Support -->

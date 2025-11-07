@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>SignUp Company</title>
+
+        <link rel="stylesheet" href="../../styles/auth.css">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Aclonica&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+        
+    </head>
+    <body>
+        <div class="container">
+            <div class="form-section">
+                <div class="form-card company">
+                    <form action="" id="signUpForm">
+                        <div class='logo-and-progress'>
+                            <div id="logo">
+                                <img src="../../assets/images/trekkaIcon-dark.svg" alt=""><span>rekka</span>
+                                <p>INTERCITY TRAVEL</p>
+                            </div>
+                            
+                            <div class="company-form-title">
+                                <h3>Register Your Company</h3>
+                                <p>Create an account to manage your trips and drivers efficiently</p>       
+                            </div>
+
+                            <div class="progress-indicator">
+                                <div class="stage active-stage">
+                                    <div class="stage1">1</div>
+                                    <p>Company Info</p>
+                                </div>
+                                <div class="stage">
+                                    <div class="stage2">2</div>
+                                    <p>Verification</p>
+                                </div>
+                                <div class="stage" id="stage3">
+                                    <div class="">3</div>
+                                    <p>Security</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card active">
+                            <div class="card-title-company">
+                                <p>Company Information</p>
+                                <p>Please provide your company details</p>
+                            </div>
+
+                            <div class="input">
+                                <label for="companyName">Company Name <span>*</span></label>
+                                <input required type="text" name="companyName" id="companyName" class="inputField" placeholder="Enter your company name">
+                            </div>
+                            
+                            
+                            <div class="input">
+                                <label for="email">Company Email *</label>
+                                <input required type="text" name="email" id="companyEmail" class="inputField" placeholder="Company@example.com">
+                            </div>
+                            
+                            <div class="input">
+                                <label for="phone">Company Phone Number *</label>
+                                <input required type="tel" name="phone" id="companyPhone" class="inputField" placeholder="" inputmode="numeric">
+                            </div>
+
+                            <div class="input">
+                                <label for="country">Country of Operation *</label>
+                                <input required type="text" name="country" id="country" class="inputField" placeholder="Input your country">
+                            </div>
+
+                            <div class="next">
+                                <button class="btn company-back-btn" type="button">‹  Back</button>
+                                <button class="btn company-next-btn" type="button">Continue  ›</button>
+                            </div>
+                        </div>
+
+                        <div class="card"> 
+                            <div class="card-title-company">
+                                <p>Business Verification</p>
+                                <p>Upload your business documents and additional information</p>
+                            </div>
+
+                            <div class="input">
+                                <label for="phone">Business Certificate Upload *</label>
+                                <input required type="file" name="certificate" id="certificate" class="inputField" placeholder="Enter your phone number">
+                            </div>
+                            
+                            <div class="input">
+                                <label for="country">Company Website (Optional)</label>
+                                <input type="text" name="website" id="website" class="inputField" placeholder="https://www.yourcompany.com">
+                                <p id="input-guide">Add your company website if available</p>
+                            </div>
+
+                            <div id="info-guide">
+                                <img src="../../assets/images/important-icon.svg" alt="">
+                                <p>Your business certifcate helps us to verify your company's <br>
+                                legitimacy and ensures a secure platform for all users.</p>
+                            </div>
+                            
+                            <div class="next">
+                                <button class="btn company-back-btn" type="button">‹  Back</button>
+                                <button class="btn company-next-btn" type="button">Continue  ›</button>
+                            </div>
+                        </div> 
+
+
+                        <div class="card">
+                            <div class="card-title-company">
+                                <p>Account Security</p>
+                                <p>Set up your password and review terms</p>
+                            </div>
+
+                            <div class="input" id="company-password">
+                                <label for="password">Password *</label>
+                                <input required type="password" name="password"  class="inputField" placeholder="Create a strong password">
+                            </div>
+                            
+                            <div class="input" id="company-confirm">
+                                <label for="confirm">Confirm Password *</label>
+                                <input type="password" name="confrim" class="inputField" placeholder="Re-enter your password">
+                            </div>
+
+                            <div class="termsOfAgreement" id="terms-and-pol-company">
+                                <label>
+                                    <input type="checkbox" name="terms" value="Yes">I agree to the 
+                                    <span><a href="">Terms of Service</a></span> and <span><a href="">Privacy Policy</a></span>
+                                </label>
+                            </div>
+
+                            <div class="divider"><span>Or sign up with</span></div>
+
+                            <div class="alternativeSignIn">
+                                <button class="btn" id="google-btn" type="button">
+                                    <img src="../../assets/images/icons8-google 1.svg" alt="" class="icon">
+                                    <span>Google</span>
+                                </button>
+
+                                <button id="apple-btn" class="btn" type="button">
+                                    <img src="../../assets/images/icons8-apple-logo 1.svg" alt="Apple Logo" class="icon">
+                                    Apple
+                                </button>
+                            </div>
+
+                            <div class="next" id="signUp">
+                                <button class="btn company-back-btn" type="button">‹  Back</button>
+                                <button class="btn company-next-btn" type="submit">Register Company</button>
+                            </div>
+
+                        </div> 
+
+                        <div id="signin-or-signup">
+                            <span>Already have an account? </span>
+                            <a href="../auth/login.html">SignIn</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <div class="bg-section">
+                <div id="info-card-user">
+                    <div id="safe-icon">
+                        <img src="../../assets/images/protection-Icon.svg" alt="shield">
+                    </div>
+                    <p>Trusted by Companies Nationwide</p>
+                    <p>Join hundreds of companies already managing their intercity<br>
+                    travel operations with Trekka. Streamline your fleet, optimize <br>
+                    routes, and ensure safe journeys.</p>
+
+                    <div id="achievements">
+                        <div id="companies">
+                            <p>500+</p>
+                            <P>Companies</P>
+                        </div>
+                        <div id="trips">
+                            <p>50K+</p>
+                            <P>Trips Completed</P>
+                        </div>
+                        <div id="satisfaction">
+                            <p>98%</p>
+                            <P>Satisfaction Rate</P>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script src="../../scripts/auth/signupCompany.js"></script>
+    </body>
+</html>

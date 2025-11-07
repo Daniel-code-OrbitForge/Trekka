@@ -1,3 +1,4 @@
+import mongoose, { connect } from "mongoose";
 
 const { MongoClient, ServerApiVersion } = require('mongodb');
 const uri = "mongodb+srv://onigbindejoshua9_db_user:UUsrxaZa5clzjQtW@trekka.3glaftg.mongodb.net/Trekka?retryWrites=true&w=majority&appName=Trekka";
@@ -21,6 +22,14 @@ async function run() {
     finally {
     // Ensures that the client will close when you finish/error
     await client.close();
+
+const connectDB = async () => {
+  try {
+    await mongoose.connect(process.env.MONGO_URI);
+    console.log("MongoDB connected successfully");
+  } catch (error) {
+    console.error("MongoDB connection failed:", error.message);
   }
 };
-run().catch(console.dir);
+
+export default connectDB;

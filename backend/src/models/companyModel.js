@@ -1,21 +1,26 @@
-const mongoose = require('mongoose');
-const Schema = mongoose.Schema
+import mongoose from "mongoose";
 
-const companySchema= new Schema({
-    comapnyId:{
-        type: String,
-        unique: true,
-        required: true
+const companySchema = new mongoose.Schema(
+  {
+    companyName: { type: String, required: true },
+    companyEmail: {
+      type: String,
+      required: true,
+      unique: true,
+      lowercase: true,
     },
-    companyName:{
-        type: String,
-        required:true
-    },
-    address: {
-        type: String,
-        required: true
-    },
+    password: { type: String, required: true, minlength: 6 },
+    role: { type: String, default: "company" },
+    companyAddress: String,
+    companyPhone: String,
+    industry: String,
+    isCompanyVerified: { type: Boolean, default: false },
+    resetPasswordToken: String,
+    resetPasswordExpires: Date,
+    emailVerificationToken: String,
+    emailVerificationExpires: Date,
+  },
+  { timestamps: true }
+);
 
-});
-
-module.exports = mongoose.model('Company',companySchema)
+export default mongoose.model("Company", companySchema);
