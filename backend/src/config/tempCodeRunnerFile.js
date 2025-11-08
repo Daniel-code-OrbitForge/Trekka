@@ -1,1 +1,1 @@
-"mongodb+srv://onigbindejoshua9_db_user:UUsrxaZa5clzjQtW@trekka.3glaftg.mongodb.net/Trekker?retryWrites=true&w=majority&appName=Trekka";
+"mongodb+srv://onigbindejoshua9_db_user:UUsrxaZa5clzjQtW@trekka.3glaftg.mongodb.net/Trekker?retryWrites=true&w=majority&appName=Trekka"
