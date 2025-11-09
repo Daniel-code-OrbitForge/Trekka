@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Payment Logs — Trekka Admin">
+    <meta property="og:type" content="web-application">
+    <title>Payment Logs — Trekka</title>
+    <!-- Font Awesome 6.5.1 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="../../styles/admin.css">
+    <link rel="stylesheet" href="../../styles/adminMedia.css">
+</head>
+<body class="admin-page">
+    <!-- Sidebar Navigation -->
+    <aside class="admin-sidebar" id="adminSidebar">
+        <div class="sidebar-header">
+            <h2 class="sidebar-logo">Trekka</h2>
+            <button class="sidebar-toggle" onclick="toggleSidebar()"><i class="fas fa-bars"></i></button>
+        </div>
+
+        <nav class="sidebar-nav">
+            <a href="./adminDashboard.html" class="nav-item">
+                <i class="fas fa-tachometer-alt"></i> Dashboard
+            </a>
+            <a href="./activityLogs.html" class="nav-item">
+                <i class="fas fa-tachometer-alt"></i> Activity Logs
+            </a>
+            <a href="./broadcast.html" class="nav-item">
+                <i class="fas fa-broadcast-tower"></i> Broadcasts
+            </a>
+            <a href="./userManagement.html" class="nav-item">
+                <i class="fas fa-users"></i> User Management
+            </a>
+            <a href="./institutionManagement.html" class="nav-item">
+                <i class="fas fa-university"></i> Institution Management
+            </a>
+            <a href="./cms.html" class="nav-item">
+                <i class="fas fa-file-alt"></i> Content Management
+            </a>
+            <a href="./partners.html" class="nav-item">
+                <i class="fas fa-handshake"></i> Partners
+            </a>
+            <a href="./bookingOversight.html" class="nav-item">
+                <i class="fas fa-calendar-check"></i> Booking History
+            </a>
+            <a href="./analytics.html" class="nav-item">
+                <i class="fas fa-chart-line"></i> Analytics
+            </a>
+            <a href="./paymentLogs.html" class="nav-item active">
+                <i class="fas fa-credit-card"></i> Payment Logs
+            </a>
+            <a href="./fleetManagement.html" class="nav-item">
+                <i class="fas fa-truck"></i> Fleet Management
+            </a>
+            <a href="./roleManagement.html" class="nav-item">
+                <i class="fas fa-truck"></i> Role Management
+            </a>
+            <a href="./systemSettings.html" class="nav-item">
+                <i class="fas fa-cog"></i> System Settings
+            </a>
+        </nav>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="admin-main">
+        <!-- Header -->
+        <header class="admin-header">
+            <div class="header-left">
+                <h1 class="page-title">Payment Logs</h1>
+            </div>
+            <div class="header-right">
+                <button class="icon-btn"><i class="fas fa-search"></i></button>
+                <button class="icon-btn notification-btn"><i class="fas fa-bell"></i><span class="notification-badge">3</span></button>
+                <div class="header-profile">
+                    <span class="country-flag">NG</span>
+                    <button class="profile-btn" onclick="toggleProfileMenu()">
+                        <span>Olajide Maintain</span>
+                        <span class="dropdown-arrow">▼</span>
+                    </button>
+                    <div class="profile-menu" id="profileMenu" style="display: none;">
+                        <a href="#">Profile</a>
+                        <a href="#">Settings</a>
+                        <a href="#">Switch Role</a>
+                        <hr>
+                        <a href="#" onclick="logout()">Logout</a>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Page Content -->
+        <div class="admin-content">
+            <!-- Quick Action Buttons -->
+            <div class="action-bar">
+                <button class="btn btn-primary" onclick="trackFailedTransactions()">Track Failed/Pending Transactions</button>
+                <button class="btn btn-primary" onclick="trackPayments()">Track Payments</button>
+                <button class="btn btn-secondary" onclick="exportData()">Export Data ↓</button>
+            </div>
+
+            <!-- Recent Transactions Section -->
+            <section class="data-table-section">
+                <div class="table-header">
+                    <h3>Recent Transactions</h3>
+                    <div class="search-box">
+                        <input type="text" placeholder="Search" id="searchInput">
+                    </div>
+                </div>
+
+                <div class="table-responsive">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Date/Time</th>
+                                <th>User</th>
+                                <th>Transaction ID</th>
+                                <th>Payment Mode</th>
+                                <th>Amount</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="paymentsTableBody">
+                            <!-- Populated by JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- Pagination -->
+            <div class="pagination">
+                <span>Show up to</span>
+                <select id="rowsPerPage" onchange="updateTable()">
+                    <option value="50">50</option>
+                </select>
+                <span>entries</span>
+                <div class="pagination-controls">
+                    <button class="pagination-btn">←</button>
+                    <button class="pagination-btn active">1</button>
+                    <button class="pagination-btn">2</button>
+                    <button class="pagination-btn">→</button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Toast Container -->
+    <div id="toastContainer" class="toast-container"></div>
+
+    <script src="../../scripts/admin/adminTheme.js"></script>
+    <script>
+        /**
+         * Payment Logs Page
+         * Manage and monitor payment transactions
+         *
+         * INTEGRATION NOTES:
+         * - Fetch payments from Supabase payments table
+         * - Allow admins to track and refund transactions
+         */
+
+        let payments = [];
+
+        document.addEventListener('DOMContentLoaded', () => {
+            checkAdminAuth();
+            loadPayments();
+        });
+
+        function checkAdminAuth() {
+            const adminToken = localStorage.getItem('trekka_admin_token');
+            if (!adminToken) {
+                window.location.href = './adminLogin.html';
+            }
+        }
+
+        function loadPayments() {
+            // PRODUCTION: Fetch from Supabase payments table
+            // const { data, error } = await supabase
+            //     .from('payments')
+            //     .select('*')
+            //     .order('created_at', { ascending: false });
+
+            payments = [
+                { date: '11/07/2023 05:00PM', user: 'Olajide Maintain', id: '0997685874585', mode: 'Bank Transfer', amount: '₦9500.00', status: 'Failed' },
+                { date: '11/07/2023 05:00PM', user: 'Olajide Maintain', id: '0997685874585', mode: 'Card', amount: '₦9500.00', status: 'Completed' },
+                { date: '11/07/2023 05:00PM', user: 'Olajide Maintain', id: '0997685874585', mode: 'Card', amount: '₦9500.00', status: 'Completed' },
+                { date: '11/07/2023 05:00PM', user: 'Olajide Maintain', id: '0997685874585', mode: 'Card', amount: '₦9500.00', status: 'Completed' },
+                { date: '11/07/2023 05:00PM', user: 'Olajide Maintain', id: '0997685874585', mode: 'Bank Transfer', amount: '₦9500.00', status: 'Failed' },
+                { date: '11/07/2023 05:00PM', user: 'Olajide Maintain', id: '0997685874585', mode: 'Card', amount: '₦9500.00', status: 'Failed' },
+                { date: '11/07/2023 05:00PM', user: 'Olajide Maintain', id: '0997685874585', mode: 'Bank Transfer', amount: '₦9500.00', status: 'Pending' },
+                { date: '11/07/2023 05:00PM', user: 'Olajide Maintain', id: '0997685874585---', mode: 'Bank Transfer', amount: '₦9500.00', status: 'Pending' },
+            ];
+
+            updateTable();
+        }
+
+        function updateTable() {
+            const rowsPerPage = parseInt(document.getElementById('rowsPerPage').value) || 50;
+            const tbody = document.getElementById('paymentsTableBody');
+            tbody.innerHTML = '';
+
+            payments.slice(0, rowsPerPage).forEach(payment => {
+                const statusColor = payment.status === 'Completed' ? 'success' :
+                                   payment.status === 'Failed' ? 'error' : 'warning';
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${payment.date}</td>
+                    <td>${payment.user}</td>
+                    <td>${payment.id}</td>
+                    <td>${payment.mode}</td>
+                    <td>${payment.amount}</td>
+                    <td><span class="status-badge status-${statusColor}">${payment.status}</span></td>
+                `;
+                tbody.appendChild(row);
+            });
+        }
+
+        function trackFailedTransactions() {
+            const failedCount = payments.filter(p => p.status === 'Failed' || p.status === 'Pending').length;
+            showToast(`Tracking ${failedCount} failed/pending transactions`, 'info');
+        }
+
+        function trackPayments() {
+            showToast('Payment tracking dashboard loaded', 'success');
+        }
+
+        function exportData() {
+            const csv = 'Date/Time,User,Transaction ID,Payment Mode,Amount,Status\n' +
+                payments.map(p => `${p.date},${p.user},${p.id},${p.mode},${p.amount},${p.status}`).join('\n');
+
+            const blob = new Blob([csv], { type: 'text/csv' });
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'payment-logs.csv';
+            a.click();
+            window.URL.revokeObjectURL(url);
+
+            showToast('Payments exported successfully', 'success');
+        }
+
+        function toggleProfileMenu() {
+            const menu = document.getElementById('profileMenu');
+            menu.style.display = menu.style.display === 'none' ? 'block' : 'none';
+        }
+
+        function toggleSidebar() {
+            const sidebar = document.getElementById('adminSidebar');
+            sidebar.classList.toggle('collapsed');
+        }
+
+        function logout() {
+            localStorage.removeItem('trekka_admin_token');
+            window.location.href = './adminLogin.html';
+        }
+
+        function showToast(message, type = 'info') {
+            const toast = document.createElement('div');
+            toast.className = `toast toast-${type}`;
+            toast.textContent = message;
+            document.getElementById('toastContainer').appendChild(toast);
+            setTimeout(() => toast.remove(), 3000);
+        }
+    </script>
+</body>
+</html>

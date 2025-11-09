@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Trip Booking - Trekka</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="../../styles/dashboard.css">
+  <link rel="stylesheet" href="../../styles/mediaQuery.css">
+</head>
+<body>
+  <div class="mobile-overlay" onclick="toggleSidebar()"></div>
+  
+  <div class="dashboard-container">
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-header">
+        <a href="#" class="header-logo">Trekka</a>
+      </div>
+      <nav class="sidebar-nav">
+        <a href="dashboard.html" class="nav-link" data-testid="link-dashboard">
+          <i class="fas fa-th-large"></i>
+          <span class="nav-link-text">Dashboard</span>
+        </a>
+        <a href="bookings.html" class="nav-link active" data-testid="link-trip-booking">
+          <i class="fas fa-ticket-alt"></i>
+          <span class="nav-link-text">Trip Booking</span>
+        </a>
+        <a href="history.html" class="nav-link" data-testid="link-scheduled-trips">
+          <i class="fas fa-calendar-alt"></i>
+          <span class="nav-link-text">Scheduled Trips</span>
+        </a>
+        <a href="drafts.html" class="nav-link" data-testid="link-view-drafts">
+          <i class="fas fa-file-alt"></i>
+          <span class="nav-link-text">View Drafts</span>
+        </a>
+      </nav>
+    </aside>
+    
+    <main class="main-content">
+      <header class="dashboard-header">
+        <div class="header-left">
+          <button class="hamburger-menu" onclick="toggleSidebar()" data-testid="button-menu-toggle">
+            <i class="fas fa-bars"></i>
+          </button>
+          <span class="header-title">Trip Booking</span>
+        </div>
+        
+        <div class="header-right">
+          <div class="dropdown" id="countryDropdown">
+            <button class="btn-icon" onclick="toggleDropdown('countryDropdown')" data-testid="button-country">
+              <span style="font-size: 20px;">🇳🇬</span>
+            </button>
+          </div>
+          
+          <button class="theme-toggle" id="themeToggle" onclick="toggleTheme()" data-testid="button-theme-toggle">
+            <i class="fas fa-moon"></i>
+          </button>
+          
+          <button class="notification-bell" onclick="toggleDropdown('notificationDropdown')" data-testid="button-notifications">
+            <i class="fas fa-bell"></i>
+            <span class="notification-badge"></span>
+          </button>
+          
+          <div class="dropdown" id="userDropdown">
+            <div class="dropdown-toggle" onclick="toggleDropdown('userDropdown')" data-testid="button-user-menu">
+              <div class="avatar">
+                <img src="https://ui-avatars.com/api/?name=Olajide+Maintain&background=0066cc&color=fff" alt="User">
+              </div>
+              <span style="margin: 0 8px; font-weight: 500; color: var(--text);">Olajide Maintain</span>
+              <i class="fas fa-chevron-down" style="font-size: 12px; color: var(--text-secondary);"></i>
+            </div>
+            <div class="dropdown-menu">
+              <a href="profile.html" class="dropdown-item" data-testid="link-profile">
+                <i class="fas fa-user"></i>
+                Profile
+              </a>
+              <a href="settings.html" class="dropdown-item" data-testid="link-settings">
+                <i class="fas fa-cog"></i>
+                Settings
+              </a>
+              <div class="dropdown-divider"></div>
+              <a href="#" class="dropdown-item" data-testid="link-logout">
+                <i class="fas fa-sign-out-alt"></i>
+                Logout
+              </a>
+            </div>
+          </div>
+        </div>
+      </header>
+      
+      <div class="content-wrapper">
+        <h1 style="font-size: 24px; font-weight: 600; color: var(--text); margin-bottom: 24px;">
+          Find Your Next Trip
+        </h1>
+        
+        <!-- Search and Filters -->
+        <div class="card mb-lg">
+          <div class="card-body">
+            <div class="grid grid-cols-4">
+              <div class="form-group">
+                <label class="form-label">From</label>
+                <select class="form-control" data-testid="select-from">
+                  <option>Lagos</option>
+                  <option>Abuja</option>
+                  <option>Ibadan</option>
+                  <option>Kano</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label class="form-label">To</label>
+                <select class="form-control" data-testid="select-to">
+                  <option>Abuja</option>
+                  <option>Lagos</option>
+                  <option>Port Harcourt</option>
+                  <option>Enugu</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Date</label>
+                <input type="date" class="form-control" data-testid="input-date">
+              </div>
+              <div class="form-group">
+                <label class="form-label">Seat Type</label>
+                <select class="form-control" data-testid="select-seat-type">
+                  <option>All Types</option>
+                  <option>Economy</option>
+                  <option>Business</option>
+                  <option>Executive</option>
+                </select>
+              </div>
+            </div>
+            <button class="btn btn-primary" data-testid="button-search">
+              <i class="fas fa-search"></i>
+              Search Trips
+            </button>
+          </div>
+        </div>
+        
+        <!-- Results -->
+        <div class="grid grid-cols-2" id="tripResults">
+          <!-- Trip cards populated by JavaScript -->
+        </div>
+      </div>
+    </main>
+  </div>
+  
+  <script src="../../scripts/dashboard.js"></script>
+  <script src="../../scripts/theme.js"></script>
+  <script>
+    // Mock trip results
+    const trips = [
+      {id: 1, company: 'Trekka Express', from: 'Lagos', to: 'Abuja', time: '08:00 AM', price: 12000, seats: 14, type: 'Shuttle'},
+      {id: 2, company: 'Swift Transport', from: 'Lagos', to: 'Abuja', time: '10:00 AM', price: 15000, seats: 20, type: 'Bus'},
+      {id: 3, company: 'Comfort Ride', from: 'Lagos', to: 'Abuja', time: '02:00 PM', price: 18000, seats: 4, type: 'Executive'}
+    ];
+    
+    function populateTrips() {
+      const container = document.getElementById('tripResults');
+      container.innerHTML = trips.map(trip => `
+        <div class="card" data-testid="card-trip-${trip.id}">
+          <div style="display: flex; justify-content: space-between; margin-bottom: 16px;">
+            <div>
+              <h3 style="font-size: 18px; font-weight: 600; color: var(--text);">${trip.company}</h3>
+              <p style="color: var(--text-secondary); font-size: 14px; margin-top: 4px;">
+                <i class="fas fa-bus"></i> ${trip.type} • ${trip.seats} seats
+              </p>
+            </div>
+            <div style="text-align: right;">
+              <div style="font-size: 24px; font-weight: 700; color: var(--primary);">${formatCurrency(trip.price)}</div>
+              <p style="color: var(--text-tertiary); font-size: 12px; margin-top: 4px;">per seat</p>
+            </div>
+          </div>
+          
+          <div style="display: flex; align-items: center; gap: 16px; margin-bottom: 16px; padding: 16px; background: var(--bg-secondary); border-radius: 8px;">
+            <div style="flex: 1;">
+              <div style="font-weight: 600; color: var(--text);">${trip.time}</div>
+              <div style="font-size: 12px; color: var(--text-secondary);">${trip.from}</div>
+            </div>
+            <div style="flex: 1; text-align: center;">
+              <i class="fas fa-arrow-right" style="color: var(--text-tertiary);"></i>
+            </div>
+            <div style="flex: 1; text-align: right;">
+              <div style="font-weight: 600; color: var(--text);">6 hours</div>
+              <div style="font-size: 12px; color: var(--text-secondary);">${trip.to}</div>
+            </div>
+          </div>
+          
+          <div style="display: flex; gap: 12px;">
+            <button class="btn btn-outline" style="flex: 1;" onclick="saveDraft(${trip.id})" data-testid="button-save-draft-${trip.id}">
+              <i class="fas fa-bookmark"></i>
+              Save Draft
+            </button>
+            <button class="btn btn-primary" style="flex: 1;" onclick="bookTrip(${trip.id})" data-testid="button-book-${trip.id}">
+              <i class="fas fa-ticket-alt"></i>
+              Book Now
+            </button>
+          </div>
+        </div>
+      `).join('');
+    }
+    
+    function saveDraft(tripId) {
+      const trip = trips.find(t => t.id === tripId);
+      addDraft({
+        pickup: trip.from,
+        dropOff: trip.to,
+        date: new Date().toISOString().split('T')[0]
+      });
+    }
+    
+    function bookTrip(tripId) {
+      showToast('Booking confirmed! Redirecting to payment...', 'success');
+      setTimeout(() => {
+        window.location.href = 'payment.html';
+      }, 1500);
+    }
+    
+    document.addEventListener('DOMContentLoaded', populateTrips);
+  </script>
+</body>
+</html>

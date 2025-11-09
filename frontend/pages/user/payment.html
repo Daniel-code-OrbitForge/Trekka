@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Payment - Trekka</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="../../styles/dashboard.css">
+  <link rel="stylesheet" href="../../styles/mediaQuery.css">
+</head>
+<body>
+  <div class="mobile-overlay" onclick="toggleSidebar()"></div>
+  
+  <div class="dashboard-container">
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-header">
+        <a href="#" class="header-logo">Trekka</a>
+      </div>
+      <nav class="sidebar-nav">
+        <a href="dashboard.html" class="nav-link" data-testid="link-dashboard">
+          <i class="fas fa-th-large"></i>
+          <span class="nav-link-text">Dashboard</span>
+        </a>
+        <a href="bookings.html" class="nav-link" data-testid="link-trip-booking">
+          <i class="fas fa-ticket-alt"></i>
+          <span class="nav-link-text">Trip Booking</span>
+        </a>
+        <a href="history.html" class="nav-link" data-testid="link-scheduled-trips">
+          <i class="fas fa-calendar-alt"></i>
+          <span class="nav-link-text">Scheduled Trips</span>
+        </a>
+        <a href="drafts.html" class="nav-link" data-testid="link-view-drafts">
+          <i class="fas fa-file-alt"></i>
+          <span class="nav-link-text">View Drafts</span>
+        </a>
+      </nav>
+    </aside>
+    
+    <main class="main-content">
+      <header class="dashboard-header">
+        <div class="header-left">
+          <button class="hamburger-menu" onclick="toggleSidebar()" data-testid="button-menu-toggle">
+            <i class="fas fa-bars"></i>
+          </button>
+          <span class="header-title">Payment</span>
+        </div>
+        
+        <div class="header-right">
+          <div class="dropdown" id="countryDropdown">
+            <button class="btn-icon" onclick="toggleDropdown('countryDropdown')" data-testid="button-country">
+              <span style="font-size: 20px;">🇳🇬</span>
+            </button>
+          </div>
+          <button class="theme-toggle" id="themeToggle" onclick="toggleTheme()" data-testid="button-theme-toggle">
+            <i class="fas fa-moon"></i>
+          </button>
+          <button class="notification-bell" onclick="toggleDropdown('notificationDropdown')" data-testid="button-notifications">
+            <i class="fas fa-bell"></i>
+            <span class="notification-badge"></span>
+          </button>
+          <div class="dropdown" id="userDropdown">
+            <div class="dropdown-toggle" onclick="toggleDropdown('userDropdown')" data-testid="button-user-menu">
+              <div class="avatar">
+                <img src="https://ui-avatars.com/api/?name=Olajide+Maintain&background=0066cc&color=fff" alt="User">
+              </div>
+              <span style="margin: 0 8px; font-weight: 500; color: var(--text);">Olajide Maintain</span>
+              <i class="fas fa-chevron-down" style="font-size: 12px; color: var(--text-secondary);"></i>
+            </div>
+            <div class="dropdown-menu">
+              <a href="profile.html" class="dropdown-item" data-testid="link-profile">
+                <i class="fas fa-user"></i>
+                Profile
+              </a>
+              <a href="settings.html" class="dropdown-item" data-testid="link-settings">
+                <i class="fas fa-cog"></i>
+                Settings
+              </a>
+              <div class="dropdown-divider"></div>
+              <a href="#" class="dropdown-item" data-testid="link-logout">
+                <i class="fas fa-sign-out-alt"></i>
+                Logout
+              </a>
+            </div>
+          </div>
+        </div>
+      </header>
+      
+      <div class="content-wrapper">
+        <div class="grid grid-cols-2">
+          <!-- Payment Methods -->
+          <div class="card">
+            <div class="card-header">
+              <h2 class="card-title">Payment Methods</h2>
+              <button class="btn btn-primary btn-sm" onclick="showModal('addCardModal')" data-testid="button-add-card">
+                <i class="fas fa-plus"></i>
+                Add Card
+              </button>
+            </div>
+            <div class="card-body">
+              <div style="display: flex; flex-direction: column; gap: 12px;">
+                <div class="card" style="padding: 16px; border: 2px solid var(--primary);">
+                  <div style="display: flex; justify-content: space-between; align-items: start;">
+                    <div>
+                      <div style="font-weight: 600; color: var(--text); margin-bottom: 8px;">•••• •••• •••• 4242</div>
+                      <div style="font-size: 12px; color: var(--text-secondary);">Expires 12/25</div>
+                    </div>
+                    <i class="fab fa-cc-visa" style="font-size: 32px; color: var(--primary);"></i>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Make Payment -->
+          <div class="card">
+            <div class="card-header">
+              <h2 class="card-title">Make Payment</h2>
+            </div>
+            <div class="card-body">
+              <form onsubmit="processPayment(event)">
+                <div class="form-group">
+                  <label class="form-label">Amount</label>
+                  <input type="number" class="form-control" value="12000" data-testid="input-amount">
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Payment Method</label>
+                  <select class="form-control" data-testid="select-payment-method">
+                    <option>Card ending in 4242</option>
+                    <option>Bank Transfer</option>
+                  </select>
+                </div>
+                <button type="submit" class="btn btn-primary w-full" data-testid="button-pay">
+                  <i class="fas fa-lock"></i>
+                  Pay ₦12,000
+                </button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+  
+  <!-- Add Card Modal -->
+  <div class="modal-backdrop" id="addCardModal">
+    <div class="modal">
+      <div class="modal-header">
+        <h3 class="modal-title">Add Payment Card</h3>
+        <button class="modal-close" onclick="hideModal('addCardModal')" data-testid="button-close-add-card">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form id="addCardForm">
+          <div class="form-group">
+            <label class="form-label">Card Number</label>
+            <input type="text" class="form-control" placeholder="1234 5678 9012 3456" maxlength="19" data-testid="input-card-number">
+          </div>
+          <div class="grid grid-cols-2">
+            <div class="form-group">
+              <label class="form-label">Expiry Date</label>
+              <input type="text" class="form-control" placeholder="MM/YY" maxlength="5" data-testid="input-expiry">
+            </div>
+            <div class="form-group">
+              <label class="form-label">CVV</label>
+              <input type="text" class="form-control" placeholder="123" maxlength="3" data-testid="input-cvv">
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Cardholder Name</label>
+            <input type="text" class="form-control" placeholder="John Doe" data-testid="input-cardholder">
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" onclick="hideModal('addCardModal')" data-testid="button-cancel-add-card">Cancel</button>
+        <button class="btn btn-primary" onclick="addCard()" data-testid="button-save-card">Add Card</button>
+      </div>
+    </div>
+  </div>
+  
+  <script src="../../scripts/dashboard.js"></script>
+  <script src="../../scripts/theme.js"></script>
+  <script>
+    function processPayment(e) {
+      e.preventDefault();
+      showToast('Processing payment...', 'info');
+      
+      // Simulate payment processing
+      setTimeout(() => {
+        showToast('Payment successful!', 'success');
+        setTimeout(() => {
+          window.location.href = 'dashboard.html';
+        }, 1500);
+      }, 2000);
+    }
+    
+    function addCard() {
+      showToast('Card added successfully', 'success');
+      hideModal('addCardModal');
+    }
+  </script>
+</body>
+</html>

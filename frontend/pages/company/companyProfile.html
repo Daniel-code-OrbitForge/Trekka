@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Company Profile - Trekka</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="../../styles/dashboard.css">
+  <link rel="stylesheet" href="../../styles/mediaQuery.css">
+</head>
+<body>
+  <div class="mobile-overlay" onclick="toggleSidebar()"></div>
+  
+  <div class="dashboard-container">
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-header">
+        <a href="#" class="header-logo">Trekka</a>
+      </div>
+      <nav class="sidebar-nav">
+        <a href="companyDashboard.html" class="nav-link" data-testid="link-dashboard">
+          <i class="fas fa-th-large"></i>
+          <span class="nav-link-text">Dashboard</span>
+        </a>
+        <a href="fleetManagement.html" class="nav-link" data-testid="link-fleet-mgt">
+          <i class="fas fa-bus"></i>
+          <span class="nav-link-text">Fleet Mgt.</span>
+        </a>
+        <a href="driverManagement.html" class="nav-link" data-testid="link-driver-mgt">
+          <i class="fas fa-users"></i>
+          <span class="nav-link-text">Driver Mgt.</span>
+        </a>
+        <a href="bookingManagement.html" class="nav-link" data-testid="link-booking-mgt">
+          <i class="fas fa-ticket-alt"></i>
+          <span class="nav-link-text">Booking Mgt.</span>
+        </a>
+        <a href="revenue.html" class="nav-link" data-testid="link-revenue">
+          <i class="fas fa-chart-line"></i>
+          <span class="nav-link-text">Revenue</span>
+        </a>
+        <a href="../driver/driverDashboard.html" class="nav-link" data-testid="link-trip-analytics">
+          <i class="fas fa-analytics"></i>
+          <span class="nav-link-text">Trip analytics</span>
+        </a>
+        <a href="companyRoles.html" class="nav-link" data-testid="link-admin-roles">
+          <i class="fas fa-user-shield"></i>
+          <span class="nav-link-text">Admin/Sub Admin<br>Role Management</span>
+        </a>
+      </nav>
+    </aside>
+    
+    <main class="main-content">
+      <header class="dashboard-header">
+        <div class="header-left">
+          <button class="hamburger-menu" onclick="toggleSidebar()" data-testid="button-menu-toggle">
+            <i class="fas fa-bars"></i>
+          </button>
+          <span class="header-title">Company Profile</span>
+        </div>
+        
+        <div class="header-right">
+          <div class="dropdown" id="countryDropdown">
+            <button class="btn-icon" onclick="toggleDropdown('countryDropdown')" data-testid="button-country">
+              <span style="font-size: 20px;">🇳🇬</span>
+            </button>
+          </div>
+          <button class="theme-toggle" id="themeToggle" onclick="toggleTheme()" data-testid="button-theme-toggle">
+            <i class="fas fa-moon"></i>
+          </button>
+          <button class="notification-bell" onclick="toggleDropdown('notificationDropdown')" data-testid="button-notifications">
+            <i class="fas fa-bell"></i>
+            <span class="notification-badge"></span>
+          </button>
+          <div class="dropdown" id="userDropdown">
+            <div class="dropdown-toggle" onclick="toggleDropdown('userDropdown')" data-testid="button-user-menu">
+              <div class="avatar">
+                <img src="https://ui-avatars.com/api/?name=Olajide+Maintain&background=0066cc&color=fff" alt="User">
+              </div>
+              <span style="margin: 0 8px; font-weight: 500; color: var(--text);">Olajide Maintain</span>
+              <i class="fas fa-chevron-down" style="font-size: 12px; color: var(--text-secondary);"></i>
+            </div>
+            <div class="dropdown-menu">
+              <a href="companyProfile.html" class="dropdown-item" data-testid="link-profile">
+                <i class="fas fa-building"></i>
+                Company Profile
+              </a>
+              <a href="companySettings.html" class="dropdown-item" data-testid="link-settings">
+                <i class="fas fa-cog"></i>
+                Settings
+              </a>
+              <div class="dropdown-divider"></div>
+              <a href="#" class="dropdown-item" data-testid="link-logout">
+                <i class="fas fa-sign-out-alt"></i>
+                Logout
+              </a>
+            </div>
+          </div>
+        </div>
+      </header>
+      
+      <div class="content-wrapper">
+        <div class="card">
+          <div class="card-body">
+            <!-- Company Logo Upload -->
+            <div style="text-align: center; margin-bottom: 32px;">
+              <div style="position: relative; display: inline-block;">
+                <div style="width: 120px; height: 120px; border-radius: 12px; overflow: hidden; border: 2px solid var(--border);">
+                  <img src="https://ui-avatars.com/api/?name=Trekka+Express&background=0066cc&color=fff&size=120&bold=true" alt="Company Logo" id="logoPreview" style="width: 100%; height: 100%; object-fit: cover;">
+                </div>
+                <label style="position: absolute; bottom: 0; right: 0; width: 40px; height: 40px; background: var(--primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; border: 3px solid var(--card-bg);">
+                  <i class="fas fa-camera" style="color: white; font-size: 16px;"></i>
+                  <input type="file" style="display: none;" accept="image/*" onchange="previewLogo(event)" data-testid="input-logo">
+                </label>
+              </div>
+            </div>
+            
+            <!-- Company Form -->
+            <form onsubmit="saveCompanyProfile(event)">
+              <div class="grid grid-cols-2">
+                <div class="form-group">
+                  <label class="form-label">Company Name *</label>
+                  <input type="text" class="form-control" value="Trekka Express Ltd" data-testid="input-company-name">
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Registration Number *</label>
+                  <input type="text" class="form-control" value="RC-1234567" data-testid="input-reg-number">
+                </div>
+              </div>
+              
+              <div class="grid grid-cols-2">
+                <div class="form-group">
+                  <label class="form-label">Email *</label>
+                  <input type="email" class="form-control" value="info@trekkaexpress.com" data-testid="input-email">
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Phone Number *</label>
+                  <input type="tel" class="form-control" value="+234 801 234 5678" data-testid="input-phone">
+                </div>
+              </div>
+              
+              <div class="form-group">
+                <label class="form-label">Head Office Address *</label>
+                <input type="text" class="form-control" value="123 Marina Road, Lagos Island, Lagos State" data-testid="input-address">
+              </div>
+              
+              <div class="grid grid-cols-2">
+                <div class="form-group">
+                  <label class="form-label">Tax Identification Number</label>
+                  <input type="text" class="form-control" value="TIN-98765432" data-testid="input-tin">
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Operating License Number</label>
+                  <input type="text" class="form-control" value="OPN-2023-4567" data-testid="input-license">
+                </div>
+              </div>
+              
+              <div class="form-group">
+                <label class="form-label">About Company</label>
+                <textarea class="form-control" rows="4" data-testid="textarea-about">Trekka Express is a leading intercity transport company providing safe, reliable, and comfortable travel services across Nigeria since 2015.</textarea>
+              </div>
+              
+              <div class="grid grid-cols-2">
+                <div class="form-group">
+                  <label class="form-label">Website</label>
+                  <input type="url" class="form-control" value="https://trekkaexpress.com" data-testid="input-website">
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Support Email</label>
+                  <input type="email" class="form-control" value="support@trekkaexpress.com" data-testid="input-support-email">
+                </div>
+              </div>
+              
+              <button type="submit" class="btn btn-primary" data-testid="button-save">
+                <i class="fas fa-save"></i>
+                Save Changes
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+  
+  <script src="../../scripts/dashboard.js"></script>
+  <script src="../../scripts/theme.js"></script>
+  <script>
+    function previewLogo(event) {
+      const file = event.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          document.getElementById('logoPreview').src = e.target.result;
+        };
+        reader.readAsDataURL(file);
+      }
+    }
+    
+    function saveCompanyProfile(e) {
+      e.preventDefault();
+      showToast('Company profile updated successfully', 'success');
+    }
+  </script>
+</body>
+</html>

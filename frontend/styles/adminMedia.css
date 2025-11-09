@@ -1,0 +1,605 @@
+/**
+ * Trekka Admin System - Responsive Design
+ *
+ * BREAKPOINTS:
+ * - Large Desktop: 1200px+
+ * - Desktop: 992px - 1199px
+ * - Tablet: 768px - 991px
+ * - Mobile: 380px - 767px
+ *
+ * DESIGN PRINCIPLES:
+ * - Mobile-first approach with progressive enhancement
+ * - Sidebar collapses on mobile
+ * - Grid layouts adapt to available space
+ * - Touch-friendly buttons (min 44px)
+ */
+
+/* ============================================
+   TABLET - 768px to 991px
+   ============================================ */
+
+@media (max-width: 991px) {
+    /* Adjust main margin for narrower sidebar */
+    .admin-main {
+        margin-left: 0;
+    }
+
+    .admin-sidebar {
+        transform: translateX(-100%);
+    }
+
+    .sidebar-toggle {
+        display: block;
+    }
+
+    /* Show sidebar toggle when needed */
+    .admin-sidebar.active {
+        transform: translateX(0);
+        width: 220px;
+    }
+
+    /* KPI grid adjusts */
+    .kpi-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    /* Charts section */
+    .charts-section {
+        grid-template-columns: 1fr;
+    }
+
+    /* Filters section */
+    .filters-section {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    /* Tables become scrollable */
+    .table-responsive {
+        border-radius: 4px;
+        overflow-x: auto;
+    }
+
+    .data-table {
+        min-width: 100%;
+    }
+
+    /* Buttons wrap better */
+    .action-bar {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .btn {
+        width: 100%;
+    }
+
+    /* Modal adjustments */
+    .modal-content {
+        width: 95%;
+        max-width: 95%;
+    }
+
+    /* Pagination adjusts */
+    .pagination {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: var(--space-md);
+    }
+
+    .pagination-controls {
+        align-self: flex-end;
+    }
+
+    /* Header adjustments */
+    .admin-header {
+        flex-direction: column;
+        gap: var(--space-md);
+        align-items: flex-start;
+    }
+
+    .header-left,
+    .header-right {
+        width: 100%;
+    }
+
+    .header-right {
+        justify-content: space-between;
+    }
+
+    /* Profile menu positioning */
+    .profile-menu {
+        right: 0;
+        top: auto;
+        bottom: -200px;
+    }
+}
+
+/* ============================================
+   MOBILE - 380px to 767px
+   ============================================ */
+
+@media (max-width: 767px) {
+    :root {
+        --font-size-base: 13px;
+        --font-size-2xl: 20px;
+        --space-lg: 16px;
+    }
+
+    /* Admin page layout */
+    .admin-page {
+        flex-direction: column;
+    }
+
+    .admin-main {
+        margin-left: 0;
+    }
+
+    .admin-sidebar {
+        width: 100%;
+        height: auto;
+        position: fixed;
+        top: 0;
+        left: 0;
+        transform: translateX(-100%);
+        z-index: 100;
+        max-height: 80vh;
+    }
+
+    .admin-sidebar.collapsed {
+        transform: translateX(-100%);
+    }
+
+    .sidebar-toggle {
+        display: block;
+    }
+
+    /* Header responsive */
+    .admin-header {
+        flex-direction: column;
+        gap: var(--space-md);
+        padding: var(--space-md);
+    }
+
+    .header-left {
+        width: 100%;
+    }
+
+    .page-title {
+        font-size: var(--font-size-xl);
+    }
+
+    .header-right {
+        width: 100%;
+        justify-content: space-between;
+    }
+
+    /* KPI grid - stack on mobile */
+    .kpi-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .kpi-card {
+        padding: var(--space-md);
+    }
+
+    /* Filters - stack vertically */
+    .filters-section {
+        grid-template-columns: 1fr;
+        gap: var(--space-sm);
+    }
+
+    .filter-group {
+        gap: var(--space-xs);
+    }
+
+    /* Action bar - stack */
+    .action-bar {
+        flex-direction: column;
+        gap: var(--space-sm);
+    }
+
+    .btn {
+        width: 100%;
+        padding: var(--space-md);
+        font-size: var(--font-size-sm);
+    }
+
+    .btn-small {
+        padding: 4px 6px;
+        font-size: 11px;
+        margin-right: 2px;
+    }
+
+    /* Table - horizontal scroll */
+    .data-table-section {
+        padding: var(--space-md);
+        margin-bottom: var(--space-md);
+    }
+
+    .table-responsive {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .data-table {
+        min-width: 700px;
+        font-size: var(--font-size-sm);
+    }
+
+    .data-table th,
+    .data-table td {
+        padding: var(--space-sm);
+    }
+
+    /* Modal - full width on mobile */
+    .modal {
+        padding: 0;
+    }
+
+    .modal-content {
+        width: 95%;
+        max-width: 95%;
+        border-radius: 8px;
+        max-height: 95vh;
+    }
+
+    .modal-header,
+    .modal-body,
+    .modal-actions {
+        padding: var(--space-md);
+    }
+
+    .modal-actions {
+        flex-direction: column;
+    }
+
+    .modal-actions .btn {
+        width: 100%;
+    }
+
+    /* Pagination - mobile friendly */
+    .pagination {
+        flex-direction: column;
+        gap: var(--space-sm);
+    }
+
+    .pagination > span {
+        font-size: var(--font-size-sm);
+    }
+
+    .pagination select {
+        width: 100%;
+        padding: var(--space-sm);
+    }
+
+    .pagination-controls {
+        width: 100%;
+        justify-content: center;
+    }
+
+    /* Charts */
+    .charts-section {
+        grid-template-columns: 1fr;
+    }
+
+    .chart-card {
+        padding: var(--space-md);
+    }
+
+    /* Forms */
+    .form-group {
+        gap: var(--space-xs);
+        margin-bottom: var(--space-md);
+    }
+
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+        font-size: 16px; /* Prevents zoom on mobile input */
+    }
+
+    /* Toast notifications - adapt for mobile */
+    .toast-container {
+        top: auto;
+        bottom: 16px;
+        right: 8px;
+        left: 8px;
+    }
+
+    .toast {
+        min-width: auto;
+        max-width: 100%;
+    }
+
+    /* Admin content padding */
+    .admin-content {
+        padding: var(--space-md);
+    }
+
+    /* Search box on mobile */
+    .search-box input {
+        width: 100%;
+    }
+
+    /* Profile menu positioning for mobile */
+    .profile-menu {
+        position: fixed;
+        right: 0;
+        top: 60px;
+        left: 0;
+        max-width: 100%;
+        border-radius: 0;
+        box-shadow: none;
+    }
+
+    /* Checkbox improvements for touch */
+    .checkbox-label input {
+        min-width: 18px;
+        min-height: 18px;
+    }
+
+    /* Link improvements for touch */
+    a {
+        min-height: 44px;
+        display: flex;
+        align-items: center;
+    }
+
+    /* Search bar mobile */
+    .search-bar {
+        margin-bottom: var(--space-md);
+    }
+
+    .search-bar input {
+        width: 100%;
+        font-size: 16px;
+    }
+
+    /* Message center */
+    .message-center {
+        padding: var(--space-lg);
+    }
+
+    /* Sidebar nav improvements */
+    .sidebar-nav {
+        gap: 0;
+    }
+
+    .nav-item {
+        padding: var(--space-md);
+        font-size: var(--font-size-sm);
+    }
+}
+
+/* ============================================
+   SMALL MOBILE - 380px and below
+   ============================================ */
+
+@media (max-width: 480px) {
+    :root {
+        --font-size-base: 12px;
+        --font-size-2xl: 18px;
+        --space-lg: 12px;
+        --space-md: 12px;
+    }
+
+    .page-title {
+        font-size: var(--font-size-lg);
+    }
+
+    .kpi-card {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .kpi-icon {
+        width: 50px;
+        height: 50px;
+        font-size: 24px;
+    }
+
+    .kpi-value {
+        font-size: var(--font-size-xl);
+    }
+
+    /* Reduce button padding on small screens */
+    .btn {
+        padding: 8px 12px;
+        font-size: var(--font-size-sm);
+    }
+
+    /* Table font size reduction */
+    .data-table {
+        font-size: 11px;
+    }
+
+    .data-table th,
+    .data-table td {
+        padding: 4px 8px;
+    }
+
+    /* Modal adjustments */
+    .modal-header h3 {
+        font-size: var(--font-size-lg);
+    }
+
+    .modal-body {
+        padding: var(--space-md);
+    }
+
+    /* Filter sections stack */
+    .filters-section {
+        gap: var(--space-sm);
+    }
+
+    .filter-group {
+        gap: 2px;
+    }
+
+    .filter-group label {
+        font-size: 11px;
+    }
+
+    /* Admin header */
+    .admin-header {
+        padding: var(--space-sm);
+    }
+
+    .icon-btn {
+        padding: 4px;
+        font-size: var(--font-size-lg);
+    }
+
+    /* Profile button */
+    .profile-btn {
+        padding: 4px 8px;
+        font-size: var(--font-size-sm);
+    }
+
+    .country-flag {
+        font-size: var(--font-size-base);
+    }
+
+    /* Toast width */
+    .toast {
+        font-size: var(--font-size-sm);
+        padding: var(--space-sm);
+    }
+
+    /* Login card */
+    .login-card {
+        padding: var(--space-lg);
+    }
+
+    .login-logo {
+        gap: var(--space-sm);
+        margin-bottom: var(--space-lg);
+    }
+
+    .login-logo h1 {
+        font-size: var(--font-size-lg);
+    }
+
+    .login-welcome h2 {
+        font-size: var(--font-size-base);
+    }
+
+    .login-welcome p {
+        font-size: var(--font-size-sm);
+    }
+
+    /* Pagination adjustments */
+    .pagination {
+        gap: var(--space-sm);
+        flex-wrap: wrap;
+    }
+
+    .pagination > span {
+        font-size: 11px;
+    }
+
+    .pagination-btn {
+        padding: 2px 6px;
+        font-size: 11px;
+    }
+}
+
+/* ============================================
+   LANDSCAPE ORIENTATION ADJUSTMENTS
+   ============================================ */
+
+@media (max-width: 991px) and (orientation: landscape) {
+    .admin-sidebar {
+        position: absolute;
+        height: auto;
+        max-height: 60vh;
+        overflow-y: auto;
+    }
+
+    .admin-content {
+        padding: var(--space-md);
+    }
+
+    .kpi-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+/* ============================================
+   PRINT STYLES
+   ============================================ */
+
+@media print {
+    .admin-sidebar,
+    .admin-header,
+    .search-bar,
+    .filters-section,
+    .action-bar,
+    .pagination,
+    .toast-container {
+        display: none;
+    }
+
+    .admin-page {
+        margin: 0;
+    }
+
+    .admin-main {
+        margin-left: 0;
+    }
+
+    .admin-content {
+        padding: 0;
+    }
+
+    .data-table {
+        font-size: 10px;
+    }
+
+    .data-table th,
+    .data-table td {
+        padding: 4px;
+        border: 1px solid #000;
+    }
+}
+
+/* ============================================
+   DARK MODE (OPTIONAL - for future enhancement)
+   ============================================ */
+
+@media (prefers-color-scheme: dark) {
+    /* Uncomment when dark mode is ready to implement */
+    /*
+    :root {
+        --color-secondary: #1e1e1e;
+        --color-text-dark: #e0e0e0;
+        --color-text-light: #b0b0b0;
+        --color-border: #404040;
+    }
+
+    .admin-sidebar {
+        background-color: #121212;
+    }
+
+    .admin-header,
+    .login-card,
+    .modal-content,
+    .data-table-section,
+    .kpi-card {
+        background-color: #1e1e1e;
+        color: #e0e0e0;
+    }
+    */
+}
+
+/* ============================================
+   REDUCED MOTION (ACCESSIBILITY)
+   ============================================ */
+
+@media (prefers-reduced-motion: reduce) {
+    * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}

@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard - Trekka</title>
+  
+  <!-- Font Awesome CDN -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <!-- Custom Styles -->
+  <link rel="stylesheet" href="../../styles/dashboard.css">
+  <link rel="stylesheet" href="../../styles/mediaQuery.css">
+</head>
+<body>
+  <!-- Mobile Overlay -->
+  <div class="mobile-overlay" onclick="toggleSidebar()"></div>
+  
+  <!-- Dashboard Container -->
+  <div class="dashboard-container">
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-header">
+        <a href="#" class="header-logo">Trekka</a>
+      </div>
+      
+      <nav class="sidebar-nav">
+        <a href="dashboard.html" class="nav-link active" data-testid="link-dashboard">
+          <i class="fas fa-th-large"></i>
+          <span class="nav-link-text">Dashboard</span>
+        </a>
+        <a href="bookings.html" class="nav-link" data-testid="link-trip-booking">
+          <i class="fas fa-ticket-alt"></i>
+          <span class="nav-link-text">Trip Booking</span>
+        </a>
+        <a href="history.html" class="nav-link" data-testid="link-scheduled-trips">
+          <i class="fas fa-calendar-alt"></i>
+          <span class="nav-link-text">Scheduled Trips</span>
+        </a>
+        <a href="drafts.html" class="nav-link" data-testid="link-view-drafts">
+          <i class="fas fa-file-alt"></i>
+          <span class="nav-link-text">View Drafts</span>
+        </a>
+      </nav>
+    </aside>
+    
+    <!-- Main Content -->
+    <main class="main-content">
+      <!-- Header -->
+      <header class="dashboard-header">
+        <div class="header-left">
+          <button class="hamburger-menu" onclick="toggleSidebar()" data-testid="button-menu-toggle">
+            <i class="fas fa-bars"></i>
+          </button>
+          <span class="header-title">Dashboards</span>
+        </div>
+        
+        <div class="header-right">
+          <!-- Country Flag -->
+          <div class="dropdown" id="countryDropdown">
+            <button class="btn-icon" onclick="toggleDropdown('countryDropdown')" data-testid="button-country">
+              <span style="font-size: 20px;">🇳🇬</span>
+            </button>
+          </div>
+          
+          <!-- Theme Toggle -->
+          <button class="theme-toggle" id="themeToggle" onclick="toggleTheme()" data-testid="button-theme-toggle">
+            <i class="fas fa-moon"></i>
+          </button>
+          
+          <!-- Notifications -->
+          <button class="notification-bell" onclick="toggleDropdown('notificationDropdown')" data-testid="button-notifications">
+            <i class="fas fa-bell"></i>
+            <span class="notification-badge"></span>
+          </button>
+          
+          <!-- User Avatar -->
+          <div class="dropdown" id="userDropdown">
+            <div class="dropdown-toggle" onclick="toggleDropdown('userDropdown')" data-testid="button-user-menu">
+              <div class="avatar">
+                <img src="https://ui-avatars.com/api/?name=Olajide+Maintain&background=0066cc&color=fff" alt="User">
+              </div>
+              <span style="margin: 0 8px; font-weight: 500; color: var(--text);">Olajide Maintain</span>
+              <i class="fas fa-chevron-down" style="font-size: 12px; color: var(--text-secondary);"></i>
+            </div>
+            <div class="dropdown-menu">
+              <a href="profile.html" class="dropdown-item" data-testid="link-profile">
+                <i class="fas fa-user"></i>
+                Profile
+              </a>
+              <a href="settings.html" class="dropdown-item" data-testid="link-settings">
+                <i class="fas fa-cog"></i>
+                Settings
+              </a>
+              <div class="dropdown-divider"></div>
+              <a href="#" class="dropdown-item" data-testid="link-logout">
+                <i class="fas fa-sign-out-alt"></i>
+                Logout
+              </a>
+            </div>
+          </div>
+        </div>
+      </header>
+      
+      <!-- Content Wrapper -->
+      <div class="content-wrapper">
+        <!-- Welcome Message -->
+        <div class="mb-lg">
+          <h1 style="font-size: 28px; font-weight: 700; color: var(--text); margin-bottom: 8px;">
+            Hi, Olajide <span style="font-size: 28px;">👋</span>
+          </h1>
+        </div>
+        
+        <!-- Stats Cards -->
+        <div class="grid grid-cols-4 mb-lg">
+          <div class="stats-card" data-testid="card-total-amount">
+            <div class="stats-card-label">Total Amount</div>
+            <div class="stats-card-value" id="totalAmount">₦435,000</div>
+          </div>
+        </div>
+        
+        <!-- Chart Section -->
+        <div class="card mb-lg">
+          <div class="card-header">
+            <h2 class="card-title">Monthly Spending</h2>
+            <button class="btn-icon" data-testid="button-chart-options">
+              <i class="fas fa-ellipsis-v"></i>
+            </button>
+          </div>
+          <div class="card-body">
+            <div class="chart-container">
+              <canvas id="monthlyChart"></canvas>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Recent Transactions -->
+        <div class="card">
+          <div class="card-header">
+            <h2 class="card-title">Recent Transactions</h2>
+            <div class="search-input">
+              <i class="fas fa-search"></i>
+              <input type="text" class="form-control" placeholder="Search" data-testid="input-search">
+            </div>
+          </div>
+          <div class="card-body">
+            <div class="table-container">
+              <table id="transactionsTable">
+                <thead>
+                  <tr>
+                    <th>Date/Time</th>
+                    <th>Payment Mode</th>
+                    <th>Amount</th>
+                    <th>Status</th>
+                  </tr>
+                </thead>
+                <tbody id="transactionsBody">
+                  <!-- Populated by JavaScript -->
+                </tbody>
+              </table>
+            </div>
+            
+            <!-- Pagination -->
+            <div class="pagination">
+              <div class="pagination-info">Rows per Page: 
+                <select class="form-control" style="width: 80px; display: inline-block; padding: 4px 8px;">
+                  <option>10</option>
+                  <option>25</option>
+                  <option>50</option>
+                </select>
+              </div>
+              <div class="pagination-controls">
+                <button class="pagination-btn" disabled data-testid="button-prev-page">
+                  <i class="fas fa-chevron-left"></i>
+                </button>
+                <button class="pagination-btn active" data-testid="button-page-1">1</button>
+                <button class="pagination-btn" data-testid="button-page-2">2</button>
+                <button class="pagination-btn" data-testid="button-page-3">3</button>
+                <button class="pagination-btn" data-testid="button-next-page">
+                  <i class="fas fa-chevron-right"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+  
+  <!-- Scripts -->
+  <script src="../../scripts/dashboard.js"></script>
+  <script src="../../scripts/theme.js"></script>
+  <script>
+    // Populate transactions table
+    function populateTransactions() {
+      const tbody = document.getElementById('transactionsBody');
+      tbody.innerHTML = mockData.transactions.map(txn => `
+        <tr data-testid="row-transaction-${txn.id}">
+          <td>${txn.date}</td>
+          <td>${txn.mode}</td>
+          <td>${formatCurrency(txn.amount)}</td>
+          <td>
+            <span class="badge badge-${txn.status === 'completed' ? 'success' : txn.status === 'pending' ? 'pending' : 'error'}">
+              <i class="fas fa-circle" style="font-size: 6px; margin-right: 4px;"></i>
+              ${txn.status}
+            </span>
+          </td>
+        </tr>
+      `).join('');
+    }
+    
+    // Render chart
+    function initChart() {
+      const labels = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+      renderBarChart('monthlyChart', mockData.monthlyData, labels);
+    }
+    
+    // Initialize on page load
+    document.addEventListener('DOMContentLoaded', () => {
+      populateTransactions();
+      initChart();
+      
+      // Update stats
+      document.getElementById('totalAmount').textContent = formatCurrency(mockData.userStats.walletBalance);
+    });
+  </script>
+</body>
+</html>

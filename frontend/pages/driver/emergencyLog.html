@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Emergency Log - Trekka</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="../../styles/dashboard.css">
+  <link rel="stylesheet" href="../../styles/mediaQuery.css">
+</head>
+<body>
+  <div class="mobile-overlay" onclick="toggleSidebar()"></div>
+  
+  <div class="dashboard-container">
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-header">
+        <a href="#" class="header-logo">Trekka</a>
+      </div>
+      <nav class="sidebar-nav">
+        <a href="driverDashboard.html" class="nav-link" data-testid="link-dashboard">
+          <i class="fas fa-th-large"></i>
+          <span class="nav-link-text">Dashboard</span>
+        </a>
+        <a href="assignedTrips.html" class="nav-link" data-testid="link-assigned-trips">
+          <i class="fas fa-route"></i>
+          <span class="nav-link-text">Assigned Trips</span>
+        </a>
+        <a href="../user/dashboard.html" class="nav-link" data-testid="link-fleet-assignment">
+          <i class="fas fa-bus"></i>
+          <span class="nav-link-text">Fleet Assignment</span>
+        </a>
+        <a href="emergencyLog.html" class="nav-link active" data-testid="link-emergency-log">
+          <i class="fas fa-exclamation-triangle"></i>
+          <span class="nav-link-text">Emergency Log</span>
+        </a>
+        <a href="../user/dashboard.html" class="nav-link" data-testid="link-passenger-manifest">
+          <i class="fas fa-users"></i>
+          <span class="nav-link-text">Passenger Manifest</span>
+        </a>
+      </nav>
+    </aside>
+    
+    <main class="main-content">
+      <header class="dashboard-header">
+        <div class="header-left">
+          <button class="hamburger-menu" onclick="toggleSidebar()" data-testid="button-menu-toggle">
+            <i class="fas fa-bars"></i>
+          </button>
+          <span class="header-title">Emergency Log</span>
+        </div>
+        
+        <div class="header-right">
+          <div class="dropdown" id="countryDropdown">
+            <button class="btn-icon" onclick="toggleDropdown('countryDropdown')" data-testid="button-country">
+              <span style="font-size: 20px;">🇳🇬</span>
+            </button>
+          </div>
+          <button class="theme-toggle" id="themeToggle" onclick="toggleTheme()" data-testid="button-theme-toggle">
+            <i class="fas fa-moon"></i>
+          </button>
+          <button class="notification-bell" onclick="toggleDropdown('notificationDropdown')" data-testid="button-notifications">
+            <i class="fas fa-bell"></i>
+            <span class="notification-badge"></span>
+          </button>
+          <div class="dropdown" id="userDropdown">
+            <div class="dropdown-toggle" onclick="toggleDropdown('userDropdown')" data-testid="button-user-menu">
+              <div class="avatar">
+                <img src="https://ui-avatars.com/api/?name=Olajide+Maintain&background=0066cc&color=fff" alt="User">
+              </div>
+              <span style="margin: 0 8px; font-weight: 500; color: var(--text);">Olajide Maintain</span>
+              <i class="fas fa-chevron-down" style="font-size: 12px; color: var(--text-secondary);"></i>
+            </div>
+            <div class="dropdown-menu">
+              <a href="../user/profile.html" class="dropdown-item" data-testid="link-profile">
+                <i class="fas fa-user"></i>
+                Profile
+              </a>
+              <a href="../user/settings.html" class="dropdown-item" data-testid="link-settings">
+                <i class="fas fa-cog"></i>
+                Settings
+              </a>
+              <div class="dropdown-divider"></div>
+              <a href="#" class="dropdown-item" data-testid="link-logout">
+                <i class="fas fa-sign-out-alt"></i>
+                Logout
+              </a>
+            </div>
+          </div>
+        </div>
+      </header>
+      
+      <div class="content-wrapper">
+        <div class="card">
+          <div class="card-header">
+            <h2 class="card-title">Submit Emergency Report</h2>
+            <p style="color: var(--text-secondary); font-size: 14px; margin-top: 8px;">
+              Report any emergencies or incidents during your trips
+            </p>
+          </div>
+          <div class="card-body">
+            <form onsubmit="submitEmergency(event)">
+              <div class="form-group">
+                <label class="form-label">Emergency Type *</label>
+                <select class="form-control" required data-testid="select-emergency-type">
+                  <option value="">Select type...</option>
+                  <option>Vehicle Breakdown</option>
+                  <option>Medical Emergency</option>
+                  <option>Accident</option>
+                  <option>Security Incident</option>
+                  <option>Weather/Road Conditions</option>
+                  <option>Other</option>
+                </select>
+              </div>
+              
+              <div class="form-group">
+                <label class="form-label">Description *</label>
+                <textarea class="form-control" rows="6" placeholder="Provide detailed description of the emergency..." required data-testid="textarea-description"></textarea>
+              </div>
+              
+              <div class="grid grid-cols-2">
+                <div class="form-group">
+                  <label class="form-label">GPS Coordinates (Optional)</label>
+                  <input type="text" class="form-control" placeholder="e.g., 6.5244, 3.3792" data-testid="input-gps">
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Photos (Optional)</label>
+                  <input type="file" class="form-control" multiple accept="image/*" data-testid="input-photos">
+                </div>
+              </div>
+              
+              <div style="display: flex; gap: 12px; justify-content: flex-end;">
+                <button type="button" class="btn btn-secondary" onclick="window.location.href='driverDashboard.html'" data-testid="button-cancel">
+                  Cancel
+                </button>
+                <button type="submit" class="btn btn-danger" data-testid="button-submit">
+                  <i class="fas fa-exclamation-circle"></i>
+                  Submit Emergency Report
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+        
+        <!-- Previous Reports -->
+        <div class="card mt-lg">
+          <div class="card-header">
+            <h2 class="card-title">Previous Reports</h2>
+          </div>
+          <div class="card-body">
+            <div style="text-align: center; padding: 40px; color: var(--text-secondary);">
+              <i class="fas fa-clipboard-list" style="font-size: 48px; margin-bottom: 16px;"></i>
+              <p>No emergency reports submitted yet</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+  
+  <script src="../../scripts/dashboard.js"></script>
+  <script src="../../scripts/theme.js"></script>
+  <script>
+    function submitEmergency(e) {
+      e.preventDefault();
+      
+      const formData = new FormData(e.target);
+      const emergencyData = {
+        type: formData.get('emergency-type'),
+        description: formData.get('description'),
+        gps: formData.get('gps') || null,
+        photos: formData.getAll('photos'),
+        timestamp: new Date().toISOString(),
+        driverId: mockData.currentUser.id
+      };
+      
+      // TODO: Replace with API call
+      console.log('Emergency report submitted to /api/emergency:', emergencyData);
+      
+      showToast('Emergency report submitted successfully. Support team has been notified.', 'success');
+      
+      setTimeout(() => {
+        window.location.href = 'driverDashboard.html';
+      }, 2000);
+    }
+  </script>
+</body>
+</html>

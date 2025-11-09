@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Revenue Dashboard - Trekka</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="../../styles/dashboard.css">
+  <link rel="stylesheet" href="../../styles/mediaQuery.css">
+</head>
+<body>
+  <div class="mobile-overlay" onclick="toggleSidebar()"></div>
+  
+  <div class="dashboard-container">
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-header">
+        <a href="#" class="header-logo">Trekka</a>
+      </div>
+      <nav class="sidebar-nav">
+        <a href="companyDashboard.html" class="nav-link" data-testid="link-dashboard">
+          <i class="fas fa-th-large"></i>
+          <span class="nav-link-text">Dashboard</span>
+        </a>
+        <a href="fleetManagement.html" class="nav-link" data-testid="link-fleet-mgt">
+          <i class="fas fa-bus"></i>
+          <span class="nav-link-text">Fleet Mgt.</span>
+        </a>
+        <a href="driverManagement.html" class="nav-link" data-testid="link-driver-mgt">
+          <i class="fas fa-users"></i>
+          <span class="nav-link-text">Driver Mgt.</span>
+        </a>
+        <a href="bookingManagement.html" class="nav-link" data-testid="link-booking-mgt">
+          <i class="fas fa-ticket-alt"></i>
+          <span class="nav-link-text">Booking Mgt.</span>
+        </a>
+        <a href="revenue.html" class="nav-link active" data-testid="link-revenue">
+          <i class="fas fa-chart-line"></i>
+          <span class="nav-link-text">Revenue</span>
+        </a>
+        <a href="../driver/driverDashboard.html" class="nav-link" data-testid="link-trip-analytics">
+          <i class="fas fa-analytics"></i>
+          <span class="nav-link-text">Trip analytics</span>
+        </a>
+        <a href="companyRoles.html" class="nav-link" data-testid="link-admin-roles">
+          <i class="fas fa-user-shield"></i>
+          <span class="nav-link-text">Admin/Sub Admin<br>Role Management</span>
+        </a>
+      </nav>
+    </aside>
+    
+    <main class="main-content">
+      <header class="dashboard-header">
+        <div class="header-left">
+          <button class="hamburger-menu" onclick="toggleSidebar()" data-testid="button-menu-toggle">
+            <i class="fas fa-bars"></i>
+          </button>
+          <span class="header-title">Revenue Dashboard</span>
+        </div>
+        
+        <div class="header-right">
+          <div class="dropdown" id="countryDropdown">
+            <button class="btn-icon" onclick="toggleDropdown('countryDropdown')" data-testid="button-country">
+              <span style="font-size: 20px;">🇳🇬</span>
+            </button>
+          </div>
+          <button class="theme-toggle" id="themeToggle" onclick="toggleTheme()" data-testid="button-theme-toggle">
+            <i class="fas fa-moon"></i>
+          </button>
+          <button class="notification-bell" onclick="toggleDropdown('notificationDropdown')" data-testid="button-notifications">
+            <i class="fas fa-bell"></i>
+            <span class="notification-badge"></span>
+          </button>
+          <div class="dropdown" id="userDropdown">
+            <div class="dropdown-toggle" onclick="toggleDropdown('userDropdown')" data-testid="button-user-menu">
+              <div class="avatar">
+                <img src="https://ui-avatars.com/api/?name=Olajide+Maintain&background=0066cc&color=fff" alt="User">
+              </div>
+              <span style="margin: 0 8px; font-weight: 500; color: var(--text);">Olajide Maintain</span>
+              <i class="fas fa-chevron-down" style="font-size: 12px; color: var(--text-secondary);"></i>
+            </div>
+            <div class="dropdown-menu">
+              <a href="companyProfile.html" class="dropdown-item" data-testid="link-profile">
+                <i class="fas fa-building"></i>
+                Company Profile
+              </a>
+              <a href="companySettings.html" class="dropdown-item" data-testid="link-settings">
+                <i class="fas fa-cog"></i>
+                Settings
+              </a>
+              <div class="dropdown-divider"></div>
+              <a href="#" class="dropdown-item" data-testid="link-logout">
+                <i class="fas fa-sign-out-alt"></i>
+                Logout
+              </a>
+            </div>
+          </div>
+        </div>
+      </header>
+      
+      <div class="content-wrapper">
+        <!-- Date Filter -->
+        <div class="card mb-lg">
+          <div class="card-body">
+            <div style="display: flex; gap: 16px; align-items: center;">
+              <div class="form-group" style="margin: 0;">
+                <label class="form-label">From Date</label>
+                <input type="date" class="form-control" data-testid="input-from-date">
+              </div>
+              <div class="form-group" style="margin: 0;">
+                <label class="form-label">To Date</label>
+                <input type="date" class="form-control" data-testid="input-to-date">
+              </div>
+              <button class="btn btn-primary" style="margin-top: 24px;" data-testid="button-filter">
+                <i class="fas fa-filter"></i>
+                Filter
+              </button>
+              <button class="btn btn-outline" style="margin-top: 24px;" onclick="exportTableToCSV('revenueTable', 'revenue-report.csv')" data-testid="button-export">
+                <i class="fas fa-download"></i>
+                Export CSV
+              </button>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Revenue Stats -->
+        <div class="grid grid-cols-4 mb-lg">
+          <div class="stats-card" data-testid="card-monthly-revenue">
+            <div class="stats-card-label">Monthly Revenue</div>
+            <div class="stats-card-value" id="monthlyRevenue">₦2,450,000</div>
+            <div style="color: #10b981; font-size: 14px; margin-top: 8px;">
+              <i class="fas fa-arrow-up"></i> 12.5% vs last month
+            </div>
+          </div>
+          
+          <div class="stats-card" data-testid="card-total-trips">
+            <div class="stats-card-label">Total Trips</div>
+            <div class="stats-card-value">1,847</div>
+            <div style="color: #10b981; font-size: 14px; margin-top: 8px;">
+              <i class="fas fa-arrow-up"></i> 8.2% increase
+            </div>
+          </div>
+          
+          <div class="stats-card" data-testid="card-avg-revenue">
+            <div class="stats-card-label">Avg Revenue/Trip</div>
+            <div class="stats-card-value">₦1,327</div>
+            <div style="color: #ef4444; font-size: 14px; margin-top: 8px;">
+              <i class="fas fa-arrow-down"></i> 2.1% decrease
+            </div>
+          </div>
+          
+          <div class="stats-card" data-testid="card-pending-payments">
+            <div class="stats-card-label">Pending Payments</div>
+            <div class="stats-card-value">₦145,000</div>
+            <div style="color: var(--text-secondary); font-size: 14px; margin-top: 8px;">
+              23 transactions
+            </div>
+          </div>
+        </div>
+        
+        <!-- Revenue Chart -->
+        <div class="card mb-lg">
+          <div class="card-header">
+            <h2 class="card-title">Revenue Trends</h2>
+            <select class="form-control" style="width: 150px;" data-testid="select-chart-period">
+              <option>Last 12 Months</option>
+              <option>Last 6 Months</option>
+              <option>Last 3 Months</option>
+              <option>This Year</option>
+            </select>
+          </div>
+          <div class="card-body">
+            <div class="chart-container">
+              <canvas id="revenueChart"></canvas>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Revenue Breakdown -->
+        <div class="card">
+          <div class="card-header">
+            <h2 class="card-title">Revenue Breakdown by Route</h2>
+          </div>
+          <div class="card-body">
+            <div class="table-container">
+              <table id="revenueTable">
+                <thead>
+                  <tr>
+                    <th>Route</th>
+                    <th>Total Trips</th>
+                    <th>Passengers</th>
+                    <th>Revenue</th>
+                    <th>Avg/Trip</th>
+                    <th>Growth</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr data-testid="row-route-1">
+                    <td>Lagos - Abuja</td>
+                    <td>456</td>
+                    <td>6,840</td>
+                    <td>₦820,800</td>
+                    <td>₦1,800</td>
+                    <td>
+                      <span style="color: #10b981;">
+                        <i class="fas fa-arrow-up"></i> 15.2%
+                      </span>
+                    </td>
+                  </tr>
+                  <tr data-testid="row-route-2">
+                    <td>Lagos - Ibadan</td>
+                    <td>892</td>
+                    <td>10,704</td>
+                    <td>₦535,200</td>
+                    <td>₦600</td>
+                    <td>
+                      <span style="color: #10b981;">
+                        <i class="fas fa-arrow-up"></i> 8.5%
+                      </span>
+                    </td>
+                  </tr>
+                  <tr data-testid="row-route-3">
+                    <td>Abuja - Kano</td>
+                    <td>234</td>
+                    <td>3,510</td>
+                    <td>₦468,000</td>
+                    <td>₦2,000</td>
+                    <td>
+                      <span style="color: #ef4444;">
+                        <i class="fas fa-arrow-down"></i> 3.2%
+                      </span>
+                    </td>
+                  </tr>
+                  <tr data-testid="row-route-4">
+                    <td>Lagos - Port Harcourt</td>
+                    <td>265</td>
+                    <td>3,975</td>
+                    <td>₦626,200</td>
+                    <td>₦2,400</td>
+                    <td>
+                      <span style="color: #10b981;">
+                        <i class="fas fa-arrow-up"></i> 12.8%
+                      </span>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+  
+  <script src="../../scripts/dashboard.js"></script>
+  <script src="../../scripts/theme.js"></script>
+  <script>
+    function initRevenueChart() {
+      const labels = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+      const data = [180000, 195000, 210000, 198000, 225000, 240000, 235000, 250000, 265000, 248000, 270000, 245000];
+      renderLineChart('revenueChart', data, labels);
+    }
+    
+    document.addEventListener('DOMContentLoaded', () => {
+      initRevenueChart();
+      document.getElementById('monthlyRevenue').textContent = formatCurrency(mockData.companyStats.monthlyRevenue);
+    });
+  </script>
+</body>
+</html>

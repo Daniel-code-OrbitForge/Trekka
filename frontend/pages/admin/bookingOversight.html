@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Booking Oversight — Trekka Admin">
+    <meta property="og:type" content="web-application">
+    <title>Booking Oversight — Trekka</title>
+    <!-- Font Awesome 6.5.1 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="../../styles/admin.css">
+    <link rel="stylesheet" href="../../styles/adminMedia.css">
+</head>
+<body class="admin-page">
+    <!-- Sidebar Navigation -->
+    <aside class="admin-sidebar" id="adminSidebar">
+        <div class="sidebar-header">
+            <h2 class="sidebar-logo">Trekka</h2>
+            <button class="sidebar-toggle" onclick="toggleSidebar()"><i class="fas fa-bars"></i></button>
+        </div>
+
+        <nav class="sidebar-nav">
+            <a href="./adminDashboard.html" class="nav-item">
+                <i class="fas fa-tachometer-alt"></i> Dashboard
+            </a>
+            <a href="./activityLogs.html" class="nav-item">
+                <i class="fas fa-tachometer-alt"></i> Activity Logs
+            </a>
+            <a href="./broadcast.html" class="nav-item">
+                <i class="fas fa-broadcast-tower"></i> Broadcasts
+            </a>
+            <a href="./userManagement.html" class="nav-item">
+                <i class="fas fa-users"></i> User Management
+            </a>
+            <a href="./institutionManagement.html" class="nav-item">
+                <i class="fas fa-university"></i> Institution Management
+            </a>
+            <a href="./cms.html" class="nav-item">
+                <i class="fas fa-file-alt"></i> Content Management
+            </a>
+            <a href="./partners.html" class="nav-item">
+                <i class="fas fa-handshake"></i> Partners
+            </a>
+            <a href="./bookingOversight.html" class="nav-item active">
+                <i class="fas fa-calendar-check"></i> Booking History
+            </a>
+            <a href="./analytics.html" class="nav-item">
+                <i class="fas fa-chart-line"></i> Analytics
+            </a>
+            <a href="./paymentLogs.html" class="nav-item">
+                <i class="fas fa-credit-card"></i> Payment Logs
+            </a>
+            <a href="./fleetManagement.html" class="nav-item">
+                <i class="fas fa-truck"></i> Fleet Management
+            </a>
+            <a href="./roleManagement.html" class="nav-item">
+                <i class="fas fa-truck"></i> Role Management
+            </a>
+            <a href="./systemSettings.html" class="nav-item">
+                <i class="fas fa-cog"></i> System Settings
+            </a>
+        </nav>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="admin-main">
+        <!-- Header -->
+        <header class="admin-header">
+            <div class="header-left">
+                <h1 class="page-title">Booking Oversight</h1>
+            </div>
+            <div class="header-right">
+                <button class="icon-btn"><i class="fas fa-search"></i></button>
+                <button class="icon-btn notification-btn"><i class="fas fa-bell"></i><span class="notification-badge">3</span></button>
+                <div class="header-profile">
+                    <span class="country-flag">NG</span>
+                    <button class="profile-btn" onclick="toggleProfileMenu()">
+                        <span>Olajide Maintain</span>
+                        <span class="dropdown-arrow">▼</span>
+                    </button>
+                    <div class="profile-menu" id="profileMenu" style="display: none;">
+                        <a href="#">Profile</a>
+                        <a href="#">Settings</a>
+                        <a href="#">Switch Role</a>
+                        <hr>
+                        <a href="#" onclick="logout()">Logout</a>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Page Content -->
+        <div class="admin-content">
+            <!-- Filters -->
+            <div class="filters-section">
+                <div class="filter-group">
+                    <label>Date Range</label>
+                    <input type="date" id="dateFrom">
+                    <input type="date" id="dateTo">
+                </div>
+
+                <div class="filter-group">
+                    <label>Company</label>
+                    <select id="companyFilter">
+                        <option>All Companies</option>
+                    </select>
+                </div>
+
+                <div class="filter-group">
+                    <label>Status</label>
+                    <select id="statusFilter">
+                        <option>All Status</option>
+                        <option>Pending</option>
+                        <option>In Progress</option>
+                        <option>Completed</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Bookings Table -->
+            <div class="table-responsive">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Booking ID</th>
+                            <th>Passenger</th>
+                            <th>Company</th>
+                            <th>Pickup</th>
+                            <th>Dropoff</th>
+                            <th>Fare</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="bookingsTableBody">
+                        <!-- Populated by JavaScript -->
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Pagination -->
+            <div class="pagination">
+                <span>Show up to</span>
+                <select id="rowsPerPage" onchange="updateTable()">
+                    <option value="10">10</option>
+                    <option value="25">25</option>
+                    <option value="50">50</option>
+                </select>
+                <span>entries</span>
+                <div class="pagination-controls">
+                    <button class="pagination-btn">←</button>
+                    <button class="pagination-btn active">1</button>
+                    <button class="pagination-btn">2</button>
+                    <button class="pagination-btn">→</button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Booking Detail Modal -->
+    <div id="bookingDetailModal" class="modal" style="display: none;">
+        <div class="modal-overlay" onclick="closeModal('bookingDetailModal')"></div>
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Booking Details</h3>
+                <button class="modal-close" onclick="closeModal('bookingDetailModal')">×</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label>Booking ID</label>
+                    <input type="text" id="bookingId" disabled>
+                </div>
+                <div class="form-group">
+                    <label>Passenger</label>
+                    <input type="text" id="bookingPassenger" disabled>
+                </div>
+                <div class="form-group">
+                    <label>Company</label>
+                    <input type="text" id="bookingCompany" disabled>
+                </div>
+                <div class="form-group">
+                    <label>Pickup Location</label>
+                    <input type="text" id="bookingPickup" disabled>
+                </div>
+                <div class="form-group">
+                    <label>Dropoff Location</label>
+                    <input type="text" id="bookingDropoff" disabled>
+                </div>
+                <div class="form-group">
+                    <label>Fare</label>
+                    <input type="text" id="bookingFare" disabled>
+                </div>
+                <div class="form-group">
+                    <label>Status</label>
+                    <input type="text" id="bookingStatus" disabled>
+                </div>
+            </div>
+            <div class="modal-actions">
+                <button class="btn btn-secondary" onclick="closeModal('bookingDetailModal')">Close</button>
+                <button class="btn btn-primary" onclick="refundBooking()">Refund</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Container -->
+    <div id="toastContainer" class="toast-container"></div>
+
+    <script src="../../scripts/admin/adminTheme.js"></script>
+    <script>
+        /**
+         * Booking Oversight Page
+         * Manage and monitor bookings
+         *
+         * INTEGRATION NOTES:
+         * - Fetch bookings from Supabase bookings table
+         * - Real-time status updates
+         */
+
+        let bookings = [];
+        let currentBookingId = null;
+
+        document.addEventListener('DOMContentLoaded', () => {
+            checkAdminAuth();
+            loadBookings();
+            setInterval(simulateLiveUpdates, 20000);
+        });
+
+        function checkAdminAuth() {
+            const adminToken = localStorage.getItem('trekka_admin_token');
+            if (!adminToken) {
+                window.location.href = './adminLogin.html';
+            }
+        }
+
+        function loadBookings() {
+            // PRODUCTION: Fetch from Supabase bookings table
+            bookings = [
+                { id: 'BK001', passenger: 'John Doe', company: 'Uber', pickup: 'VI', dropoff: 'Lekki', fare: '₦500', status: 'completed' },
+                { id: 'BK002', passenger: 'Jane Smith', company: 'Bolt', pickup: 'Surulere', dropoff: 'Ikoyi', fare: '₦600', status: 'pending' },
+                { id: 'BK003', passenger: 'Mike Johnson', company: 'InDrive', pickup: 'Yaba', dropoff: 'Ajah', fare: '₦700', status: 'in_progress' },
+            ];
+            updateTable();
+        }
+
+        function updateTable() {
+            const rowsPerPage = parseInt(document.getElementById('rowsPerPage').value) || 10;
+            const tbody = document.getElementById('bookingsTableBody');
+            tbody.innerHTML = '';
+
+            bookings.slice(0, rowsPerPage).forEach(booking => {
+                const statusColor = booking.status === 'completed' ? 'success' :
+                                   booking.status === 'pending' ? 'warning' : 'info';
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${booking.id}</td>
+                    <td>${booking.passenger}</td>
+                    <td>${booking.company}</td>
+                    <td>${booking.pickup}</td>
+                    <td>${booking.dropoff}</td>
+                    <td>${booking.fare}</td>
+                    <td><span class="status-badge status-${statusColor}">${booking.status}</span></td>
+                    <td>
+                        <button class="btn-small" onclick="viewBooking('${booking.id}')">View</button>
+                        <button class="btn-small" onclick="cancelBooking('${booking.id}')">Cancel</button>
+                    </td>
+                `;
+                tbody.appendChild(row);
+            });
+        }
+
+        function viewBooking(bookingId) {
+            const booking = bookings.find(b => b.id === bookingId);
+            if (booking) {
+                document.getElementById('bookingId').value = booking.id;
+                document.getElementById('bookingPassenger').value = booking.passenger;
+                document.getElementById('bookingCompany').value = booking.company;
+                document.getElementById('bookingPickup').value = booking.pickup;
+                document.getElementById('bookingDropoff').value = booking.dropoff;
+                document.getElementById('bookingFare').value = booking.fare;
+                document.getElementById('bookingStatus').value = booking.status;
+                currentBookingId = bookingId;
+                document.getElementById('bookingDetailModal').style.display = 'flex';
+            }
+        }
+
+        function refundBooking() {
+            if (currentBookingId) {
+                // PRODUCTION: Call Supabase API to process refund
+                showToast('Refund processed successfully', 'success');
+                closeModal('bookingDetailModal');
+            }
+        }
+
+        function cancelBooking(bookingId) {
+            // PRODUCTION: Update booking status in Supabase
+            showToast('Booking cancelled', 'success');
+            loadBookings();
+        }
+
+        function simulateLiveUpdates() {
+            // Simulate real-time status changes
+            const statuses = ['pending', 'in_progress', 'completed'];
+            bookings.forEach(booking => {
+                if (Math.random() > 0.7) {
+                    booking.status = statuses[Math.floor(Math.random() * statuses.length)];
+                }
+            });
+            updateTable();
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).style.display = 'none';
+        }
+
+        function toggleProfileMenu() {
+            const menu = document.getElementById('profileMenu');
+            menu.style.display = menu.style.display === 'none' ? 'block' : 'none';
+        }
+
+        function toggleSidebar() {
+            const sidebar = document.getElementById('adminSidebar');
+            sidebar.classList.toggle('collapsed');
+        }
+
+        function logout() {
+            localStorage.removeItem('trekka_admin_token');
+            window.location.href = './adminLogin.html';
+        }
+
+        function showToast(message, type = 'info') {
+            const toast = document.createElement('div');
+            toast.className = `toast toast-${type}`;
+            toast.textContent = message;
+            document.getElementById('toastContainer').appendChild(toast);
+            setTimeout(() => toast.remove(), 3000);
+        }
+    </script>
+</body>
+</html>

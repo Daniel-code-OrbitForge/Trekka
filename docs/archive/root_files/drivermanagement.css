@@ -1,0 +1,115 @@
+body {
+  margin: 0;
+  font-family: 'Segoe UI', sans-serif;
+  display: flex;
+  background-color: #f5f7fa;
+}
+
+.sidebar {
+  width: 220px;
+  background-color: #fff;
+  padding: 20px;
+  border-right: 1px solid #ddd;
+}
+
+.sidebar h2 {
+  color: #3b82f6;
+}
+
+.sidebar ul {
+  list-style: none;
+  padding: 0;
+}
+
+.sidebar li {
+  margin: 15px 0;
+  cursor: pointer;
+}
+
+.sidebar .active {
+  font-weight: bold;
+  color: #3b82f6;
+}
+
+.main {
+  flex: 1;
+  padding: 20px;
+}
+
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.stats {
+  display: flex;
+  gap: 20px;
+  margin: 20px 0;
+}
+
+.card {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  width: 150px;
+  text-align: center;
+  font-size: 24px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.card span {
+  display: block;
+  font-size: 14px;
+  color: #666;
+  margin-top: 5px;
+}
+
+.card.total { border-left: 5px solid #3b82f6; }
+.card.active { border-left: 5px solid #10b981; }
+.card.inactive { border-left: 5px solid #ef4444; }
+.card.onduty { border-left: 5px solid #fbbf24; }
+
+.table-section {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 10px;
+}
+
+.table-header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th, td {
+  padding: 12px;
+  border-bottom: 1px solid #eee;
+  text-align: left;
+}
+
+.status-dot {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  margin-right: 8px;
+}
+
+.status-active {
+  background-color: #10b981;
+}
+
+.status-inactive {
+  background-color: #ef4444;
+}
+
+.pagination {
+  margin-top: 10px;
+  text-align: right;
+}

@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="System Settings — Trekka Admin">
+    <title>System Settings — Trekka Admin</title>
+    <!-- Google Fonts - Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome 6.5.1 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="../../styles/admin.css">
+    <style>
+        .settings-container {
+            display: grid;
+            grid-template-columns: 280px 1fr;
+            gap: 24px;
+        }
+        
+        .settings-sidebar {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            height: fit-content;
+        }
+        
+        .settings-nav {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        
+        .settings-nav-item {
+            padding: 12px 16px;
+            border-radius: 8px;
+            margin-bottom: 8px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            transition: all 0.2s;
+        }
+        
+        .settings-nav-item:hover {
+            background: #F3F4F6;
+        }
+        
+        .settings-nav-item.active {
+            background: #EFF6FF;
+            color: #1D4ED8;
+            font-weight: 500;
+        }
+        
+        .settings-nav-item i {
+            margin-right: 12px;
+            width: 20px;
+            text-align: center;
+        }
+        
+        .settings-content {
+            background: white;
+            border-radius: 12px;
+            padding: 32px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        
+        .settings-section {
+            margin-bottom: 32px;
+        }
+        
+        .settings-section h2 {
+            font-size: 20px;
+            margin-top: 0;
+            margin-bottom: 24px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid #E5E7EB;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: #374151;
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid #D1D5DB;
+            border-radius: 6px;
+            font-size: 14px;
+            transition: border-color 0.2s;
+        }
+        
+        .form-control:focus {
+            outline: none;
+            border-color: #3B82F6;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+        }
+        
+        .btn-save {
+            background: #2563EB;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        
+        .btn-save:hover {
+            background: #1D4ED8;
+        }
+        
+        .toggle-switch {
+            position: relative;
+            display: inline-block;
+            width: 48px;
+            height: 24px;
+        }
+        
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #D1D5DB;
+            transition: .4s;
+            border-radius: 24px;
+        }
+        
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 18px;
+            width: 18px;
+            left: 3px;
+            bottom: 3px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+        
+        input:checked + .slider {
+            background-color: #2563EB;
+        }
+        
+        input:checked + .slider:before {
+            transform: translateX(24px);
+        }
+        
+        .toggle-label {
+            display: flex;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+        
+        .toggle-label span {
+            margin-left: 12px;
+        }
+    </style>
+</head>
+<body class="admin-page">
+    <!-- Sidebar Navigation -->
+    <aside class="admin-sidebar" id="adminSidebar">
+        <div class="sidebar-header">
+            <h2 class="sidebar-logo">Trekka</h2>
+            <button class="sidebar-toggle" onclick="toggleSidebar()"><i class="fas fa-bars"></i></button>
+        </div>
+
+        <nav class="sidebar-nav">
+            <a href="./adminDashboard.html" class="nav-item">
+                <i class="fas fa-tachometer-alt"></i> Dashboard
+            </a>
+            <a href="./activityLogs.html" class="nav-item">
+                <i class="fas fa-tachometer-alt"></i> Activity Logs
+            </a>
+            <a href="./broadcast.html" class="nav-item">
+                <i class="fas fa-broadcast-tower"></i> Broadcasts
+            </a>
+            <a href="./userManagement.html" class="nav-item">
+                <i class="fas fa-users"></i> User Management
+            </a>
+            <a href="./institutionManagement.html" class="nav-item">
+                <i class="fas fa-university"></i> Institution Management
+            </a>
+            <a href="./fleetManagement.html" class="nav-item">
+                <i class="fas fa-truck"></i> Fleet Management
+            </a>
+            <a href="./bookingOversight.html" class="nav-item">
+                <i class="fas fa-calendar-check"></i> Booking History
+            </a>
+            <a href="./analytics.html" class="nav-item">
+                <i class="fas fa-chart-line"></i> Analytics
+            </a>
+            <a href="./paymentLogs.html" class="nav-item">
+                <i class="fas fa-credit-card"></i> Payment Logs
+            </a>
+            <a href="./roleManagement.html" class="nav-item">
+              <i class="fas fa-truck"></i> Role Management
+            </a>
+            <a href="./systemSettings.html" class="nav-item active">
+                <i class="fas fa-cog"></i> System Settings
+            </a>
+        </nav>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="admin-main">
+        <!-- Header -->
+        <header class="admin-header">
+            <div class="header-left">
+                <h1 class="page-title">System Settings</h1>
+            </div>
+            <div class="header-right">
+                <button class="btn btn-outline" onclick="toggleSearch()">
+                    <i class="fas fa-search"></i> Search
+                </button>
+                <button class="icon-btn notification-btn" onclick="toggleNotifications()">
+                    <i class="far fa-bell"></i>
+                    <span class="notification-badge">3</span>
+                </button>
+                <div class="header-profile">
+                    <span class="country-flag">NG</span>
+                    <button class="profile-btn" onclick="toggleProfileMenu()">
+                        <span>Admin User</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </button>
+                    <div class="profile-menu" id="profileMenu" style="display: none;">
+                        <a href="profile.html"><i class="fas fa-user"></i> My Profile</a>
+                        <a href="systemSettings.html"><i class="fas fa-cog"></i> Settings</a>
+                        <hr>
+                        <a href="#" onclick="logout()"><i class="fas fa-sign-out-alt"></i> Logout</a>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Page Content -->
+        <div class="admin-content">
+            <div class="settings-container">
+                <div class="settings-sidebar">
+                    <ul class="settings-nav">
+                        <li class="settings-nav-item active" onclick="showSection('general')">
+                            <i class="fas fa-cog"></i> General
+                        </li>
+                        <li class="settings-nav-item" onclick="showSection('notifications')">
+                            <i class="fas fa-bell"></i> Notifications
+                        </li>
+                        <li class="settings-nav-item" onclick="showSection('security')">
+                            <i class="fas fa-shield-alt"></i> Security
+                        </li>
+                        <li class="settings-nav-item" onclick="showSection('integrations')">
+                            <i class="fas fa-plug"></i> Integrations
+                        </li>
+                        <li class="settings-nav-item" onclick="showSection('billing')">
+                            <i class="fas fa-credit-card"></i> Billing
+                        </li>
+                        <li class="settings-nav-item" onclick="showSection('api')">
+                            <i class="fas fa-code"></i> API Keys
+                        </li>
+                    </ul>
+                </div>
+                
+                <div class="settings-content">
+                    <!-- General Settings -->
+                    <div id="general-section" class="settings-section">
+                        <h2>General Settings</h2>
+                        
+                        <div class="form-group">
+                            <label for="companyName">Company Name</label>
+                            <input type="text" id="companyName" class="form-control" value="Trekka">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="timezone">Timezone</label>
+                            <select id="timezone" class="form-control">
+                                <option value="UTC+01:00">(UTC+01:00) West Africa Time</option>
+                                <option value="UTC+00:00" selected>(UTC+00:00) GMT</option>
+                                <!-- Add more timezones as needed -->
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="dateFormat">Date Format</label>
+                            <select id="dateFormat" class="form-control">
+                                <option value="DD/MM/YYYY">DD/MM/YYYY</option>
+                                <option value="MM/DD/YYYY" selected>MM/DD/YYYY</option>
+                                <option value="YYYY-MM-DD">YYYY-MM-DD</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="timeFormat">Time Format</label>
+                            <select id="timeFormat" class="form-control">
+                                <option value="12h" selected>12-hour (2:30 PM)</option>
+                                <option value="24h">24-hour (14:30)</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="defaultCurrency">Default Currency</label>
+                            <select id="defaultCurrency" class="form-control">
+                                <option value="NGN" selected>Nigerian Naira (₦)</option>
+                                <option value="USD">US Dollar ($)</option>
+                                <option value="EUR">Euro (€)</option>
+                                <option value="GBP">British Pound (£)</option>
+                            </select>
+                        </div>
+                        
+                        <button class="btn-save">Save Changes</button>
+                    </div>
+                    
+                    <!-- Notifications Settings (initially hidden) -->
+                    <div id="notifications-section" class="settings-section" style="display: none;">
+                        <h2>Notification Settings</h2>
+                        
+                        <div class="toggle-label">
+                            <label class="toggle-switch">
+                                <input type="checkbox" checked>
+                                <span class="slider"></span>
+                            </label>
+                            <span>Email Notifications</span>
+                        </div>
+                        
+                        <div class="toggle-label">
+                            <label class="toggle-switch">
+                                <input type="checkbox" checked>
+                                <span class="slider"></span>
+                            </label>
+                            <span>Push Notifications</span>
+                        </div>
+                        
+                        <div class="toggle-label">
+                            <label class="toggle-switch">
+                                <input type="checkbox">
+                                <span class="slider"></span>
+                            </label>
+                            <span>SMS Notifications</span>
+                        </div>
+                        
+                        <div class="form-group" style="margin-top: 24px;">
+                            <label>Notification Preferences</label>
+                            <div style="background: #F9FAFB; padding: 16px; border-radius: 8px; margin-top: 8px;">
+                                <div class="toggle-label">
+                                    <label class="toggle-switch">
+                                        <input type="checkbox" checked>
+                                        <span class="slider"></span>
+                                    </label>
+                                    <span>New bookings</span>
+                                </div>
+                                
+                                <div class="toggle-label" style="margin-top: 12px;">
+                                    <label class="toggle-switch">
+                                        <input type="checkbox" checked>
+                                        <span class="slider"></span>
+                                    </label>
+                                    <span>Payment confirmations</span>
+                                </div>
+                                
+                                <div class="toggle-label" style="margin-top: 12px;">
+                                    <label class="toggle-switch">
+                                        <input type="checkbox">
+                                        <span class="slider"></span>
+                                    </label>
+                                    <span>Promotional offers</span>
+                                </div>
+                                
+                                <div class="toggle-label" style="margin-top: 12px;">
+                                    <label class="toggle-switch">
+                                        <input type="checkbox" checked>
+                                        <span class="slider"></span>
+                                    </label>
+                                    <span>System updates</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <button class="btn-save">Save Notification Settings</button>
+                    </div>
+                    
+                    <!-- Security Settings (initially hidden) -->
+                    <div id="security-section" class="settings-section" style="display: none;">
+                        <h2>Security Settings</h2>
+                        
+                        <div class="form-group">
+                            <label>Password</label>
+                            <div style="background: #F9FAFB; padding: 16px; border-radius: 8px; margin-bottom: 16px;">
+                                <p style="margin: 0 0 16px 0;">Last changed: 2 weeks ago</p>
+                                <button class="btn-save" style="background: #4B5563;" onclick="showChangePasswordModal()">
+                                    Change Password
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <div class="toggle-label">
+                            <label class="toggle-switch">
+                                <input type="checkbox" checked>
+                                <span class="slider"></span>
+                            </label>
+                            <span>Two-Factor Authentication</span>
+                        </div>
+                        
+                        <div class="form-group" style="margin-top: 24px;">
+                            <label>Active Sessions</label>
+                            <div style="background: #F9FAFB; padding: 16px; border-radius: 8px; margin-top: 8px;">
+                                <div style="display: flex; justify-content: space-between; align-items: center; padding: 8px 0; border-bottom: 1px solid #E5E7EB;">
+                                    <div>
+                                        <div style="font-weight: 500;">Chrome on Windows</div>
+                                        <div style="font-size: 12px; color: #6B7280;">Lagos, Nigeria • 2 hours ago</div>
+                                    </div>
+                                    <button style="color: #EF4444; background: none; border: none; cursor: pointer; font-size: 12px;">Sign out</button>
+                                </div>
+                                
+                                <div style="display: flex; justify-content: space-between; align-items: center; padding: 8px 0;">
+                                    <div>
+                                        <div style="font-weight: 500;">Safari on iPhone</div>
+                                        <div style="font-size: 12px; color: #6B7280;">Abuja, Nigeria • 2 days ago</div>
+                                    </div>
+                                    <button style="color: #EF4444; background: none; border: none; cursor: pointer; font-size: 12px;">Sign out</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Other sections (Integrations, Billing, API) would go here with similar structure -->
+                    
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Change Password Modal -->
+    <div class="modal" id="changePasswordModal" style="display: none;">
+        <div class="modal-content" style="max-width: 500px;">
+            <div class="modal-header">
+                <h3>Change Password</h3>
+                <button class="close-btn" onclick="closeModal('changePasswordModal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="currentPassword">Current Password</label>
+                    <input type="password" id="currentPassword" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label for="newPassword">New Password</label>
+                    <input type="password" id="newPassword" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label for="confirmPassword">Confirm New Password</label>
+                    <input type="password" id="confirmPassword" class="form-control">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-outline" onclick="closeModal('changePasswordModal')">Cancel</button>
+                <button class="btn-save">Update Password</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Toggle between settings sections
+        function showSection(sectionId) {
+            // Hide all sections
+            document.querySelectorAll('.settings-section').forEach(section => {
+                section.style.display = 'none';
+            });
+            
+            // Remove active class from all nav items
+            document.querySelectorAll('.settings-nav-item').forEach(item => {
+                item.classList.remove('active');
+            });
+            
+            // Show selected section and set active nav item
+            document.getElementById(sectionId + '-section').style.display = 'block';
+            event.currentTarget.classList.add('active');
+        }
+        
+        // Show change password modal
+        function showChangePasswordModal() {
+            document.getElementById('changePasswordModal').style.display = 'flex';
+        }
+        
+        // Close modal
+        function closeModal(modalId) {
+            document.getElementById(modalId).style.display = 'none';
+        }
+        
+        // Toggle sidebar on mobile
+        function toggleSidebar() {
+            document.getElementById('adminSidebar').classList.toggle('collapsed');
+        }
+        
+        // Toggle search bar
+        function toggleSearch() {
+            const searchBar = document.getElementById('searchBar');
+            searchBar.style.display = searchBar.style.display === 'none' ? 'block' : 'none';
+        }
+        
+        // Toggle profile menu
+        function toggleProfileMenu() {
+            const menu = document.getElementById('profileMenu');
+            menu.style.display = menu.style.display === 'none' ? 'block' : 'none';
+        }
+        
+        // Logout function
+        function logout() {
+            // Add logout logic here
+            console.log('Logging out...');
+            // Redirect to login page
+            window.location.href = '../auth/login.html';
+        }
+        
+        // Close modals when clicking outside
+        window.onclick = function(event) {
+            if (event.target.classList.contains('modal')) {
+                event.target.style.display = 'none';
+            }
+        }
+    </script>
+</body>
+</html>

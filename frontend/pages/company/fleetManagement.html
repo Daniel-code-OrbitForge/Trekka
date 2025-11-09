@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fleet Management - Trekka</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="../../styles/dashboard.css">
+  <link rel="stylesheet" href="../../styles/mediaQuery.css">
+</head>
+<body>
+  <div class="mobile-overlay" onclick="toggleSidebar()"></div>
+  
+  <div class="dashboard-container">
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-header">
+        <a href="#" class="header-logo">Trekka</a>
+      </div>
+      <nav class="sidebar-nav">
+        <a href="companyDashboard.html" class="nav-link" data-testid="link-dashboard">
+          <i class="fas fa-th-large"></i>
+          <span class="nav-link-text">Dashboard</span>
+        </a>
+        <a href="fleetManagement.html" class="nav-link active" data-testid="link-fleet-mgt">
+          <i class="fas fa-bus"></i>
+          <span class="nav-link-text">Fleet Mgt.</span>
+        </a>
+        <a href="driverManagement.html" class="nav-link" data-testid="link-driver-mgt">
+          <i class="fas fa-users"></i>
+          <span class="nav-link-text">Driver Mgt.</span>
+        </a>
+        <a href="bookingManagement.html" class="nav-link" data-testid="link-booking-mgt">
+          <i class="fas fa-ticket-alt"></i>
+          <span class="nav-link-text">Booking Mgt.</span>
+        </a>
+        <a href="revenue.html" class="nav-link" data-testid="link-revenue">
+          <i class="fas fa-chart-line"></i>
+          <span class="nav-link-text">Revenue</span>
+        </a>
+        <a href="../driver/driverDashboard.html" class="nav-link" data-testid="link-trip-analytics">
+          <i class="fas fa-analytics"></i>
+          <span class="nav-link-text">Trip analytics</span>
+        </a>
+        <a href="companyRoles.html" class="nav-link" data-testid="link-admin-roles">
+          <i class="fas fa-user-shield"></i>
+          <span class="nav-link-text">Admin/Sub Admin<br>Role Management</span>
+        </a>
+      </nav>
+    </aside>
+    
+    <main class="main-content">
+      <header class="dashboard-header">
+        <div class="header-left">
+          <button class="hamburger-menu" onclick="toggleSidebar()" data-testid="button-menu-toggle">
+            <i class="fas fa-bars"></i>
+          </button>
+          <span class="header-title">Fleet Management</span>
+        </div>
+        
+        <div class="header-right">
+          <div class="dropdown" id="countryDropdown">
+            <button class="btn-icon" onclick="toggleDropdown('countryDropdown')" data-testid="button-country">
+              <span style="font-size: 20px;">🇳🇬</span>
+            </button>
+          </div>
+          <button class="theme-toggle" id="themeToggle" onclick="toggleTheme()" data-testid="button-theme-toggle">
+            <i class="fas fa-moon"></i>
+          </button>
+          <button class="notification-bell" onclick="toggleDropdown('notificationDropdown')" data-testid="button-notifications">
+            <i class="fas fa-bell"></i>
+            <span class="notification-badge"></span>
+          </button>
+          <div class="dropdown" id="userDropdown">
+            <div class="dropdown-toggle" onclick="toggleDropdown('userDropdown')" data-testid="button-user-menu">
+              <div class="avatar">
+                <img src="https://ui-avatars.com/api/?name=Olajide+Maintain&background=0066cc&color=fff" alt="User">
+              </div>
+              <span style="margin: 0 8px; font-weight: 500; color: var(--text);">Olajide Maintain</span>
+              <i class="fas fa-chevron-down" style="font-size: 12px; color: var(--text-secondary);"></i>
+            </div>
+            <div class="dropdown-menu">
+              <a href="companyProfile.html" class="dropdown-item" data-testid="link-profile">
+                <i class="fas fa-building"></i>
+                Company Profile
+              </a>
+              <a href="companySettings.html" class="dropdown-item" data-testid="link-settings">
+                <i class="fas fa-cog"></i>
+                Settings
+              </a>
+              <div class="dropdown-divider"></div>
+              <a href="#" class="dropdown-item" data-testid="link-logout">
+                <i class="fas fa-sign-out-alt"></i>
+                Logout
+              </a>
+            </div>
+          </div>
+        </div>
+      </header>
+      
+      <div class="content-wrapper">
+        <!-- Add Vehicle Button -->
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
+          <h2 class="card-title">Fleet Overview</h2>
+          <button class="btn btn-primary" onclick="showModal('addVehicleModal')" data-testid="button-add-vehicle">
+            <i class="fas fa-plus"></i>
+            Add Vehicle
+          </button>
+        </div>
+        
+        <!-- Fleet Cards -->
+        <div class="grid grid-cols-3" id="fleetContainer"></div>
+      </div>
+    </main>
+  </div>
+  
+  <!-- Add Vehicle Modal -->
+  <div class="modal-backdrop" id="addVehicleModal">
+    <div class="modal">
+      <div class="modal-header">
+        <h3 class="modal-title" id="vehicleModalTitle">Add New Vehicle</h3>
+        <button class="modal-close" onclick="hideModal('addVehicleModal')" data-testid="button-close-add">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form id="vehicleForm" onsubmit="saveVehicle(event)">
+          <input type="hidden" id="editVehicleId">
+          <div class="grid grid-cols-2">
+            <div class="form-group">
+              <label class="form-label">Vehicle Type *</label>
+              <select class="form-control" id="vehicleType" required data-testid="select-vehicle-type">
+                <option value="">Select type...</option>
+                <option>Bus</option>
+                <option>Mini Bus</option>
+                <option>Van</option>
+                <option>SUV</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Plate Number *</label>
+              <input type="text" class="form-control" id="plateNumber" required data-testid="input-plate-number">
+            </div>
+          </div>
+          <div class="grid grid-cols-2">
+            <div class="form-group">
+              <label class="form-label">Model *</label>
+              <input type="text" class="form-control" id="model" required data-testid="input-model">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Year *</label>
+              <input type="number" class="form-control" id="year" required data-testid="input-year">
+            </div>
+          </div>
+          <div class="grid grid-cols-2">
+            <div class="form-group">
+              <label class="form-label">Capacity *</label>
+              <input type="number" class="form-control" id="capacity" required data-testid="input-capacity">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Status *</label>
+              <select class="form-control" id="status" required data-testid="select-status">
+                <option>Active</option>
+                <option>Maintenance</option>
+                <option>Inactive</option>
+              </select>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" onclick="hideModal('addVehicleModal')" data-testid="button-cancel-add">Cancel</button>
+        <button class="btn btn-primary" onclick="document.getElementById('vehicleForm').requestSubmit()" data-testid="button-save-vehicle">
+          <i class="fas fa-save"></i>
+          Save Vehicle
+        </button>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Delete Confirmation Modal -->
+  <div class="modal-backdrop" id="deleteVehicleModal">
+    <div class="modal">
+      <div class="modal-header">
+        <h3 class="modal-title">Confirm Delete</h3>
+        <button class="modal-close" onclick="hideModal('deleteVehicleModal')" data-testid="button-close-delete">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p>Are you sure you want to remove this vehicle from your fleet? This action cannot be undone.</p>
+        <input type="hidden" id="deleteVehicleId">
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" onclick="hideModal('deleteVehicleModal')" data-testid="button-cancel-delete">Cancel</button>
+        <button class="btn btn-danger" onclick="confirmDeleteVehicle()" data-testid="button-confirm-delete">Delete Vehicle</button>
+      </div>
+    </div>
+  </div>
+  
+  <script src="../../scripts/dashboard.js"></script>
+  <script src="../../scripts/theme.js"></script>
+  <script>
+    function populateFleet() {
+      const container = document.getElementById('fleetContainer');
+      container.innerHTML = mockData.fleet.map(vehicle => `
+        <div class="card" data-testid="card-vehicle-${vehicle.id}">
+          <div style="display: flex; justify-content: space-between; margin-bottom: 16px;">
+            <div>
+              <h3 style="font-size: 18px; font-weight: 600; color: var(--text);">${vehicle.plateNumber}</h3>
+              <p style="color: var(--text-secondary); font-size: 14px; margin-top: 4px;">
+                ${vehicle.model} • ${vehicle.year}
+              </p>
+            </div>
+            <span class="badge badge-${vehicle.status === 'active' ? 'success' : vehicle.status === 'maintenance' ? 'warning' : 'error'}">
+              <i class="fas fa-circle" style="font-size: 6px; margin-right: 4px;"></i>
+              ${vehicle.status}
+            </span>
+          </div>
+          
+          <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-bottom: 16px; padding: 16px; background: var(--bg-secondary); border-radius: 8px;">
+            <div>
+              <div style="font-size: 12px; color: var(--text-tertiary); margin-bottom: 4px;">Type</div>
+              <div style="font-weight: 600; color: var(--text);">${vehicle.type}</div>
+            </div>
+            <div>
+              <div style="font-size: 12px; color: var(--text-tertiary); margin-bottom: 4px;">Capacity</div>
+              <div style="font-weight: 600; color: var(--text);">${vehicle.capacity} seats</div>
+            </div>
+          </div>
+          
+          <div style="display: flex; gap: 12px;">
+            <button class="btn btn-outline" style="flex: 1;" onclick="editVehicle('${vehicle.id}')" data-testid="button-edit-${vehicle.id}">
+              <i class="fas fa-edit"></i>
+              Edit
+            </button>
+            <button class="btn btn-danger" style="flex: 1;" onclick="openDeleteVehicle('${vehicle.id}')" data-testid="button-delete-${vehicle.id}">
+              <i class="fas fa-trash"></i>
+              Delete
+            </button>
+          </div>
+        </div>
+      `).join('');
+    }
+    
+    function saveVehicle(e) {
+      e.preventDefault();
+      const formData = new FormData(e.target);
+      const vehicleId = document.getElementById('editVehicleId').value;
+      
+      const vehicle = {
+        type: document.getElementById('vehicleType').value,
+        plateNumber: document.getElementById('plateNumber').value,
+        model: document.getElementById('model').value,
+        year: document.getElementById('year').value,
+        capacity: document.getElementById('capacity').value,
+        status: document.getElementById('status').value.toLowerCase()
+      };
+      
+      if (vehicleId) {
+        updateVehicle(vehicleId, vehicle);
+      } else {
+        addVehicle(vehicle);
+      }
+      
+      hideModal('addVehicleModal');
+      e.target.reset();
+      document.getElementById('editVehicleId').value = '';
+      document.getElementById('vehicleModalTitle').textContent = 'Add New Vehicle';
+      populateFleet();
+    }
+    
+    function editVehicle(id) {
+      const vehicle = mockData.fleet.find(v => v.id === id);
+      if (!vehicle) return;
+      
+      document.getElementById('editVehicleId').value = id;
+      document.getElementById('vehicleType').value = vehicle.type;
+      document.getElementById('plateNumber').value = vehicle.plateNumber;
+      document.getElementById('model').value = vehicle.model;
+      document.getElementById('year').value = vehicle.year;
+      document.getElementById('capacity').value = vehicle.capacity;
+      document.getElementById('status').value = vehicle.status.charAt(0).toUpperCase() + vehicle.status.slice(1);
+      document.getElementById('vehicleModalTitle').textContent = 'Edit Vehicle';
+      
+      showModal('addVehicleModal');
+    }
+    
+    function openDeleteVehicle(id) {
+      document.getElementById('deleteVehicleId').value = id;
+      showModal('deleteVehicleModal');
+    }
+    
+    function confirmDeleteVehicle() {
+      const id = document.getElementById('deleteVehicleId').value;
+      deleteVehicle(id);
+      hideModal('deleteVehicleModal');
+      populateFleet();
+    }
+    
+    document.addEventListener('DOMContentLoaded', populateFleet);
+  </script>
+</body>
+</html>

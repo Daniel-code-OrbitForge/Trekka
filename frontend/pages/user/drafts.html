@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>View Drafts - Trekka</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="../../styles/dashboard.css">
+  <link rel="stylesheet" href="../../styles/mediaQuery.css">
+</head>
+<body>
+  <div class="mobile-overlay" onclick="toggleSidebar()"></div>
+  
+  <div class="dashboard-container">
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-header">
+        <a href="#" class="header-logo">Trekka</a>
+      </div>
+      <nav class="sidebar-nav">
+        <a href="dashboard.html" class="nav-link" data-testid="link-dashboard">
+          <i class="fas fa-th-large"></i>
+          <span class="nav-link-text">Dashboard</span>
+        </a>
+        <a href="bookings.html" class="nav-link" data-testid="link-trip-booking">
+          <i class="fas fa-ticket-alt"></i>
+          <span class="nav-link-text">Trip Booking</span>
+        </a>
+        <a href="history.html" class="nav-link" data-testid="link-scheduled-trips">
+          <i class="fas fa-calendar-alt"></i>
+          <span class="nav-link-text">Scheduled Trips</span>
+        </a>
+        <a href="drafts.html" class="nav-link active" data-testid="link-view-drafts">
+          <i class="fas fa-file-alt"></i>
+          <span class="nav-link-text">View Drafts</span>
+        </a>
+      </nav>
+    </aside>
+    
+    <main class="main-content">
+      <header class="dashboard-header">
+        <div class="header-left">
+          <button class="hamburger-menu" onclick="toggleSidebar()" data-testid="button-menu-toggle">
+            <i class="fas fa-bars"></i>
+          </button>
+          <span class="header-title">View Drafts</span>
+        </div>
+        
+        <div class="header-right">
+          <div class="dropdown" id="countryDropdown">
+            <button class="btn-icon" onclick="toggleDropdown('countryDropdown')" data-testid="button-country">
+              <span style="font-size: 20px;">🇳🇬</span>
+            </button>
+          </div>
+          
+          <button class="theme-toggle" id="themeToggle" onclick="toggleTheme()" data-testid="button-theme-toggle">
+            <i class="fas fa-moon"></i>
+          </button>
+          
+          <button class="notification-bell" onclick="toggleDropdown('notificationDropdown')" data-testid="button-notifications">
+            <i class="fas fa-bell"></i>
+            <span class="notification-badge"></span>
+          </button>
+          
+          <div class="dropdown" id="userDropdown">
+            <div class="dropdown-toggle" onclick="toggleDropdown('userDropdown')" data-testid="button-user-menu">
+              <div class="avatar">
+                <img src="https://ui-avatars.com/api/?name=Olajide+Maintain&background=0066cc&color=fff" alt="User">
+              </div>
+              <span style="margin: 0 8px; font-weight: 500; color: var(--text);">Olajide Maintain</span>
+              <i class="fas fa-chevron-down" style="font-size: 12px; color: var(--text-secondary);"></i>
+            </div>
+            <div class="dropdown-menu">
+              <a href="profile.html" class="dropdown-item" data-testid="link-profile">
+                <i class="fas fa-user"></i>
+                Profile
+              </a>
+              <a href="settings.html" class="dropdown-item" data-testid="link-settings">
+                <i class="fas fa-cog"></i>
+                Settings
+              </a>
+              <div class="dropdown-divider"></div>
+              <a href="#" class="dropdown-item" data-testid="link-logout">
+                <i class="fas fa-sign-out-alt"></i>
+                Logout
+              </a>
+            </div>
+          </div>
+        </div>
+      </header>
+      
+      <div class="content-wrapper">
+        <div id="draftsContainer">
+          <!-- Populated by JavaScript -->
+        </div>
+      </div>
+    </main>
+  </div>
+  
+  <!-- Edit Draft Modal -->
+  <div class="modal-backdrop" id="editModal">
+    <div class="modal">
+      <div class="modal-header">
+        <h3 class="modal-title">Edit Draft</h3>
+        <button class="modal-close" onclick="hideModal('editModal')" data-testid="button-close-edit">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form id="editForm">
+          <input type="hidden" id="editDraftId">
+          <div class="form-group">
+            <label class="form-label">Pick Up</label>
+            <input type="text" class="form-control" id="editPickup" data-testid="input-edit-pickup">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Drop Off</label>
+            <input type="text" class="form-control" id="editDropOff" data-testid="input-edit-dropoff">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Date</label>
+            <input type="date" class="form-control" id="editDate" data-testid="input-edit-date">
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" onclick="hideModal('editModal')" data-testid="button-cancel-edit">Cancel</button>
+        <button class="btn btn-primary" onclick="saveEdit()" data-testid="button-save-edit">Save Changes</button>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Delete Confirmation Modal -->
+  <div class="modal-backdrop" id="deleteModal">
+    <div class="modal">
+      <div class="modal-header">
+        <h3 class="modal-title">Confirm Delete</h3>
+        <button class="modal-close" onclick="hideModal('deleteModal')" data-testid="button-close-delete">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p>Are you sure you want to delete this draft? This action cannot be undone.</p>
+        <input type="hidden" id="deleteDraftId">
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" onclick="hideModal('deleteModal')" data-testid="button-cancel-delete">Cancel</button>
+        <button class="btn btn-danger" onclick="confirmDelete()" data-testid="button-confirm-delete">Delete</button>
+      </div>
+    </div>
+  </div>
+  
+  <script src="../../scripts/dashboard.js"></script>
+  <script src="../../scripts/theme.js"></script>
+  <script>
+    function populateDrafts() {
+      const container = document.getElementById('draftsContainer');
+      if (mockData.drafts.length === 0) {
+        container.innerHTML = `
+          <div class="card text-center">
+            <i class="fas fa-file-alt" style="font-size: 48px; color: var(--text-tertiary); margin-bottom: 16px;"></i>
+            <h3 style="color: var(--text); margin-bottom: 8px;">No drafts yet</h3>
+            <p style="color: var(--text-secondary);">Your saved bookings will appear here</p>
+            <a href="bookings.html" class="btn btn-primary" style="margin-top: 16px;">Start Booking</a>
+          </div>
+        `;
+        return;
+      }
+      
+      container.innerHTML = mockData.drafts.map(draft => `
+        <div class="card mb-lg" data-testid="card-draft-${draft.id}">
+          <div style="display: flex; justify-content: space-between; margin-bottom: 16px;">
+            <div style="flex: 1;">
+              <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px;">
+                <div>
+                  <label style="font-size: 12px; color: var(--text-tertiary); display: block; margin-bottom: 4px;">Booking Number</label>
+                  <div style="font-weight: 600; color: var(--text);">${draft.bookingNumber}</div>
+                </div>
+                <div>
+                  <label style="font-size: 12px; color: var(--text-tertiary); display: block; margin-bottom: 4px;">Date</label>
+                  <div style="font-weight: 600; color: var(--text);">${draft.date}</div>
+                </div>
+                <div>
+                  <label style="font-size: 12px; color: var(--text-tertiary); display: block; margin-bottom: 4px;">Pick Up</label>
+                  <div style="font-weight: 600; color: var(--text);">${draft.pickup}</div>
+                </div>
+                <div>
+                  <label style="font-size: 12px; color: var(--text-tertiary); display: block; margin-bottom: 4px;">Drop Off</label>
+                  <div style="font-weight: 600; color: var(--text);">${draft.dropOff}</div>
+                </div>
+              </div>
+            </div>
+            <button class="btn-icon" onclick="openDeleteModal('${draft.id}')" data-testid="button-delete-${draft.id}">
+              <i class="fas fa-trash"></i>
+            </button>
+          </div>
+          
+          <div style="display: flex; gap: 12px;">
+            <button class="btn btn-primary" onclick="resumeDraft('${draft.id}')" data-testid="button-book-now-${draft.id}">Book now</button>
+            <button class="btn btn-outline" onclick="openEditModal('${draft.id}')" data-testid="button-edit-${draft.id}">Edit</button>
+          </div>
+        </div>
+      `).join('');
+    }
+    
+    function openEditModal(id) {
+      const draft = mockData.drafts.find(d => d.id === id);
+      if (!draft) return;
+      
+      document.getElementById('editDraftId').value = id;
+      document.getElementById('editPickup').value = draft.pickup;
+      document.getElementById('editDropOff').value = draft.dropOff;
+      document.getElementById('editDate').value = draft.date;
+      
+      showModal('editModal');
+    }
+    
+    function saveEdit() {
+      const id = document.getElementById('editDraftId').value;
+      const updates = {
+        pickup: document.getElementById('editPickup').value,
+        dropOff: document.getElementById('editDropOff').value,
+        date: document.getElementById('editDate').value
+      };
+      
+      updateDraft(id, updates);
+      hideModal('editModal');
+      populateDrafts();
+    }
+    
+    function openDeleteModal(id) {
+      document.getElementById('deleteDraftId').value = id;
+      showModal('deleteModal');
+    }
+    
+    function confirmDelete() {
+      const id = document.getElementById('deleteDraftId').value;
+      deleteDraft(id);
+      hideModal('deleteModal');
+      populateDrafts();
+    }
+    
+    function resumeDraft(id) {
+      showToast('Resuming booking...', 'info');
+      setTimeout(() => {
+        window.location.href = 'bookings.html';
+      }, 1000);
+    }
+    
+    document.addEventListener('DOMContentLoaded', populateDrafts);
+  </script>
+</body>
+</html>

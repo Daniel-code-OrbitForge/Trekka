@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Assigned Trips - Trekka</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="../../styles/dashboard.css">
+  <link rel="stylesheet" href="../../styles/mediaQuery.css">
+</head>
+<body>
+  <div class="mobile-overlay" onclick="toggleSidebar()"></div>
+  
+  <div class="dashboard-container">
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-header">
+        <a href="#" class="header-logo">Trekka</a>
+      </div>
+      <nav class="sidebar-nav">
+        <a href="driverDashboard.html" class="nav-link" data-testid="link-dashboard">
+          <i class="fas fa-th-large"></i>
+          <span class="nav-link-text">Dashboard</span>
+        </a>
+        <a href="assignedTrips.html" class="nav-link active" data-testid="link-assigned-trips">
+          <i class="fas fa-route"></i>
+          <span class="nav-link-text">Assigned Trips</span>
+        </a>
+        <a href="../user/dashboard.html" class="nav-link" data-testid="link-fleet-assignment">
+          <i class="fas fa-bus"></i>
+          <span class="nav-link-text">Fleet Assignment</span>
+        </a>
+        <a href="emergencyLog.html" class="nav-link" data-testid="link-emergency-log">
+          <i class="fas fa-exclamation-triangle"></i>
+          <span class="nav-link-text">Emergency Log</span>
+        </a>
+        <a href="../user/dashboard.html" class="nav-link" data-testid="link-passenger-manifest">
+          <i class="fas fa-users"></i>
+          <span class="nav-link-text">Passenger Manifest</span>
+        </a>
+      </nav>
+    </aside>
+    
+    <main class="main-content">
+      <header class="dashboard-header">
+        <div class="header-left">
+          <button class="hamburger-menu" onclick="toggleSidebar()" data-testid="button-menu-toggle">
+            <i class="fas fa-bars"></i>
+          </button>
+          <span class="header-title">Assigned Trips</span>
+        </div>
+        
+        <div class="header-right">
+          <div class="dropdown" id="countryDropdown">
+            <button class="btn-icon" onclick="toggleDropdown('countryDropdown')" data-testid="button-country">
+              <span style="font-size: 20px;">🇳🇬</span>
+            </button>
+          </div>
+          <button class="theme-toggle" id="themeToggle" onclick="toggleTheme()" data-testid="button-theme-toggle">
+            <i class="fas fa-moon"></i>
+          </button>
+          <button class="notification-bell" onclick="toggleDropdown('notificationDropdown')" data-testid="button-notifications">
+            <i class="fas fa-bell"></i>
+            <span class="notification-badge"></span>
+          </button>
+          <div class="dropdown" id="userDropdown">
+            <div class="dropdown-toggle" onclick="toggleDropdown('userDropdown')" data-testid="button-user-menu">
+              <div class="avatar">
+                <img src="https://ui-avatars.com/api/?name=Olajide+Maintain&background=0066cc&color=fff" alt="User">
+              </div>
+              <span style="margin: 0 8px; font-weight: 500; color: var(--text);">Olajide Maintain</span>
+              <i class="fas fa-chevron-down" style="font-size: 12px; color: var(--text-secondary);"></i>
+            </div>
+            <div class="dropdown-menu">
+              <a href="../user/profile.html" class="dropdown-item" data-testid="link-profile">
+                <i class="fas fa-user"></i>
+                Profile
+              </a>
+              <a href="../user/settings.html" class="dropdown-item" data-testid="link-settings">
+                <i class="fas fa-cog"></i>
+                Settings
+              </a>
+              <div class="dropdown-divider"></div>
+              <a href="#" class="dropdown-item" data-testid="link-logout">
+                <i class="fas fa-sign-out-alt"></i>
+                Logout
+              </a>
+            </div>
+          </div>
+        </div>
+      </header>
+      
+      <div class="content-wrapper">
+        <h2 style="font-size: 20px; font-weight: 600; color: var(--text); margin-bottom: 24px;">
+          Upcoming Trips
+        </h2>
+        
+        <div class="grid grid-cols-2" id="tripsContainer"></div>
+      </div>
+    </main>
+  </div>
+  
+  <script src="../../scripts/dashboard.js"></script>
+  <script src="../../scripts/theme.js"></script>
+  <script>
+    const assignedTrips = [
+      {id: 1, route: 'Lagos - Abuja', time: '08:00 AM', date: 'Tomorrow', passengers: 14, vehicle: 'Toyota Hiace (LND 457 TY)'},
+      {id: 2, route: 'Ikeja - Ikoyi', time: '02:00 PM', date: 'Today', passengers: 12, vehicle: 'Mercedes Sprinter (KKY 384 GD)'},
+      {id: 3, route: 'Lagos - Abeokuta', time: '10:00 AM', date: 'Dec 15', passengers: 18, vehicle: 'Toyota Hiace (LND 478 TY)'}
+    ];
+    
+    function populateTrips() {
+      const container = document.getElementById('tripsContainer');
+      container.innerHTML = assignedTrips.map(trip => `
+        <div class="card" data-testid="card-trip-${trip.id}">
+          <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 16px;">
+            <div>
+              <h3 style="font-size: 18px; font-weight: 600; color: var(--text);">${trip.route}</h3>
+              <p style="color: var(--text-secondary); font-size: 14px; margin-top: 4px;">
+                <i class="fas fa-calendar"></i> ${trip.date} • ${trip.time}
+              </p>
+            </div>
+            <span class="badge badge-pending">Pending</span>
+          </div>
+          
+          <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-bottom: 16px;">
+            <div>
+              <div style="font-size: 12px; color: var(--text-tertiary); margin-bottom: 4px;">Vehicle</div>
+              <div style="font-weight: 500; color: var(--text); font-size: 14px;">${trip.vehicle}</div>
+            </div>
+            <div>
+              <div style="font-size: 12px; color: var(--text-tertiary); margin-bottom: 4px;">Passengers</div>
+              <div style="font-weight: 500; color: var(--text); font-size: 14px;">${trip.passengers} seats booked</div>
+            </div>
+          </div>
+          
+          <div style="display: flex; gap: 12px;">
+            <button class="btn btn-outline" style="flex: 1;" onclick="declineTrip(${trip.id})" data-testid="button-decline-${trip.id}">
+              <i class="fas fa-times"></i>
+              Decline
+            </button>
+            <button class="btn btn-primary" style="flex: 1;" onclick="acceptTrip(${trip.id})" data-testid="button-accept-${trip.id}">
+              <i class="fas fa-check"></i>
+              Accept
+            </button>
+          </div>
+        </div>
+      `).join('');
+    }
+    
+    function acceptTrip(id) {
+      showToast('Trip accepted successfully', 'success');
+      // Refresh list
+      setTimeout(() => location.reload(), 1000);
+    }
+    
+    function declineTrip(id) {
+      showToast('Trip declined', 'info');
+      // Refresh list
+      setTimeout(() => location.reload(), 1000);
+    }
+    
+    document.addEventListener('DOMContentLoaded', populateTrips);
+  </script>
+</body>
+</html>

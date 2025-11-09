@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Settings - Trekka</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="../../styles/dashboard.css">
+  <link rel="stylesheet" href="../../styles/mediaQuery.css">
+</head>
+<body>
+  <div class="mobile-overlay" onclick="toggleSidebar()"></div>
+  
+  <div class="dashboard-container">
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-header">
+        <a href="#" class="header-logo">Trekka</a>
+      </div>
+      <nav class="sidebar-nav">
+        <a href="dashboard.html" class="nav-link" data-testid="link-dashboard">
+          <i class="fas fa-th-large"></i>
+          <span class="nav-link-text">Dashboard</span>
+        </a>
+        <a href="bookings.html" class="nav-link" data-testid="link-trip-booking">
+          <i class="fas fa-ticket-alt"></i>
+          <span class="nav-link-text">Trip Booking</span>
+        </a>
+        <a href="history.html" class="nav-link" data-testid="link-scheduled-trips">
+          <i class="fas fa-calendar-alt"></i>
+          <span class="nav-link-text">Scheduled Trips</span>
+        </a>
+        <a href="drafts.html" class="nav-link" data-testid="link-view-drafts">
+          <i class="fas fa-file-alt"></i>
+          <span class="nav-link-text">View Drafts</span>
+        </a>
+      </nav>
+    </aside>
+    
+    <main class="main-content">
+      <header class="dashboard-header">
+        <div class="header-left">
+          <button class="hamburger-menu" onclick="toggleSidebar()" data-testid="button-menu-toggle">
+            <i class="fas fa-bars"></i>
+          </button>
+          <span class="header-title">Settings</span>
+        </div>
+        
+        <div class="header-right">
+          <div class="dropdown" id="countryDropdown">
+            <button class="btn-icon" onclick="toggleDropdown('countryDropdown')" data-testid="button-country">
+              <span style="font-size: 20px;">🇳🇬</span>
+            </button>
+          </div>
+          <button class="theme-toggle" id="themeToggle" onclick="toggleTheme()" data-testid="button-theme-toggle">
+            <i class="fas fa-moon"></i>
+          </button>
+          <button class="notification-bell" onclick="toggleDropdown('notificationDropdown')" data-testid="button-notifications">
+            <i class="fas fa-bell"></i>
+            <span class="notification-badge"></span>
+          </button>
+          <div class="dropdown" id="userDropdown">
+            <div class="dropdown-toggle" onclick="toggleDropdown('userDropdown')" data-testid="button-user-menu">
+              <div class="avatar">
+                <img src="https://ui-avatars.com/api/?name=Olajide+Maintain&background=0066cc&color=fff" alt="User">
+              </div>
+              <span style="margin: 0 8px; font-weight: 500; color: var(--text);">Olajide Maintain</span>
+              <i class="fas fa-chevron-down" style="font-size: 12px; color: var(--text-secondary);"></i>
+            </div>
+            <div class="dropdown-menu">
+              <a href="profile.html" class="dropdown-item" data-testid="link-profile">
+                <i class="fas fa-user"></i>
+                Profile
+              </a>
+              <a href="settings.html" class="dropdown-item" data-testid="link-settings">
+                <i class="fas fa-cog"></i>
+                Settings
+              </a>
+              <div class="dropdown-divider"></div>
+              <a href="#" class="dropdown-item" data-testid="link-logout">
+                <i class="fas fa-sign-out-alt"></i>
+                Logout
+              </a>
+            </div>
+          </div>
+        </div>
+      </header>
+      
+      <div class="content-wrapper">
+        <h1 style="font-size: 28px; font-weight: 700; color: var(--text); margin-bottom: 8px;">
+          Hi, Olajide <span style="font-size: 28px;">👋</span>
+        </h1>
+        <h2 class="card-title mb-lg">Settings</h2>
+        
+        <!-- Dashboard Theme -->
+        <div class="card mb-lg">
+          <div class="card-header">
+            <h3 style="font-size: 18px; font-weight: 600; color: var(--text);">Dashboard Theme</h3>
+          </div>
+          <div class="card-body">
+            <p style="color: var(--text-secondary); margin-bottom: 16px;">Choose between light and dark mode.</p>
+            <div style="display: flex; flex-direction: column; gap: 12px;">
+              <label style="display: flex; align-items: center; gap: 12px; cursor: pointer;">
+                <input type="radio" name="theme" value="light" checked data-testid="radio-light-mode">
+                <span style="color: var(--text); font-weight: 500;">Light Mode</span>
+              </label>
+              <label style="display: flex; align-items: center; gap: 12px; cursor: pointer;">
+                <input type="radio" name="theme" value="dark" data-testid="radio-dark-mode">
+                <span style="color: var(--text); font-weight: 500;">Dark Mode</span>
+              </label>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Notifications -->
+        <div class="card mb-lg">
+          <div class="card-header">
+            <h3 style="font-size: 18px; font-weight: 600; color: var(--text);">Notifications</h3>
+          </div>
+          <div class="card-body">
+            <p style="color: var(--text-secondary); margin-bottom: 16px;">Set what alerts you want to receive.</p>
+            <div style="display: flex; flex-direction: column; gap: 12px;">
+              <label style="display: flex; align-items: center; gap: 12px; cursor: pointer;">
+                <input type="checkbox" checked data-testid="checkbox-trip-updates">
+                <span style="color: var(--text); font-weight: 500;">Trip Updates</span>
+              </label>
+              <label style="display: flex; align-items: center; gap: 12px; cursor: pointer;">
+                <input type="checkbox" checked data-testid="checkbox-payment-confirmed">
+                <span style="color: var(--text); font-weight: 500;">Payment Confirmed</span>
+              </label>
+              <label style="display: flex; align-items: center; gap: 12px; cursor: pointer;">
+                <input type="checkbox" data-testid="checkbox-promotions">
+                <span style="color: var(--text); font-weight: 500;">Promotions & Offers</span>
+              </label>
+              <label style="display: flex; align-items: center; gap: 12px; cursor: pointer;">
+                <input type="checkbox" checked data-testid="checkbox-system-updates">
+                <span style="color: var(--text); font-weight: 500;">System Updates</span>
+              </label>
+            </div>
+          </div>
+        </div>
+        
+        <button class="btn btn-primary" onclick="saveSettings()" data-testid="button-save">
+          <i class="fas fa-save"></i>
+          Save
+        </button>
+      </div>
+    </main>
+  </div>
+  
+  <script src="../../scripts/dashboard.js"></script>
+  <script src="../../scripts/theme.js"></script>
+  <script>
+    function saveSettings() {
+      showToast('Settings saved successfully', 'success');
+    }
+    
+    // Apply theme radio based on current theme
+    document.addEventListener('DOMContentLoaded', () => {
+      const isDark = document.body.classList.contains('dark-theme');
+      document.querySelector(`input[name="theme"][value="${isDark ? 'dark' : 'light'}"]`).checked = true;
+      
+      // Listen for theme changes
+      document.querySelectorAll('input[name="theme"]').forEach(radio => {
+        radio.addEventListener('change', (e) => {
+          if (e.target.value === 'dark') {
+            if (!document.body.classList.contains('dark-theme')) {
+              toggleTheme();
+            }
+          } else {
+            if (document.body.classList.contains('dark-theme')) {
+              toggleTheme();
+            }
+          }
+        });
+      });
+    });
+  </script>
+</body>
+</html>

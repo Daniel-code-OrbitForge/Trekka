@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Driver Management - Trekka</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="../../styles/dashboard.css">
+  <link rel="stylesheet" href="../../styles/mediaQuery.css">
+</head>
+<body>
+  <div class="mobile-overlay" onclick="toggleSidebar()"></div>
+  
+  <div class="dashboard-container">
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-header">
+        <a href="#" class="header-logo">Trekka</a>
+      </div>
+      <nav class="sidebar-nav">
+        <a href="companyDashboard.html" class="nav-link" data-testid="link-dashboard">
+          <i class="fas fa-th-large"></i>
+          <span class="nav-link-text">Dashboard</span>
+        </a>
+        <a href="fleetManagement.html" class="nav-link" data-testid="link-fleet-mgt">
+          <i class="fas fa-bus"></i>
+          <span class="nav-link-text">Fleet Mgt.</span>
+        </a>
+        <a href="driverManagement.html" class="nav-link active" data-testid="link-driver-mgt">
+          <i class="fas fa-users"></i>
+          <span class="nav-link-text">Driver Mgt.</span>
+        </a>
+        <a href="bookingManagement.html" class="nav-link" data-testid="link-booking-mgt">
+          <i class="fas fa-ticket-alt"></i>
+          <span class="nav-link-text">Booking Mgt.</span>
+        </a>
+        <a href="revenue.html" class="nav-link" data-testid="link-revenue">
+          <i class="fas fa-chart-line"></i>
+          <span class="nav-link-text">Revenue</span>
+        </a>
+        <a href="../driver/driverDashboard.html" class="nav-link" data-testid="link-trip-analytics">
+          <i class="fas fa-analytics"></i>
+          <span class="nav-link-text">Trip analytics</span>
+        </a>
+        <a href="companyRoles.html" class="nav-link" data-testid="link-admin-roles">
+          <i class="fas fa-user-shield"></i>
+          <span class="nav-link-text">Admin/Sub Admin<br>Role Management</span>
+        </a>
+      </nav>
+    </aside>
+    
+    <main class="main-content">
+      <header class="dashboard-header">
+        <div class="header-left">
+          <button class="hamburger-menu" onclick="toggleSidebar()" data-testid="button-menu-toggle">
+            <i class="fas fa-bars"></i>
+          </button>
+          <span class="header-title">Driver Management</span>
+        </div>
+        
+        <div class="header-right">
+          <div class="dropdown" id="countryDropdown">
+            <button class="btn-icon" onclick="toggleDropdown('countryDropdown')" data-testid="button-country">
+              <span style="font-size: 20px;">🇳🇬</span>
+            </button>
+          </div>
+          <button class="theme-toggle" id="themeToggle" onclick="toggleTheme()" data-testid="button-theme-toggle">
+            <i class="fas fa-moon"></i>
+          </button>
+          <button class="notification-bell" onclick="toggleDropdown('notificationDropdown')" data-testid="button-notifications">
+            <i class="fas fa-bell"></i>
+            <span class="notification-badge"></span>
+          </button>
+          <div class="dropdown" id="userDropdown">
+            <div class="dropdown-toggle" onclick="toggleDropdown('userDropdown')" data-testid="button-user-menu">
+              <div class="avatar">
+                <img src="https://ui-avatars.com/api/?name=Olajide+Maintain&background=0066cc&color=fff" alt="User">
+              </div>
+              <span style="margin: 0 8px; font-weight: 500; color: var(--text);">Olajide Maintain</span>
+              <i class="fas fa-chevron-down" style="font-size: 12px; color: var(--text-secondary);"></i>
+            </div>
+            <div class="dropdown-menu">
+              <a href="companyProfile.html" class="dropdown-item" data-testid="link-profile">
+                <i class="fas fa-building"></i>
+                Company Profile
+              </a>
+              <a href="companySettings.html" class="dropdown-item" data-testid="link-settings">
+                <i class="fas fa-cog"></i>
+                Settings
+              </a>
+              <div class="dropdown-divider"></div>
+              <a href="#" class="dropdown-item" data-testid="link-logout">
+                <i class="fas fa-sign-out-alt"></i>
+                Logout
+              </a>
+            </div>
+          </div>
+        </div>
+      </header>
+      
+      <div class="content-wrapper">
+        <!-- Search and Invite -->
+        <div class="card mb-lg">
+          <div class="card-body">
+            <div style="display: flex; gap: 16px; align-items: center;">
+              <div class="search-input" style="flex: 1;">
+                <i class="fas fa-search"></i>
+                <input type="text" class="form-control" placeholder="Search drivers by name, phone, or license..." data-testid="input-search">
+              </div>
+              <button class="btn btn-primary" onclick="showModal('inviteDriverModal')" data-testid="button-invite-driver">
+                <i class="fas fa-user-plus"></i>
+                Invite Driver
+              </button>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Drivers Table -->
+        <div class="card">
+          <div class="card-header">
+            <h2 class="card-title">All Drivers</h2>
+            <div style="display: flex; gap: 12px;">
+              <select class="form-control" style="width: 150px;" data-testid="select-filter-status">
+                <option>All Status</option>
+                <option>Verified</option>
+                <option>Pending</option>
+                <option>Rejected</option>
+              </select>
+            </div>
+          </div>
+          <div class="card-body">
+            <div class="table-container">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Driver Name</th>
+                    <th>Phone Number</th>
+                    <th>License Number</th>
+                    <th>Total Trips</th>
+                    <th>Rating</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="driversTableBody"></tbody>
+              </table>
+            </div>
+            
+            <div class="pagination">
+              <div class="pagination-info">Rows per Page: 
+                <select class="form-control" style="width: 80px; display: inline-block; padding: 4px 8px;">
+                  <option>10</option>
+                  <option>25</option>
+                  <option>50</option>
+                </select>
+              </div>
+              <div class="pagination-controls">
+                <button class="pagination-btn" disabled data-testid="button-prev-page">
+                  <i class="fas fa-chevron-left"></i>
+                </button>
+                <button class="pagination-btn active" data-testid="button-page-1">1</button>
+                <button class="pagination-btn" data-testid="button-page-2">2</button>
+                <button class="pagination-btn" data-testid="button-page-3">3</button>
+                <button class="pagination-btn" data-testid="button-next-page">
+                  <i class="fas fa-chevron-right"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+  
+  <!-- Invite Driver Modal -->
+  <div class="modal-backdrop" id="inviteDriverModal">
+    <div class="modal">
+      <div class="modal-header">
+        <h3 class="modal-title">Invite New Driver</h3>
+        <button class="modal-close" onclick="hideModal('inviteDriverModal')" data-testid="button-close-invite">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form id="inviteForm" onsubmit="inviteDriver(event)">
+          <div class="grid grid-cols-2">
+            <div class="form-group">
+              <label class="form-label">First Name *</label>
+              <input type="text" class="form-control" required data-testid="input-first-name">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Last Name *</label>
+              <input type="text" class="form-control" required data-testid="input-last-name">
+            </div>
+          </div>
+          <div class="grid grid-cols-2">
+            <div class="form-group">
+              <label class="form-label">Phone Number *</label>
+              <input type="tel" class="form-control" required data-testid="input-phone">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Email</label>
+              <input type="email" class="form-control" data-testid="input-email">
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">License Number *</label>
+            <input type="text" class="form-control" required data-testid="input-license">
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" onclick="hideModal('inviteDriverModal')" data-testid="button-cancel-invite">Cancel</button>
+        <button class="btn btn-primary" onclick="document.getElementById('inviteForm').requestSubmit()" data-testid="button-send-invite">
+          <i class="fas fa-paper-plane"></i>
+          Send Invite
+        </button>
+      </div>
+    </div>
+  </div>
+  
+  <script src="../../scripts/dashboard.js"></script>
+  <script src="../../scripts/theme.js"></script>
+  <script>
+    function populateDrivers() {
+      const tbody = document.getElementById('driversTableBody');
+      tbody.innerHTML = mockData.drivers.map(driver => `
+        <tr data-testid="row-driver-${driver.id}">
+          <td>
+            <div style="display: flex; align-items: center; gap: 12px;">
+              <div class="avatar">
+                <img src="https://ui-avatars.com/api/?name=${encodeURIComponent(driver.name)}&background=0066cc&color=fff" alt="${driver.name}">
+              </div>
+              <span style="font-weight: 500;">${driver.name}</span>
+            </div>
+          </td>
+          <td>${driver.phone}</td>
+          <td>${driver.license}</td>
+          <td>${driver.trips}</td>
+          <td>
+            <div style="display: flex; align-items: center; gap: 4px;">
+              <i class="fas fa-star" style="color: #f59e0b; font-size: 14px;"></i>
+              <span style="font-weight: 600;">${driver.rating}</span>
+            </div>
+          </td>
+          <td>
+            <span class="badge badge-${driver.status === 'verified' ? 'success' : driver.status === 'pending' ? 'pending' : 'error'}">
+              <i class="fas fa-circle" style="font-size: 6px; margin-right: 4px;"></i>
+              ${driver.status}
+            </span>
+          </td>
+          <td>
+            <div style="display: flex; gap: 8px;">
+              ${driver.status === 'pending' ? `
+                <button class="btn btn-sm btn-primary" onclick="verifyDriver('${driver.id}', 'verified')" data-testid="button-verify-${driver.id}">
+                  <i class="fas fa-check"></i>
+                </button>
+                <button class="btn btn-sm btn-danger" onclick="verifyDriver('${driver.id}', 'rejected')" data-testid="button-reject-${driver.id}">
+                  <i class="fas fa-times"></i>
+                </button>
+              ` : `
+                <button class="btn btn-sm btn-outline" onclick="viewDriver('${driver.id}')" data-testid="button-view-${driver.id}">
+                  <i class="fas fa-eye"></i>
+                </button>
+              `}
+            </div>
+          </td>
+        </tr>
+      `).join('');
+    }
+    
+    function inviteDriver(e) {
+      e.preventDefault();
+      const formData = new FormData(e.target);
+      const driver = {
+        firstName: formData.get('first-name'),
+        lastName: formData.get('last-name'),
+        phone: formData.get('phone'),
+        email: formData.get('email'),
+        license: formData.get('license')
+      };
+      
+      addDriver(driver);
+      hideModal('inviteDriverModal');
+      e.target.reset();
+      populateDrivers();
+    }
+    
+    function viewDriver(id) {
+      showToast('Opening driver details...', 'info');
+    }
+    
+    document.addEventListener('DOMContentLoaded', populateDrivers);
+  </script>
+</body>
+</html>

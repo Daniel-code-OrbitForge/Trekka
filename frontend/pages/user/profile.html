@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Profile - Trekka</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="../../styles/dashboard.css">
+  <link rel="stylesheet" href="../../styles/mediaQuery.css">
+</head>
+<body>
+  <div class="mobile-overlay" onclick="toggleSidebar()"></div>
+  
+  <div class="dashboard-container">
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-header">
+        <a href="#" class="header-logo">Trekka</a>
+      </div>
+      <nav class="sidebar-nav">
+        <a href="dashboard.html" class="nav-link" data-testid="link-dashboard">
+          <i class="fas fa-th-large"></i>
+          <span class="nav-link-text">Dashboard</span>
+        </a>
+        <a href="bookings.html" class="nav-link" data-testid="link-trip-booking">
+          <i class="fas fa-ticket-alt"></i>
+          <span class="nav-link-text">Trip Booking</span>
+        </a>
+        <a href="history.html" class="nav-link" data-testid="link-scheduled-trips">
+          <i class="fas fa-calendar-alt"></i>
+          <span class="nav-link-text">Scheduled Trips</span>
+        </a>
+        <a href="drafts.html" class="nav-link" data-testid="link-view-drafts">
+          <i class="fas fa-file-alt"></i>
+          <span class="nav-link-text">View Drafts</span>
+        </a>
+      </nav>
+    </aside>
+    
+    <main class="main-content">
+      <header class="dashboard-header">
+        <div class="header-left">
+          <button class="hamburger-menu" onclick="toggleSidebar()" data-testid="button-menu-toggle">
+            <i class="fas fa-bars"></i>
+          </button>
+          <span class="header-title">Profile</span>
+        </div>
+        
+        <div class="header-right">
+          <div class="dropdown" id="countryDropdown">
+            <button class="btn-icon" onclick="toggleDropdown('countryDropdown')" data-testid="button-country">
+              <span style="font-size: 20px;">🇳🇬</span>
+            </button>
+          </div>
+          <button class="theme-toggle" id="themeToggle" onclick="toggleTheme()" data-testid="button-theme-toggle">
+            <i class="fas fa-moon"></i>
+          </button>
+          <button class="notification-bell" onclick="toggleDropdown('notificationDropdown')" data-testid="button-notifications">
+            <i class="fas fa-bell"></i>
+            <span class="notification-badge"></span>
+          </button>
+          <div class="dropdown" id="userDropdown">
+            <div class="dropdown-toggle" onclick="toggleDropdown('userDropdown')" data-testid="button-user-menu">
+              <div class="avatar">
+                <img src="https://ui-avatars.com/api/?name=Olajide+Maintain&background=0066cc&color=fff" alt="User">
+              </div>
+              <span style="margin: 0 8px; font-weight: 500; color: var(--text);">Olajide Maintain</span>
+              <i class="fas fa-chevron-down" style="font-size: 12px; color: var(--text-secondary);"></i>
+            </div>
+            <div class="dropdown-menu">
+              <a href="profile.html" class="dropdown-item" data-testid="link-profile">
+                <i class="fas fa-user"></i>
+                Profile
+              </a>
+              <a href="settings.html" class="dropdown-item" data-testid="link-settings">
+                <i class="fas fa-cog"></i>
+                Settings
+              </a>
+              <div class="dropdown-divider"></div>
+              <a href="#" class="dropdown-item" data-testid="link-logout">
+                <i class="fas fa-sign-out-alt"></i>
+                Logout
+              </a>
+            </div>
+          </div>
+        </div>
+      </header>
+      
+      <div class="content-wrapper">
+        <div class="card">
+          <div class="card-body">
+            <!-- Avatar Upload -->
+            <div style="text-align: center; margin-bottom: 32px;">
+              <div style="position: relative; display: inline-block;">
+                <div class="avatar" style="width: 120px; height: 120px; font-size: 48px;">
+                  <img src="https://ui-avatars.com/api/?name=Olajide+Maintain&background=0066cc&color=fff&size=120" alt="User" id="avatarPreview">
+                </div>
+                <label style="position: absolute; bottom: 0; right: 0; width: 40px; height: 40px; background: var(--primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; border: 3px solid var(--card-bg);">
+                  <i class="fas fa-camera" style="color: white; font-size: 16px;"></i>
+                  <input type="file" style="display: none;" accept="image/*" onchange="previewAvatar(event)" data-testid="input-avatar">
+                </label>
+              </div>
+            </div>
+            
+            <!-- Profile Form -->
+            <form onsubmit="saveProfile(event)">
+              <div class="grid grid-cols-2">
+                <div class="form-group">
+                  <label class="form-label">First Name</label>
+                  <input type="text" class="form-control" value="Michael" data-testid="input-first-name">
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Last Name</label>
+                  <input type="text" class="form-control" value="Clifford" data-testid="input-last-name">
+                </div>
+              </div>
+              
+              <div class="grid grid-cols-2">
+                <div class="form-group">
+                  <label class="form-label">Email</label>
+                  <input type="email" class="form-control" value="Cliffordmich@gmail.com" data-testid="input-email">
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Mobile Number</label>
+                  <input type="tel" class="form-control" value="08082465890" data-testid="input-mobile">
+                </div>
+              </div>
+              
+              <div class="grid grid-cols-2">
+                <div class="form-group">
+                  <label class="form-label">Gender</label>
+                  <div style="display: flex; align-items: center; gap: 16px; margin-top: 10px;">
+                    <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
+                      <input type="radio" name="gender" value="male" checked data-testid="radio-male">
+                      <span style="color: var(--text);">Male</span>
+                    </label>
+                    <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
+                      <input type="radio" name="gender" value="female" data-testid="radio-female">
+                      <span style="color: var(--text);">Female</span>
+                    </label>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Date Of Birth</label>
+                  <input type="date" class="form-control" value="2025-10-20" data-testid="input-dob">
+                </div>
+              </div>
+              
+              <div class="grid grid-cols-2">
+                <div class="form-group">
+                  <label class="form-label">Tax Identification Number</label>
+                  <input type="text" class="form-control" value="Cliffordmich@gmail.com" data-testid="input-tin">
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Address</label>
+                  <input type="text" class="form-control" value="2 Oshongo Street, Makurdi Benue State." data-testid="input-address">
+                </div>
+              </div>
+              
+              <button type="submit" class="btn btn-primary" data-testid="button-save">
+                <i class="fas fa-save"></i>
+                Save Changes
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+  
+  <script src="../../scripts/dashboard.js"></script>
+  <script src="../../scripts/theme.js"></script>
+  <script>
+    function previewAvatar(event) {
+      const file = event.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          document.getElementById('avatarPreview').src = e.target.result;
+        };
+        reader.readAsDataURL(file);
+      }
+    }
+    
+    function saveProfile(e) {
+      e.preventDefault();
+      showToast('Profile updated successfully', 'success');
+    }
+  </script>
+</body>
+</html>

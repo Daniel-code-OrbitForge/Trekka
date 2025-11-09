@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="System Analytics — Trekka Admin">
+    <meta property="og:type" content="web-application">
+    <title>System Analytics — Trekka</title>
+    <!-- Font Awesome 6.5.1 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="../../styles/admin.css">
+    <link rel="stylesheet" href="../../styles/adminMedia.css">
+</head>
+<body class="admin-page">
+    <!-- Sidebar Navigation -->
+    <aside class="admin-sidebar" id="adminSidebar">
+        <div class="sidebar-header">
+            <h2 class="sidebar-logo">Trekka</h2>
+            <button class="sidebar-toggle" onclick="toggleSidebar()"><i class="fas fa-bars"></i></button>
+        </div>
+
+        <nav class="sidebar-nav">
+            <a href="./adminDashboard.html" class="nav-item">
+                <i class="fas fa-tachometer-alt"></i> Dashboard
+            </a>
+            <a href="./activityLogs.html" class="nav-item">
+                <i class="fas fa-tachometer-alt"></i> Activity Logs
+            </a>
+            <a href="./broadcast.html" class="nav-item">
+                <i class="fas fa-broadcast-tower"></i> Broadcasts
+            </a>
+            <a href="./userManagement.html" class="nav-item">
+                <i class="fas fa-users"></i> User Management
+            </a>
+            <a href="./institutionManagement.html" class="nav-item">
+                <i class="fas fa-university"></i> Institution Management
+            </a>
+            <a href="./cms.html" class="nav-item">
+                <i class="fas fa-file-alt"></i> Content Management
+            </a>
+            <a href="./partners.html" class="nav-item">
+                <i class="fas fa-handshake"></i> Partners
+            </a>
+            <a href="./bookingOversight.html" class="nav-item">
+                <i class="fas fa-calendar-check"></i> Booking History
+            </a>
+            <a href="./analytics.html" class="nav-item active">
+                <i class="fas fa-chart-line"></i> Analytics
+            </a>
+            <a href="./paymentLogs.html" class="nav-item">
+                <i class="fas fa-credit-card"></i> Payment Logs
+            </a>
+            <a href="./fleetManagement.html" class="nav-item">
+                <i class="fas fa-truck"></i> Fleet Management
+            </a>
+            <a href="./roleManagement.html" class="nav-item">
+                <i class="fas fa-truck"></i> Role Management
+            </a>
+            <a href="./systemSettings.html" class="nav-item">
+                <i class="fas fa-cog"></i> System Settings
+            </a>
+        </nav>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="admin-main">
+        <!-- Header -->
+        <header class="admin-header">
+            <div class="header-left">
+                <h1 class="page-title">System Analytics</h1>
+            </div>
+            <div class="header-right">
+                <button class="icon-btn"><i class="fas fa-search"></i></button>
+                <button class="icon-btn notification-btn"><i class="fas fa-bell"></i><span class="notification-badge">3</span></button>
+                <div class="header-profile">
+                    <span class="country-flag">NG</span>
+                    <button class="profile-btn" onclick="toggleProfileMenu()">
+                        <span>Olajide Maintain</span>
+                        <span class="dropdown-arrow">▼</span>
+                    </button>
+                    <div class="profile-menu" id="profileMenu" style="display: none;">
+                        <a href="#">Profile</a>
+                        <a href="#">Settings</a>
+                        <a href="#">Switch Role</a>
+                        <hr>
+                        <a href="#" onclick="logout()">Logout</a>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Page Content -->
+        <div class="admin-content">
+            <!-- Filters -->
+            <div class="filters-section">
+                <div class="filter-group">
+                    <label>Filter by</label>
+                    <input type="date" id="dateFilter">
+                </div>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="action-bar">
+                <button class="btn btn-secondary" onclick="exportData()">Export Data ↓</button>
+            </div>
+
+            <!-- KPI Cards -->
+            <section class="kpi-grid">
+                <div class="kpi-card">
+                    <div class="kpi-icon"><i class="fas fa-car fa-beat-fade" style="color: red;"></i></div>
+                    <div class="kpi-info">
+                        <div class="kpi-value">1780</div>
+                        <div class="kpi-label">Total Drivers</div>
+                    </div>
+                </div>
+
+                <div class="kpi-card">
+                    <div class="kpi-icon"><i class="fas fa-user" style="color: rgb(1, 77, 1);"></i></div>
+                    <div class="kpi-info">
+                        <div class="kpi-value">9,230</div>
+                        <div class="kpi-label">Total Users</div>
+                    </div>
+                </div>
+
+                <div class="kpi-card">
+                    <div class="kpi-icon"><i class="fas fa-building" style="color: rgb(28, 28, 105);"></i></div>
+                    <div class="kpi-info">
+                        <div class="kpi-value">345</div>
+                        <div class="kpi-label">Total Companies</div>
+                    </div>
+                </div>
+
+                <div class="kpi-card">
+                    <div class="kpi-icon"><i class="fa-solid fa-sack-dollar" style="color: #FFD43B;"></i></div>
+                    <div class="kpi-info">
+                        <div class="kpi-value">835.07K</div>
+                        <div class="kpi-label">Total Income</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Charts Section -->
+            <section class="charts-section">
+                <div class="chart-card">
+                    <h3>INCOME</h3>
+                    <svg viewBox="0 0 400 300" class="chart-svg">
+                        <!-- Income line chart placeholder -->
+                        <polyline points="50,250 100,150 150,200 200,100 250,180 300,80 350,50"
+                                  fill="none" stroke="#001F3F" stroke-width="2"/>
+                        <circle cx="50" cy="250" r="4" fill="#001F3F"/>
+                        <circle cx="100" cy="150" r="4" fill="#001F3F"/>
+                        <circle cx="150" cy="200" r="4" fill="#001F3F"/>
+                        <circle cx="200" cy="100" r="4" fill="#001F3F"/>
+                        <circle cx="250" cy="180" r="4" fill="#001F3F"/>
+                        <circle cx="300" cy="80" r="4" fill="#001F3F"/>
+                        <circle cx="350" cy="50" r="4" fill="#001F3F"/>
+                        <text x="50" y="280" font-size="12" text-anchor="middle">May</text>
+                        <text x="100" y="280" font-size="12" text-anchor="middle">June</text>
+                        <text x="150" y="280" font-size="12" text-anchor="middle">July</text>
+                        <text x="200" y="280" font-size="12" text-anchor="middle">Aug</text>
+                        <text x="250" y="280" font-size="12" text-anchor="middle">Sept</text>
+                        <text x="300" y="280" font-size="12" text-anchor="middle">Oct</text>
+                        <text x="350" y="280" font-size="12" text-anchor="middle">Nov</text>
+                    </svg>
+                </div>
+
+                <div class="chart-card">
+                    <h3>USER GROWTH</h3>
+                    <svg viewBox="0 0 400 300" class="chart-svg">
+                        <!-- Bar chart placeholder -->
+                        <rect x="40" y="180" width="30" height="80" fill="#001F3F"/>
+                        <rect x="90" y="170" width="30" height="90" fill="#001F3F"/>
+                        <rect x="140" y="160" width="30" height="100" fill="#001F3F"/>
+                        <rect x="190" y="165" width="30" height="95" fill="#001F3F"/>
+                        <rect x="240" y="140" width="30" height="120" fill="#001F3F"/>
+                        <rect x="290" y="80" width="30" height="180" fill="#001F3F"/>
+                        <text x="55" y="280" font-size="12" text-anchor="middle">May</text>
+                        <text x="105" y="280" font-size="12" text-anchor="middle">June</text>
+                        <text x="155" y="280" font-size="12" text-anchor="middle">July</text>
+                        <text x="205" y="280" font-size="12" text-anchor="middle">Aug</text>
+                        <text x="255" y="280" font-size="12" text-anchor="middle">Sept</text>
+                        <text x="305" y="280" font-size="12" text-anchor="middle">Oct</text>
+                    </svg>
+                </div>
+            </section>
+
+            <!-- Recent Activity Section -->
+            <section class="data-table-section">
+                <div class="table-header">
+                    <h3>Recent Activity</h3>
+                    <div class="search-box">
+                        <input type="text" placeholder="Search">
+                    </div>
+                </div>
+
+                <div class="table-responsive">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Date/Time</th>
+                                <th>User</th>
+                                <th>Action</th>
+                                <th>Actor</th>
+                                <th>Status</th>
+                                <th>Details</th>
+                            </tr>
+                        </thead>
+                        <tbody id="activityTableBody">
+                            <!-- Populated by JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Toast Container -->
+    <div id="toastContainer" class="toast-container"></div>
+
+    <script src="../../scripts/admin/adminTheme.js"></script>
+    <script>
+        /**
+         * Analytics Dashboard
+         * Display system-wide analytics and metrics
+         *
+         * INTEGRATION NOTES:
+         * - Fetch analytics data from Supabase aggregations
+         * - Real-time updates for KPI cards
+         * - Chart data from database queries
+         */
+
+        document.addEventListener('DOMContentLoaded', () => {
+            checkAdminAuth();
+            loadAnalyticsData();
+        });
+
+        function checkAdminAuth() {
+            const adminToken = localStorage.getItem('trekka_admin_token');
+            if (!adminToken) {
+                window.location.href = './adminLogin.html';
+            }
+        }
+
+        function loadAnalyticsData() {
+            // PRODUCTION: Fetch aggregated analytics from Supabase
+            loadRecentActivity();
+        }
+
+        function loadRecentActivity() {
+            const activities = [
+                { date: '11/07/2023 05:00PM', user: 'Olajide Maintain', action: '10 new users registered', actor: 'System', status: 'Pending' },
+                { date: '11/07/2023 05:00PM', user: 'Olajide Maintain', action: '10 new users registered', actor: 'System', status: 'Success' },
+            ];
+
+            const tbody = document.getElementById('activityTableBody');
+            tbody.innerHTML = '';
+
+            activities.forEach(activity => {
+                const statusColor = activity.status === 'Success' ? 'success' : 'warning';
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${activity.date}</td>
+                    <td>${activity.user}</td>
+                    <td>${activity.action}</td>
+                    <td>${activity.actor}</td>
+                    <td><span class="status-badge status-${statusColor}">${activity.status}</span></td>
+                    <td><button class="btn-small">View</button></td>
+                `;
+                tbody.appendChild(row);
+            });
+        }
+
+        function exportData() {
+            showToast('Analytics exported successfully', 'success');
+        }
+
+        function toggleProfileMenu() {
+            const menu = document.getElementById('profileMenu');
+            menu.style.display = menu.style.display === 'none' ? 'block' : 'none';
+        }
+
+        function toggleSidebar() {
+            const sidebar = document.getElementById('adminSidebar');
+            sidebar.classList.toggle('collapsed');
+        }
+
+        function logout() {
+            localStorage.removeItem('trekka_admin_token');
+            window.location.href = './adminLogin.html';
+        }
+
+        function showToast(message, type = 'info') {
+            const toast = document.createElement('div');
+            toast.className = `toast toast-${type}`;
+            toast.textContent = message;
+            document.getElementById('toastContainer').appendChild(toast);
+            setTimeout(() => toast.remove(), 3000);
+        }
+    </script>
+</body>
+</html>

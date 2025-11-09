@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Admin Dashboard — Trekka">
+    <title>Admin Dashboard — Trekka</title>
+    <!-- Google Fonts - Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome 6.5.1 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="../../styles/admin.css">
+</head>
+<body class="admin-page">
+    <!-- Sidebar Navigation -->
+    <aside class="admin-sidebar" id="adminSidebar">
+        <div class="sidebar-header">
+            <h2 class="sidebar-logo">Trekka</h2>
+            <button class="sidebar-toggle" onclick="toggleSidebar()"><i class="fas fa-bars"></i></button>
+        </div>
+
+        <nav class="sidebar-nav">
+            <a href="./adminDashboard.html" class="nav-item active">
+                <i class="fas fa-tachometer-alt"></i> Dashboard
+            </a>
+            <a href="./activityLogs.html" class="nav-item">
+                <i class="fas fa-tachometer-alt"></i> Activity Logs
+            </a>
+            <a href="./broadcast.html" class="nav-item">
+                <i class="fas fa-broadcast-tower"></i> Broadcasts
+            </a>
+            <a href="./userManagement.html" class="nav-item">
+                <i class="fas fa-users"></i> User Management
+            </a>
+            <a href="./institutionManagement.html" class="nav-item">
+                <i class="fas fa-university"></i> Institution Management
+            </a>
+            <a href="./cms.html" class="nav-item">
+                <i class="fas fa-file-alt"></i> Content Management
+            </a>
+            <a href="./partners.html" class="nav-item">
+                <i class="fas fa-handshake"></i> Partners
+            </a>
+            <a href="./bookingOversight.html" class="nav-item">
+                <i class="fas fa-calendar-check"></i> Booking History
+            </a>
+            <a href="./analytics.html" class="nav-item">
+                <i class="fas fa-chart-line"></i> Analytics
+            </a>
+            <a href="./paymentLogs.html" class="nav-item">
+                <i class="fas fa-credit-card"></i> Payment Logs
+            </a>
+            <a href="./fleetManagement.html" class="nav-item">
+                <i class="fas fa-truck"></i> Fleet Management
+            </a>
+            <a href="./roleManagement.html" class="nav-item">
+                <i class="fas fa-truck"></i> Role Management
+            </a>
+            <a href="./systemSettings.html" class="nav-item">
+                <i class="fas fa-cog"></i> System Settings
+            </a>
+        </nav>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="admin-main">
+        <!-- Header -->
+        <header class="admin-header">
+            <div class="header-left">
+                <h1 class="page-title">Dashboard</h1>
+            </div>
+            <div class="header-right">
+                <button class="btn btn-outline" onclick="toggleSearch()">
+                    <i class="fas fa-search"></i> Search
+                </button>
+                <button class="icon-btn notification-btn" onclick="toggleNotifications()">
+                    <i class="far fa-bell"></i>
+                    <span class="notification-badge">3</span>
+                </button>
+                <div class="header-profile">
+                    <span class="country-flag">NG</span>
+                    <button class="profile-btn" onclick="toggleProfileMenu()">
+                        <span>Admin User</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </button>
+                    <div class="profile-menu" id="profileMenu" style="display: none;">
+                        <a href="profile.html"><i class="fas fa-user"></i> My Profile</a>
+                        <a href="systemSettings.html"><i class="fas fa-cog"></i> Settings</a>
+                        <hr>
+                        <a href="adminLogin.html" onclick="logout()"><i class="fas fa-sign-out-alt"></i> Logout</a>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Search Bar (Hidden by default) -->
+        <div class="search-bar" id="searchBar" style="display: none;">
+            <input type="text" placeholder="Search users, companies, bookings..." id="globalSearch">
+        </div>
+
+        <!-- Page Content -->
+        <div class="admin-content">
+            <!-- KPI Cards -->
+            <section class="kpi-grid">
+                <div class="kpi-card">
+                    <div class="kpi-icon"><i class="fas fa-car fa-beat-fade" style="color: red;"></i></div>
+                    <div class="kpi-info">
+                        <div class="kpi-value" id="driverCount">1780</div>
+                        <div class="kpi-label">Drivers</div>
+                    </div>
+                </div>
+
+                <div class="kpi-card">
+                    <div class="kpi-icon"><i class="fas fa-user" style="color: rgb(1, 77, 1);"></i></div>
+                    <div class="kpi-info">
+                        <div class="kpi-value" id="passengerCount">120</div>
+                        <div class="kpi-label">Passengers</div>
+                    </div>
+                </div>
+
+                <div class="kpi-card">
+                    <div class="kpi-icon"><i class="fas fa-building" style="color: rgb(28, 28, 105);"></i></div>
+                    <div class="kpi-info">
+                        <div class="kpi-value" id="companyCount">120</div>
+                        <div class="kpi-label">Companies</div>
+                    </div>
+                </div>
+
+                <div class="kpi-card">
+                    <div class="kpi-icon"><i class="fas fa-calendar-check" style="color: rgb(99, 97, 3);"></i></div>
+                    <div class="kpi-info">
+                        <div class="kpi-value" id="bookingCount">1500</div>
+                        <div class="kpi-label">Bookings</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Charts Section -->
+            <section class="charts-section">
+                <div class="chart-card">
+                    <h3>Recent Transactions</h3>
+                    <div class="search-box">
+                        <input type="text" placeholder="Search" id="transactionSearch">
+                    </div>
+                </div>
+            </section>
+
+            <!-- Recent Transactions Table -->
+            <section class="data-table-section">
+                <div class="table-header">
+                    <h3>Recent Transactions</h3>
+                </div>
+                <div class="table-responsive">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Date/Time</th>
+                                <th>Payment Mode</th>
+                                <th>Amount</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="recentTransactionsBody">
+                            <!-- Populated by JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- Pagination -->
+            <div class="pagination">
+                <span>Rows per Page</span>
+                <select id="rowsPerPage" onchange="updateRecentTransactions()">
+                    <option value="10" selected>10</option>
+                    <option value="20">20</option>
+                    <option value="50">50</option>
+                </select>
+                <div class="pagination-controls">
+                    <button class="pagination-btn">←</button>
+                    <button class="pagination-btn active">1</button>
+                    <button class="pagination-btn">2</button>
+                    <button class="pagination-btn">→</button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Toast Container -->
+    <div id="toastContainer" class="toast-container"></div>
+
+    <script src="../../scripts/admin/adminTheme.js"></script>
+    <script src="../../scripts/admin/admin.js"></script>
+    <script>
+        /**
+         * Admin Dashboard
+         * Main dashboard showing KPIs and recent transactions
+         *
+         * INTEGRATION NOTES:
+         * - Replace mock data with real API calls to Supabase
+         * - Update KPI cards with real-time data from backend
+         * - See README_ADMIN.md for backend integration
+         */
+
+        // Initialize dashboard on load
+        document.addEventListener('DOMContentLoaded', () => {
+            checkAdminAuth();
+            loadDashboardData();
+            setInterval(loadDashboardData, 30000); // Refresh every 30 seconds
+        });
+
+        function checkAdminAuth() {
+            const adminToken = localStorage.getItem('trekka_admin_token');
+            if (!adminToken) {
+                window.location.href = './adminLogin.html';
+            }
+        }
+
+        function loadDashboardData() {
+            // PRODUCTION: Replace with real API calls
+            // const response = await fetch('/api/admin/dashboard', {
+            //     headers: { 'Authorization': `Bearer ${adminToken}` }
+            // });
+            // const data = await response.json();
+
+            updateRecentTransactions();
+        }
+
+        function updateRecentTransactions() {
+            const rowsPerPage = parseInt(document.getElementById('rowsPerPage').value) || 10;
+            const tbody = document.getElementById('recentTransactionsBody');
+            tbody.innerHTML = '';
+
+            // Mock data - replace with API call
+            const mockTransactions = [
+                { date: '11/07/2023 05:00PM', mode: 'Bank Transfer', amount: '₦9500.00', status: 'Failed' },
+                { date: '11/07/2023 05:00PM', mode: 'Card', amount: '₦9500.00', status: 'Completed' },
+                { date: '11/07/2023 05:00PM', mode: 'Bank Transfer', amount: '₦9500.00', status: 'Completed' },
+                { date: '11/07/2023 05:00PM', mode: 'Card', amount: '₦9500.00', status: 'Completed' },
+                { date: '11/07/2023 05:00PM', mode: 'Bank Transfer', amount: '₦9500.00', status: 'Failed' },
+                { date: '11/07/2023 05:00PM', mode: 'Card', amount: '₦9500.00', status: 'Failed' },
+                { date: '11/07/2023 05:00PM', mode: 'Bank Transfer', amount: '₦9500.00', status: 'Pending' },
+            ];
+
+            mockTransactions.slice(0, rowsPerPage).forEach(tx => {
+                const statusColor = tx.status === 'Completed' ? 'success' :
+                                   tx.status === 'Failed' ? 'error' : 'warning';
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${tx.date}</td>
+                    <td>${tx.mode}</td>
+                    <td>${tx.amount}</td>
+                    <td><span class="status-badge status-${statusColor}">${tx.status}</span></td>
+                `;
+                tbody.appendChild(row);
+            });
+        }
+
+        function toggleSearch() {
+            const searchBar = document.getElementById('searchBar');
+            searchBar.style.display = searchBar.style.display === 'none' ? 'block' : 'none';
+        }
+
+        function toggleProfileMenu() {
+            const menu = document.getElementById('profileMenu');
+            menu.style.display = menu.style.display === 'none' ? 'block' : 'none';
+        }
+
+        function toggleSidebar() {
+            const sidebar = document.getElementById('adminSidebar');
+            sidebar.classList.toggle('collapsed');
+        }
+
+        function logout() {
+            localStorage.removeItem('trekka_admin_token');
+            localStorage.removeItem('trekka_admin_email');
+            localStorage.removeItem('trekka_admin_role');
+            window.location.href = './adminLogin.html';
+        }
+
+        function showToast(message, type = 'info') {
+            const toast = document.createElement('div');
+            toast.className = `toast toast-${type}`;
+            toast.textContent = message;
+            document.getElementById('toastContainer').appendChild(toast);
+            setTimeout(() => toast.remove(), 3000);
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Trip History - Trekka</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="../../styles/dashboard.css">
+  <link rel="stylesheet" href="../../styles/mediaQuery.css">
+</head>
+<body>
+  <div class="mobile-overlay" onclick="toggleSidebar()"></div>
+  
+  <div class="dashboard-container">
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-header">
+        <a href="#" class="header-logo">Trekka</a>
+      </div>
+      <nav class="sidebar-nav">
+        <a href="dashboard.html" class="nav-link" data-testid="link-dashboard">
+          <i class="fas fa-th-large"></i>
+          <span class="nav-link-text">Dashboard</span>
+        </a>
+        <a href="bookings.html" class="nav-link" data-testid="link-trip-booking">
+          <i class="fas fa-ticket-alt"></i>
+          <span class="nav-link-text">Trip Booking</span>
+        </a>
+        <a href="history.html" class="nav-link active" data-testid="link-scheduled-trips">
+          <i class="fas fa-calendar-alt"></i>
+          <span class="nav-link-text">Scheduled Trips</span>
+        </a>
+        <a href="drafts.html" class="nav-link" data-testid="link-view-drafts">
+          <i class="fas fa-file-alt"></i>
+          <span class="nav-link-text">View Drafts</span>
+        </a>
+      </nav>
+    </aside>
+    
+    <main class="main-content">
+      <header class="dashboard-header">
+        <div class="header-left">
+          <button class="hamburger-menu" onclick="toggleSidebar()" data-testid="button-menu-toggle">
+            <i class="fas fa-bars"></i>
+          </button>
+          <span class="header-title">Scheduled Trips</span>
+        </div>
+        
+        <div class="header-right">
+          <div class="dropdown" id="countryDropdown">
+            <button class="btn-icon" onclick="toggleDropdown('countryDropdown')" data-testid="button-country">
+              <span style="font-size: 20px;">🇳🇬</span>
+            </button>
+          </div>
+          <button class="theme-toggle" id="themeToggle" onclick="toggleTheme()" data-testid="button-theme-toggle">
+            <i class="fas fa-moon"></i>
+          </button>
+          <button class="notification-bell" onclick="toggleDropdown('notificationDropdown')" data-testid="button-notifications">
+            <i class="fas fa-bell"></i>
+            <span class="notification-badge"></span>
+          </button>
+          <div class="dropdown" id="userDropdown">
+            <div class="dropdown-toggle" onclick="toggleDropdown('userDropdown')" data-testid="button-user-menu">
+              <div class="avatar">
+                <img src="https://ui-avatars.com/api/?name=Olajide+Maintain&background=0066cc&color=fff" alt="User">
+              </div>
+              <span style="margin: 0 8px; font-weight: 500; color: var(--text);">Olajide Maintain</span>
+              <i class="fas fa-chevron-down" style="font-size: 12px; color: var(--text-secondary);"></i>
+            </div>
+            <div class="dropdown-menu">
+              <a href="profile.html" class="dropdown-item" data-testid="link-profile">
+                <i class="fas fa-user"></i>
+                Profile
+              </a>
+              <a href="settings.html" class="dropdown-item" data-testid="link-settings">
+                <i class="fas fa-cog"></i>
+                Settings
+              </a>
+              <div class="dropdown-divider"></div>
+              <a href="#" class="dropdown-item" data-testid="link-logout">
+                <i class="fas fa-sign-out-alt"></i>
+                Logout
+              </a>
+            </div>
+          </div>
+        </div>
+      </header>
+      
+      <div class="content-wrapper">
+        <div class="card">
+          <div class="card-header">
+            <h2 class="card-title">Trip History</h2>
+            <button class="btn btn-outline" onclick="exportTableToCSV('historyTable', 'trip-history.csv')" data-testid="button-export">
+              <i class="fas fa-download"></i>
+              Export CSV
+            </button>
+          </div>
+          <div class="card-body">
+            <div class="table-container">
+              <table id="historyTable">
+                <thead>
+                  <tr>
+                    <th>Date</th>
+                    <th>From</th>
+                    <th>To</th>
+                    <th>Company</th>
+                    <th>Duration</th>
+                    <th>Amount</th>
+                    <th>Status</th>
+                  </tr>
+                </thead>
+                <tbody id="historyBody">
+                  <!-- Populated by JavaScript -->
+                </tbody>
+              </table>
+            </div>
+            <div class="pagination">
+              <div class="pagination-info">Rows per Page: 
+                <select class="form-control" style="width: 80px; display: inline-block; padding: 4px 8px;">
+                  <option>10</option>
+                  <option>25</option>
+                  <option>50</option>
+                </select>
+              </div>
+              <div class="pagination-controls">
+                <button class="pagination-btn" disabled data-testid="button-prev-page">
+                  <i class="fas fa-chevron-left"></i>
+                </button>
+                <button class="pagination-btn active" data-testid="button-page-1">1</button>
+                <button class="pagination-btn" data-testid="button-page-2">2</button>
+                <button class="pagination-btn" data-testid="button-page-3">3</button>
+                <button class="pagination-btn" data-testid="button-next-page">
+                  <i class="fas fa-chevron-right"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+  
+  <script src="../../scripts/dashboard.js"></script>
+  <script src="../../scripts/theme.js"></script>
+  <script>
+    function populateHistory() {
+      const tbody = document.getElementById('historyBody');
+      tbody.innerHTML = mockData.bookings.map(booking => `
+        <tr data-testid="row-booking-${booking.id}">
+          <td>${booking.date}</td>
+          <td>${booking.pickup}</td>
+          <td>${booking.destination}</td>
+          <td>Trekka Express</td>
+          <td>${booking.duration}</td>
+          <td>${formatCurrency(booking.amount)}</td>
+          <td>
+            <span class="badge badge-${booking.status === 'completed' ? 'success' : booking.status === 'pending' ? 'pending' : 'error'}">
+              <i class="fas fa-circle" style="font-size: 6px; margin-right: 4px;"></i>
+              ${booking.status}
+            </span>
+          </td>
+        </tr>
+      `).join('');
+    }
+    
+    document.addEventListener('DOMContentLoaded', populateHistory);
+  </script>
+</body>
+</html>

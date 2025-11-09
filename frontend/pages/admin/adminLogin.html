@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Admin Login — Trekka">
+    <meta property="og:type" content="web-application">
+    <title>Admin Login — Trekka</title>
+    <!-- Font Awesome 6.5.1 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="../../styles/admin.css">
+    <link rel="stylesheet" href="../../styles/adminMedia.css">
+</head>
+<body class="admin-login-page">
+    <div class="login-container">
+        <div class="login-card">
+            <!-- Logo -->
+            <div class="login-logo">
+                <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+                    <text x="0" y="24" font-size="28" font-weight="bold" fill="#001F3F">T</text>
+                </svg>
+                <h1>Trekka Admin</h1>
+            </div>
+
+            <!-- Welcome Message -->
+            <div class="login-welcome">
+                <h2>Welcome Back</h2>
+                <p>Sign in to your admin account</p>
+            </div>
+
+            <!-- Login Form -->
+            <form id="loginForm" class="login-form">
+                <!-- Email Field -->
+                <div class="form-group">
+                    <label for="email">Email Address</label>
+                    <input
+                        type="email"
+                        id="email"
+                        name="email"
+                        placeholder="admin@trekka.com"
+                        required
+                        aria-label="Email address"
+                    >
+                </div>
+
+                <!-- Password Field -->
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input
+                        type="password"
+                        id="password"
+                        name="password"
+                        placeholder="••••••••"
+                        required
+                        aria-label="Password"
+                    >
+                </div>
+
+                <!-- Remember Me & 2FA Toggle -->
+                <div class="login-options">
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="rememberMe" name="rememberMe">
+                        <span>Remember me</span>
+                    </label>
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="enable2FA" name="enable2FA">
+                        <span>Enable 2FA</span>
+                    </label>
+                </div>
+
+                <!-- Error Message -->
+                <div id="errorMessage" class="error-message" style="display: none;"></div>
+
+                <!-- Submit Button -->
+                <button type="submit" class="btn btn-primary btn-block">
+                    Sign In
+                </button>
+            </form>
+
+            <!-- Forgot Password Link -->
+            <div class="login-footer">
+                <a href="#" class="link-secondary">Forgot password?</a>
+            </div>
+
+            <!-- Demo Credentials Hint (Remove in Production) -->
+            <div class="login-hint">
+                <p><strong>Demo:</strong> Use any email/password to test</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- 2FA Modal -->
+    <div id="twoFAModal" class="modal" style="display: none;">
+        <div class="modal-overlay"></div>
+        <div class="modal-content">
+            <h3>Two-Factor Authentication</h3>
+            <p>Enter the 6-digit code from your authenticator app</p>
+            <input
+                type="text"
+                id="twoFACode"
+                placeholder="000000"
+                maxlength="6"
+                inputmode="numeric"
+                aria-label="2FA code"
+            >
+            <div class="modal-actions">
+                <button class="btn btn-secondary" onclick="document.getElementById('twoFAModal').style.display = 'none'">Cancel</button>
+                <button class="btn btn-primary" onclick="verify2FA()">Verify</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notifications -->
+    <div id="toastContainer" class="toast-container"></div>
+
+    <script src="../../scripts/admin/adminTheme.js"></script>
+    <script>
+        /**
+         * Admin Login Page
+         * Handles user authentication with Supabase
+         *
+         * INTEGRATION NOTES:
+         * - Replace mock authentication with real Supabase calls in production
+         * - See README_ADMIN.md for backend integration steps
+         */
+
+        const loginForm = document.getElementById('loginForm');
+        const errorMessage = document.getElementById('errorMessage');
+        let loginAttempts = 0;
+        const MAX_ATTEMPTS = 3;
+        const LOCKOUT_TIME = 30000; // 30 seconds
+
+        // Initialize - check if already logged in
+        document.addEventListener('DOMContentLoaded', () => {
+            const adminToken = localStorage.getItem('trekka_admin_token');
+            if (adminToken) {
+                window.location.href = './adminDashboard.html';
+            }
+        });
+
+        loginForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            // Check for rate limiting
+            if (loginAttempts >= MAX_ATTEMPTS) {
+                showError('Too many login attempts. Please try again later.');
+                loginForm.disabled = true;
+                setTimeout(() => {
+                    loginAttempts = 0;
+                    loginForm.disabled = false;
+                }, LOCKOUT_TIME);
+                return;
+            }
+
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const enable2FA = document.getElementById('enable2FA').checked;
+
+            try {
+                // PRODUCTION: Replace with real Supabase auth call
+                // const { data, error } = await supabase.auth.signInWithPassword({
+                //     email,
+                //     password
+                // });
+                // if (error) throw error;
+
+                // Mock authentication (remove in production)
+                if (!email || !password) {
+                    showError('Please enter email and password');
+                    return;
+                }
+
+                // Simulate API call
+                await new Promise(resolve => setTimeout(resolve, 800));
+
+                // Mock success - in production, verify against Supabase
+                if (email && password.length >= 6) {
+                    if (enable2FA) {
+                        document.getElementById('twoFAModal').style.display = 'flex';
+                    } else {
+                        completeLogin(email);
+                    }
+                    loginAttempts = 0;
+                } else {
+                    loginAttempts++;
+                    showError('Invalid email or password');
+                }
+            } catch (error) {
+                loginAttempts++;
+                showError('Login failed. Please try again.');
+                console.error('Login error:', error);
+            }
+        });
+
+        function verify2FA() {
+            const code = document.getElementById('twoFACode').value;
+            if (code.length === 6) {
+                const email = document.getElementById('email').value;
+                document.getElementById('twoFAModal').style.display = 'none';
+                completeLogin(email);
+            } else {
+                showError('Invalid code. Please enter 6 digits.');
+            }
+        }
+
+        function completeLogin(email) {
+            // Store session token (in production: store JWT from Supabase)
+            const mockToken = btoa(`${email}:${Date.now()}`);
+            localStorage.setItem('trekka_admin_token', mockToken);
+            localStorage.setItem('trekka_admin_email', email);
+            localStorage.setItem('trekka_admin_role', 'super_admin');
+
+            showToast('Login successful!', 'success');
+            setTimeout(() => {
+                window.location.href = './adminDashboard.html';
+            }, 500);
+        }
+
+        function showError(message) {
+            errorMessage.textContent = message;
+            errorMessage.style.display = 'block';
+        }
+
+        function showToast(message, type = 'info') {
+            const toast = document.createElement('div');
+            toast.className = `toast toast-${type}`;
+            toast.textContent = message;
+            document.getElementById('toastContainer').appendChild(toast);
+            setTimeout(() => toast.remove(), 3000);
+        }
+    </script>
+</body>
+</html>

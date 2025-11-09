@@ -1,0 +1,978 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fleet Management — Trekka Admin</title>
+    <!-- Google Fonts - Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome 6.5.1 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="../../styles/admin.css">
+    <style>
+        .fleet-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+        
+        .filters-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-bottom: 20px;
+            align-items: center;
+        }
+        
+        .filter-group {
+            display: flex;
+            align-items: center;
+            background: white;
+            border-radius: 8px;
+            padding: 8px 12px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        
+        .filter-group label {
+            margin-right: 8px;
+            font-size: 13px;
+            font-weight: 500;
+            color: #4B5563;
+        }
+        
+        .filter-select {
+            border: 1px solid #E5E7EB;
+            border-radius: 6px;
+            padding: 6px 10px;
+            font-size: 13px;
+            background-color: #F9FAFB;
+            min-width: 160px;
+        }
+        
+        .view-toggle {
+            display: flex;
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        
+        .view-toggle-btn {
+            padding: 8px 16px;
+            border: none;
+            background: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 13px;
+            color: #6B7280;
+        }
+        
+        .view-toggle-btn.active {
+            background: #EFF6FF;
+            color: #1D4ED8;
+        }
+        
+        .view-toggle-btn:first-child {
+            border-right: 1px solid #E5E7EB;
+        }
+        
+        .stat-card {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+        
+        .stat-card h3 {
+            font-size: 14px;
+            color: #6B7280;
+            margin: 0 0 12px 0;
+            font-weight: 500;
+        }
+        
+        .stat-value {
+            font-size: 28px;
+            font-weight: 600;
+            color: #111827;
+            margin: 0;
+        }
+        
+        .stat-trend {
+            display: flex;
+            align-items: center;
+            margin-top: 8px;
+            font-size: 14px;
+        }
+        
+        .trend-up {
+            color: #10B981;
+        }
+        
+        .trend-down {
+            color: #EF4444;
+        }
+        
+        .fleet-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        .fleet-table th {
+            text-align: left;
+            padding: 12px 16px;
+            font-weight: 500;
+            color: #6B7280;
+            font-size: 13px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .fleet-table td {
+            padding: 16px;
+            border-top: 1px solid #E5E7EB;
+        }
+        
+        .vehicle-status {
+            display: inline-flex;
+            align-items: center;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 13px;
+            font-weight: 500;
+        }
+        
+        .status-active {
+            background: #D1FAE5;
+            color: #065F46;
+        }
+        
+        .status-inactive {
+            background: #FEE2E2;
+            color: #991B1B;
+        }
+        
+        .status-maintenance {
+            background: #FEF3C7;
+            color: #92400E;
+        }
+        
+        .action-btn {
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: #6B7280;
+            margin: 0 4px;
+            padding: 4px 8px;
+            border-radius: 4px;
+            transition: all 0.2s;
+        }
+        
+        .action-btn:hover {
+            background: #F3F4F6;
+            color: #111827;
+        }
+        
+        .add-vehicle-btn {
+            display: inline-flex;
+            align-items: center;
+            background: #2F80ED;
+            color: white;
+            border: none;
+            padding: 10px 16px;
+            border-radius: 8px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        
+        .add-vehicle-btn:hover {
+            background: #1A73E8;
+        }
+        
+        .add-vehicle-btn i {
+            margin-right: 8px;
+        }
+    </style>
+</head>
+<body class="admin-page">
+    <!-- Sidebar Navigation -->
+    <aside class="admin-sidebar" id="adminSidebar">
+        <div class="sidebar-header">
+            <h2 class="sidebar-logo">Trekka</h2>
+            <button class="sidebar-toggle" onclick="toggleSidebar()"><i class="fas fa-bars"></i></button>
+        </div>
+
+        <nav class="sidebar-nav">
+            <a href="./adminDashboard.html" class="nav-item">
+                <i class="fas fa-tachometer-alt"></i> Dashboard
+            </a>
+            <a href="./activityLogs.html" class="nav-item">
+                <i class="fas fa-tachometer-alt"></i> Activity Logs
+            </a>  
+            <a href="./broadcast.html" class="nav-item">
+                <i class="fas fa-broadcast-tower"></i> Broadcasts
+            </a>
+            <a href="./userManagement.html" class="nav-item">
+                <i class="fas fa-users"></i> User Management
+            </a>
+            <a href="./institutionManagement.html" class="nav-item">
+                <i class="fas fa-university"></i> Institution Management
+            </a>
+            <a href="./cms.html" class="nav-item">
+                <i class="fas fa-file-alt"></i> Content Management
+            </a>
+            <a href="./partners.html" class="nav-item">
+                <i class="fas fa-handshake"></i> Partners
+            </a>
+            <a href="./bookingOversight.html" class="nav-item">
+                <i class="fas fa-calendar-check"></i> Booking History
+            </a>
+            <a href="./analytics.html" class="nav-item">
+                <i class="fas fa-chart-line"></i> Analytics
+            </a>
+            <a href="./paymentLogs.html" class="nav-item">
+                <i class="fas fa-credit-card"></i> Payment Logs
+            </a>
+            <a href="./fleetManagement.html" class="nav-item active">
+                <i class="fas fa-truck"></i> Fleet Management
+            </a>
+            <a href="./roleManagement.html" class="nav-item">
+                <i class="fas fa-truck"></i> Role Management
+            </a>
+            <a href="./systemSettings.html" class="nav-item">
+                <i class="fas fa-cog"></i> System Settings
+            </a>
+        </nav>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="admin-main">
+        <!-- Header -->
+        <header class="admin-header">
+            <div class="header-left">
+                <h1 class="page-title">Fleet Management</h1>
+            </div>
+            <div class="header-right">
+                <button class="btn btn-outline" onclick="toggleSearch()">
+                    <i class="fas fa-search"></i> Search
+                </button>
+                <button class="icon-btn notification-btn" onclick="toggleNotifications()">
+                    <i class="far fa-bell"></i>
+                    <span class="notification-badge">3</span>
+                </button>
+                <div class="header-profile">
+                    <span class="country-flag">NG</span>
+                    <button class="profile-btn" onclick="toggleProfileMenu()">
+                        <span>Admin User</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </button>
+                    <div class="profile-menu" id="profileMenu" style="display: none;">
+                        <a href="profile.html"><i class="fas fa-user"></i> My Profile</a>
+                        <a href="systemSettings.html"><i class="fas fa-cog"></i> Settings</a>
+                        <hr>
+                        <a href="adminLogin.html" onclick="logout()"><i class="fas fa-sign-out-alt"></i> Logout</a>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Search and Filters -->
+        <div class="filters-container">
+            <div class="filter-group">
+                <label for="companyFilter">Company:</label>
+                <select id="companyFilter" class="filter-select" onchange="filterFleet()">
+                    <option value="">All Companies</option>
+                    <option value="intercity">Intercity Express</option>
+                    <option value="premium">Premium Travels</option>
+                    <option value="global">Global Shuttle</option>
+                    <option value="metro">Metro Transit</option>
+                    <option value="national">National Coaches</option>
+                </select>
+            </div>
+            
+            <div class="filter-group">
+                <label for="statusFilter">Status:</label>
+                <select id="statusFilter" class="filter-select" onchange="filterFleet()">
+                    <option value="">All Status</option>
+                    <option value="active">Active</option>
+                    <option value="inactive">Inactive</option>
+                    <option value="maintenance">Maintenance</option>
+                    <option value="on-route">On Route</option>
+                </select>
+            </div>
+            
+            <div class="filter-group">
+                <label for="typeFilter">Vehicle Type:</label>
+                <select id="typeFilter" class="filter-select" onchange="filterFleet()">
+                    <option value="">All Types</option>
+                    <option value="standard">Standard Bus</option>
+                    <option value="premium">Premium Coach</option>
+                    <option value="sleeper">Sleeper Bus</option>
+                    <option value="minibus">Minibus</option>
+                </select>
+            </div>
+            
+            <div class="view-toggle">
+                <button class="view-toggle-btn active" onclick="toggleView('list')">
+                    <i class="fas fa-list"></i> List View
+                </button>
+                <button class="view-toggle-btn" onclick="toggleView('map')">
+                    <i class="fas fa-map-marker-alt"></i> Map View
+                </button>
+            </div>
+            
+            <div style="margin-left: auto;">
+                <button class="btn btn-outline" onclick="exportFleetData()">
+                    <i class="fas fa-download"></i> Export
+                </button>
+                <button class="btn btn-primary" onclick="showAddVehicleModal()">
+                    <i class="fas fa-plus"></i> Add Vehicle
+                </button>
+            </div>
+        </div>
+        
+        <!-- Search Bar -->
+        <div class="search-bar" style="margin-bottom: 24px;">
+            <div style="position: relative; max-width: 500px;">
+                <i class="fas fa-search" style="position: absolute; left: 12px; top: 50%; transform: translateY(-50%); color: #9CA3AF;"></i>
+                <input type="text" 
+                       placeholder="Search by plate, model, company, or route..." 
+                       id="fleetSearch" 
+                       class="form-control" 
+                       style="padding-left: 36px;"
+                       onkeyup="filterFleet()">
+            </div>
+        </div>
+
+        <!-- Page Content -->
+        <div class="admin-content">
+            <!-- Fleet Stats -->
+            <div class="fleet-stats">
+                <div class="stat-card">
+                    <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+                        <div>
+                            <h3>Total Fleet</h3>
+                            <p class="stat-value">247</p>
+                            <div class="stat-trend">
+                                <i class="fas fa-arrow-up trend-up"></i>
+                                <span class="trend-up">12% from last month</span>
+                            </div>
+                        </div>
+                        <div style="background: #EFF6FF; padding: 8px; border-radius: 8px;">
+                            <i class="fas fa-bus" style="color: #3B82F6; font-size: 24px;"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+                        <div>
+                            <h3>Active on Route</h3>
+                            <p class="stat-value">183</p>
+                            <div class="stat-trend">
+                                <i class="fas fa-arrow-up trend-up"></i>
+                                <span class="trend-up">8% from yesterday</span>
+                            </div>
+                        </div>
+                        <div style="background: #ECFDF5; padding: 8px; border-radius: 8px;">
+                            <i class="fas fa-route" style="color: #10B981; font-size: 24px;"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+                        <div>
+                            <h3>In Maintenance</h3>
+                            <p class="stat-value">24</p>
+                            <div class="stat-trend">
+                                <i class="fas fa-arrow-down trend-down"></i>
+                                <span class="trend-down">5 from last week</span>
+                            </div>
+                        </div>
+                        <div style="background: #FEF3F2; padding: 8px; border-radius: 8px;">
+                            <i class="fas fa-tools" style="color: #F04438; font-size: 24px;"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+                        <div>
+                            <h3>Available</h3>
+                            <p class="stat-value">186</p>
+                            <div class="stat-trend">
+                                <i class="fas fa-arrow-up trend-up"></i>
+                                <span class="trend-up">3% from yesterday</span>
+                            </div>
+                        </div>
+                        <div style="background: #F0F9FF; padding: 8px; border-radius: 8px;">
+                            <i class="fas fa-check-circle" style="color: #0EA5E9; font-size: 24px;"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+                        <div>
+                            <h3>Companies</h3>
+                            <p class="stat-value">12</p>
+                            <div class="stat-trend">
+                                <i class="fas fa-arrow-up trend-up"></i>
+                                <span class="trend-up">2 new this month</span>
+                            </div>
+                        </div>
+                        <div style="background: #F5F3FF; padding: 8px; border-radius: 8px;">
+                            <i class="fas fa-building" style="color: #8B5CF6; font-size: 24px;"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Fleet List -->
+            <div class="card" style="margin-bottom: 24px;" id="listView">
+                <div class="card-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+                    <h2 style="font-size: 18px; font-weight: 600; margin: 0;">Fleet Overview</h2>
+                    <div class="view-options">
+                        <button class="btn btn-outline btn-sm" onclick="showBulkActions()">
+                            <i class="fas fa-tasks"></i> Bulk Actions
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Fleet Table -->
+                <div class="table-responsive">
+                    <table class="fleet-table">
+                        <thead>
+                            <tr>
+                                <th style="width: 40px;">
+                                    <input type="checkbox" id="selectAll" onchange="toggleSelectAll(this)">
+                                </th>
+                                <th>Vehicle ID</th>
+                                <th>Make & Model</th>
+                                <th>Company</th>
+                                <th>Route</th>
+                                <th>Type</th>
+                                <th>Capacity</th>
+                                <th>Status</th>
+                                <th>Last Service</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="vehicle-row" data-company="intercity" data-status="active" data-type="premium">
+                                <td><input type="checkbox" class="vehicle-checkbox" onchange="updateSelectAll()"></td>
+                                <td><strong>#VH-1001</strong></td>
+                                <td>
+                                    <div style="display: flex; align-items: center; gap: 8px;">
+                                        <div style="width: 32px; height: 32px; background: #EFF6FF; border-radius: 6px; display: flex; align-items: center; justify-content: center;">
+                                            <i class="fas fa-bus" style="color: #3B82F6;"></i>
+                                        </div>
+                                        <div>
+                                            <div>Mercedes-Benz Tourismo</div>
+                                            <div style="font-size: 12px; color: #6B7280;">ABC123XY</div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>Intercity Express</td>
+                                <td>Lagos - Abuja</td>
+                                <td>Premium Coach</td>
+                                <td>45 Seats</td>
+                                <td><span class="vehicle-status status-active">On Route</span></td>
+                                <td>2023-10-28</td>
+                                <td>
+                                    <div class="action-buttons">
+                                        <button class="action-btn" title="Track Vehicle"><i class="fas fa-map-marker-alt"></i></button>
+                                        <button class="action-btn" title="View Details"><i class="fas fa-eye"></i></button>
+                                        <button class="action-btn" title="Edit"><i class="fas fa-edit"></i></button>
+                                        <div class="dropdown">
+                                            <button class="action-btn" title="More options"><i class="fas fa-ellipsis-v"></i></button>
+                                            <div class="dropdown-content">
+                                                <a href="#" onclick="showMaintenanceModal('VH-1001')"><i class="fas fa-tools"></i> Maintenance</a>
+                                                <a href="#" onclick="showInspectionReport('VH-1001')"><i class="fas fa-clipboard-check"></i> Inspection</a>
+                                                <a href="#" class="text-danger" onclick="confirmDelete('VH-1001')"><i class="fas fa-trash"></i> Delete</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr class="vehicle-row" data-company="premium" data-status="active" data-type="sleeper">
+                                <td><input type="checkbox" class="vehicle-checkbox" onchange="updateSelectAll()"></td>
+                                <td><strong>#VH-1002</strong></td>
+                                <td>
+                                    <div style="display: flex; align-items: center; gap: 8px;">
+                                        <div style="width: 32px; height: 32px; background: #F0F9FF; border-radius: 6px; display: flex; align-items: center; justify-content: center;">
+                                            <i class="fas fa-bed" style="color: #0EA5E9;"></i>
+                                        </div>
+                                        <div>
+                                            <div>MAN Lion's Coach</div>
+                                            <div style="font-size: 12px; color: #6B7280;">XYZ789AB</div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>Premium Travels</td>
+                                <td>Lagos - Port Harcourt</td>
+                                <td>Sleeper Bus</td>
+                                <td>30 Beds</td>
+                                <td><span class="vehicle-status status-active">Available</span></td>
+                                <td>2023-10-25</td>
+                                <td>
+                                    <div class="action-buttons">
+                                        <button class="action-btn" title="Track Vehicle"><i class="fas fa-map-marker-alt"></i></button>
+                                        <button class="action-btn" title="View Details"><i class="fas fa-eye"></i></button>
+                                        <button class="action-btn" title="Edit"><i class="fas fa-edit"></i></button>
+                                        <div class="dropdown">
+                                            <button class="action-btn" title="More options"><i class="fas fa-ellipsis-v"></i></button>
+                                            <div class="dropdown-content">
+                                                <a href="#" onclick="showMaintenanceModal('VH-1002')"><i class="fas fa-tools"></i> Maintenance</a>
+                                                <a href="#" onclick="showInspectionReport('VH-1002')"><i class="fas fa-clipboard-check"></i> Inspection</a>
+                                                <a href="#" class="text-danger" onclick="confirmDelete('VH-1002')"><i class="fas fa-trash"></i> Delete</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr class="vehicle-row" data-company="global" data-status="maintenance" data-type="standard">
+                                <td><input type="checkbox" class="vehicle-checkbox" onchange="updateSelectAll()"></td>
+                                <td><strong>#VH-1003</strong></td>
+                                <td>
+                                    <div style="display: flex; align-items: center; gap: 8px;">
+                                        <div style="width: 32px; height: 32px; background: #FEF3F2; border-radius: 6px; display: flex; align-items: center; justify-content: center;">
+                                            <i class="fas fa-tools" style="color: #F04438;"></i>
+                                        </div>
+                                        <div>
+                                            <div>Mercedes Sprinter</div>
+                                            <div style="font-size: 12px; color: #6B7280;">DEF456YZ</div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>Global Shuttle</td>
+                                <td>Abuja - Kano</td>
+                                <td>Standard Bus</td>
+                                <td>16 Seats</td>
+                                <td><span class="vehicle-status status-maintenance">Maintenance</span></td>
+                                <td>2023-10-05</td>
+                                <td>
+                                    <div class="action-buttons">
+                                        <button class="action-btn" title="View Details"><i class="fas fa-eye"></i></button>
+                                        <button class="action-btn" title="Edit"><i class="fas fa-edit"></i></button>
+                                        <button class="action-btn" title="Complete Maintenance" style="color: #10B981;">
+                                            <i class="fas fa-check"></i>
+                                        </button>
+                                        <div class="dropdown">
+                                            <button class="action-btn" title="More options"><i class="fas fa-ellipsis-v"></i></button>
+                                            <div class="dropdown-content">
+                                                <a href="#" onclick="showInspectionReport('VH-1003')"><i class="fas fa-clipboard-check"></i> Inspection</a>
+                                                <a href="#" class="text-danger" onclick="confirmDelete('VH-1003')"><i class="fas fa-trash"></i> Delete</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr class="vehicle-row" data-company="metro" data-status="inactive" data-type="minibus">
+                                <td><input type="checkbox" class="vehicle-checkbox" onchange="updateSelectAll()"></td>
+                                <td><strong>#VH-1004</strong></td>
+                                <td>
+                                    <div style="display: flex; align-items: center; gap: 8px; opacity: 0.7;">
+                                        <div style="width: 32px; height: 32px; background: #F3F4F6; border-radius: 6px; display: flex; align-items: center; justify-content: center;">
+                                            <i class="fas fa-bus" style="color: #6B7280;"></i>
+                                        </div>
+                                        <div>
+                                            <div>Toyota Hiace</div>
+                                            <div style="font-size: 12px; color: #9CA3AF;">GHI789CD</div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>Metro Transit</td>
+                                <td>Lagos - Ibadan</td>
+                                <td>Minibus</td>
+                                <td>14 Seats</td>
+                                <td><span class="vehicle-status status-inactive">Inactive</span></td>
+                                <td>2023-09-28</td>
+                                <td>
+                                    <div class="action-buttons">
+                                        <button class="action-btn" title="View Details"><i class="fas fa-eye"></i></button>
+                                        <button class="action-btn" title="Edit"><i class="fas fa-edit"></i></button>
+                                        <button class="action-btn" title="Activate" style="color: #10B981;">
+                                            <i class="fas fa-power-off"></i>
+                                        </button>
+                                        <div class="dropdown">
+                                            <button class="action-btn" title="More options"><i class="fas fa-ellipsis-v"></i></button>
+                                            <div class="dropdown-content">
+                                                <a href="#" onclick="showMaintenanceModal('VH-1004')"><i class="fas fa-tools"></i> Maintenance</a>
+                                                <a href="#" onclick="showInspectionReport('VH-1004')"><i class="fas fa-clipboard-check"></i> Inspection</a>
+                                                <a href="#" class="text-danger" onclick="confirmDelete('VH-1004')"><i class="fas fa-trash"></i> Delete</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Pagination -->
+                <div class="pagination" style="margin-top: 24px; display: flex; justify-content: space-between; align-items: center;">
+                    <div>
+                        <span>Showing 1 to 4 of 42 vehicles</span>
+                    </div>
+                    <div style="display: flex; gap: 8px;">
+                        <button class="btn btn-outline" disabled><i class="fas fa-chevron-left"></i> Previous</button>
+                        <button class="btn btn-primary">1</button>
+                        <button class="btn btn-outline">2</button>
+                        <button class="btn btn-outline">3</button>
+                        <span>...</span>
+                        <button class="btn btn-outline">8</button>
+                        <button class="btn btn-outline">Next <i class="fas fa-chevron-right"></i></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Add Vehicle Modal -->
+    <div class="modal" id="addVehicleModal" style="display: none;">
+        <div class="modal-content" style="max-width: 600px;">
+            <div class="modal-header">
+                <h3 style="margin: 0;">Add New Vehicle</h3>
+                <button class="close-btn" onclick="closeModal('addVehicleModal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="addVehicleForm">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="vehicleCompany">Company</label>
+                            <select id="vehicleCompany" class="form-control" required>
+                                <option value="">Select Company</option>
+                                <option value="intercity">Intercity Express</option>
+                                <option value="premium">Premium Travels</option>
+                                <option value="global">Global Shuttle</option>
+                                <option value="metro">Metro Transit</option>
+                                <option value="national">National Coaches</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="vehicleType">Vehicle Type</label>
+                            <select id="vehicleType" class="form-control" required>
+                                <option value="">Select Type</option>
+                                <option value="standard">Standard Bus</option>
+                                <option value="premium">Premium Coach</option>
+                                <option value="sleeper">Sleeper Bus</option>
+                                <option value="minibus">Minibus</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="makeModel">Make & Model</label>
+                            <input type="text" id="makeModel" class="form-control" placeholder="e.g., Mercedes-Benz Tourismo" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="plateNumber">Plate Number</label>
+                            <input type="text" id="plateNumber" class="form-control" placeholder="e.g., ABC123XY" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="year">Year</label>
+                            <input type="number" id="year" class="form-control" min="2000" max="2023" value="2023">
+                        </div>
+                        <div class="form-group">
+                            <label for="capacity">Seating Capacity</label>
+                            <input type="number" id="capacity" class="form-control" min="1" value="45">
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="primaryRoute">Primary Route</label>
+                            <input type="text" id="primaryRoute" class="form-control" placeholder="e.g., Lagos - Abuja">
+                        </div>
+                        <div class="form-group">
+                            <label for="status">Status</label>
+                            <select id="status" class="form-control">
+                                <option value="active">Active</option>
+                                <option value="inactive">Inactive</option>
+                                <option value="maintenance">Maintenance</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="features">Features</label>
+                        <div style="display: flex; flex-wrap: wrap; gap: 8px;">
+                            <label class="feature-tag">
+                                <input type="checkbox" name="features" value="wifi"> WiFi
+                            </label>
+                            <label class="feature-tag">
+                                <input type="checkbox" name="features" value="usb"> USB Ports
+                            </label>
+                            <label class="feature-tag">
+                                <input type="checkbox" name="features" value="tv"> TV Screens
+                            </label>
+                            <label class="feature-tag">
+                                <input type="checkbox" name="features" value="ac"> Air Conditioning
+                            </label>
+                            <label class="feature-tag">
+                                <input type="checkbox" name="features" value="toilet"> Toilet
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="notes">Notes</label>
+                        <textarea id="notes" class="form-control" rows="3" placeholder="Any additional information about this vehicle"></textarea>
+                    </div>
+                    
+                    <div class="form-actions" style="margin-top: 20px; display: flex; justify-content: flex-end; gap: 12px;">
+                        <button type="button" class="btn btn-outline" onclick="closeModal('addVehicleModal')">Cancel</button>
+                        <button type="submit" class="btn btn-primary">Add Vehicle</button>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-header">
+                <h3>Add New Vehicle</h3>
+                <button class="close-btn" onclick="closeModal('addVehicleModal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="addVehicleForm">
+                    <div class="form-group">
+                        <label class="form-label">Make & Model</label>
+                        <input type="text" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Plate Number</label>
+                        <input type="text" class="form-control" required>
+                    </div>
+                    <div class="form-row" style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+                        <div class="form-group">
+                            <label class="form-label">Vehicle Type</label>
+                            <select class="form-control" required>
+                                <option value="">Select Type</option>
+                                <option value="sedan">Sedan</option>
+                                <option value="suv">SUV</option>
+                                <option value="minivan">Minivan</option>
+                                <option value="van">Van</option>
+                                <option value="bus">Bus</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Seating Capacity</label>
+                            <input type="number" class="form-control" min="1" value="4" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Year</label>
+                        <input type="number" class="form-control" min="2000" max="2023" value="2023" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Color</label>
+                        <input type="text" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">VIN (Vehicle Identification Number)</label>
+                        <input type="text" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Insurance Information</label>
+                        <input type="text" class="form-control" placeholder="Insurance Provider">
+                        <input type="date" class="form-control" style="margin-top: 8px;">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Upload Documents</label>
+                        <div style="border: 1px dashed #D1D5DB; border-radius: 8px; padding: 16px; text-align: center; cursor: pointer;">
+                            <i class="fas fa-cloud-upload-alt" style="font-size: 24px; color: #6B7280; margin-bottom: 8px;"></i>
+                            <p style="margin: 0; color: #6B7280;">Click to upload or drag and drop</p>
+                            <p style="margin: 4px 0 0; font-size: 12px; color: #9CA3AF;">PDF, JPG, PNG (max. 10MB)</p>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer" style="display: flex; justify-content: flex-end; gap: 12px; padding: 16px; border-top: 1px solid #E5E7EB;">
+        </div>
+    </div>
+
+    <script>
+        // Toggle sidebar on mobile
+        function toggleSidebar() {
+            const sidebar = document.getElementById('adminSidebar');
+            sidebar.classList.toggle('collapsed');
+        }
+
+        // Toggle search bar
+        function toggleSearch() {
+            const searchBar = document.getElementById('searchBar');
+            searchBar.style.display = searchBar.style.display === 'none' ? 'block' : 'none';
+        }
+
+        // Toggle profile menu
+        function toggleProfileMenu() {
+            const menu = document.getElementById('profileMenu');
+            menu.style.display = menu.style.display === 'none' ? 'block' : 'none';
+        }
+
+        // Toggle between list and map view
+        function toggleView(view) {
+            const listView = document.getElementById('listView');
+            const mapView = document.getElementById('mapView');
+            const listBtns = document.querySelectorAll('.view-toggle-btn');
+            
+            if (view === 'map') {
+                listView.style.display = 'none';
+                mapView.style.display = 'block';
+                listBtns[0].classList.remove('active');
+                listBtns[1].classList.add('active');
+            } else {
+                listView.style.display = 'block';
+                mapView.style.display = 'none';
+                listBtns[0].classList.add('active');
+                listBtns[1].classList.remove('active');
+            }
+        }
+
+        // Filter fleet based on search and filters
+        function filterFleet() {
+            const searchTerm = document.getElementById('fleetSearch').value.toLowerCase();
+            const companyFilter = document.getElementById('companyFilter').value;
+            const statusFilter = document.getElementById('statusFilter').value;
+            const typeFilter = document.getElementById('typeFilter').value;
+            
+            const rows = document.querySelectorAll('.vehicle-row');
+            
+            rows.forEach(row => {
+                const company = row.getAttribute('data-company');
+                const status = row.getAttribute('data-status');
+                const type = row.getAttribute('data-type');
+                const text = row.textContent.toLowerCase();
+                
+                const matchesSearch = searchTerm === '' || text.includes(searchTerm);
+                const matchesCompany = !companyFilter || company === companyFilter;
+                const matchesStatus = !statusFilter || status === statusFilter;
+                const matchesType = !typeFilter || type === typeFilter;
+                
+                if (matchesSearch && matchesCompany && matchesStatus && matchesType) {
+                    row.style.display = '';
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+        }
+
+        // Toggle select all checkboxes
+        function toggleSelectAll(checkbox) {
+            const checkboxes = document.querySelectorAll('.vehicle-checkbox');
+            checkboxes.forEach(cb => {
+                cb.checked = checkbox.checked;
+            });
+        }
+        
+        // Update select all checkbox state
+        function updateSelectAll() {
+            const checkboxes = document.querySelectorAll('.vehicle-checkbox');
+            const selectAll = document.getElementById('selectAll');
+            const allChecked = Array.from(checkboxes).every(cb => cb.checked);
+            selectAll.checked = allChecked && checkboxes.length > 0;
+        }
+        
+        // Show bulk actions
+        function showBulkActions() {
+            const selectedCount = document.querySelectorAll('.vehicle-checkbox:checked').length;
+            if (selectedCount > 0) {
+                alert(`Performing bulk action on ${selectedCount} selected vehicles`);
+                // Implement bulk actions here
+            } else {
+                alert('Please select at least one vehicle');
+            }
+        }
+        
+        // Export fleet data
+        function exportFleetData() {
+            // Implement export functionality
+            alert('Exporting fleet data...');
+        }
+        
+        // Show maintenance modal
+        function showMaintenanceModal(vehicleId) {
+            alert(`Showing maintenance form for vehicle ${vehicleId}`);
+            // Implement maintenance form modal
+        }
+        
+        // Show inspection report
+        function showInspectionReport(vehicleId) {
+            alert(`Showing inspection report for vehicle ${vehicleId}`);
+            // Implement inspection report viewer
+        }
+        
+        // Confirm vehicle deletion
+        function confirmDelete(vehicleId) {
+            if (confirm(`Are you sure you want to delete vehicle ${vehicleId}? This action cannot be undone.`)) {
+                // Implement delete functionality
+                alert(`Vehicle ${vehicleId} has been deleted.`);
+            }
+        }
+
+        // Close modals when clicking outside
+        window.onclick = function(event) {
+            if (event.target.classList.contains('modal')) {
+                event.target.style.display = 'none';
+            }
+        };
+
+        // Show add vehicle modal
+        function showAddVehicleModal() {
+            document.getElementById('addVehicleModal').style.display = 'flex';
+        }
+
+        // Close modal
+        function closeModal(modalId) {
+            document.getElementById(modalId).style.display = 'none';
+        }
+
+        // Add new vehicle
+        function addVehicle() {
+            // Add form validation and submission logic here
+            const form = document.getElementById('addVehicleForm');
+            if (form.checkValidity()) {
+                // Form is valid, proceed with submission
+                alert('Vehicle added successfully!');
+                closeModal('addVehicleModal');
+                form.reset();
+            } else {
+                // Form is invalid, show validation errors
+                form.reportValidity();
+            }
+        }
+
+        // Logout function
+        function logout() {
+            // Add your logout logic here
+            window.location.href = 'adminLogin.html';
+        }
+        
+        // Initialize the page
+        document.addEventListener('DOMContentLoaded', function() {
+            // Add form submission handler
+            const form = document.getElementById('addVehicleForm');
+            if (form) {
+                form.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    addVehicle();
+                });
+            }
+            
+            // Initialize tooltips
+            const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+            tooltipTriggerList.map(function (tooltipTriggerEl) {
+                return new bootstrap.Tooltip(tooltipTriggerEl);
+            });
+        });
+
+        // Initialize data table
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize any data tables or other functionality
+            console.log('Fleet Management page loaded');
+        });
+    </script>
+</body>
+</html>
