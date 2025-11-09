@@ -32,10 +32,6 @@ const bookingSchema = new Schema({
         ref: 'Payment',
         required: true
     }
-<<<<<<< HEAD
 });
-=======
-})
->>>>>>> fcb629f98e8706813c486e845909a9a2bbbc375e
 
 module.exports = mongoose.model('Booking',bookingSchema)
