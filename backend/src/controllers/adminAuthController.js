@@ -53,6 +53,7 @@ export const adminDeleteCompany = async (req, res) => {
   }
 };
 
+
 export const adminLogout = async (req, res) => {
   try {
     // For JWT, logout can be handled on the client side by deleting the token.
