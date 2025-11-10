@@ -1,50 +1,68 @@
-/**
- * Handles redirection after successful authentication based on user role
- * @param {string} role - User role (user, company, admin)
- */
+// scripts/utils/authUtils.js
+
 export function redirectBasedOnRole(role) {
-  const baseUrl = window.location.origin;
-  let redirectUrl = '';
+  console.log("Redirecting based on role:", role);
 
-  switch (role.toLowerCase()) {
-    case 'admin':
-      redirectUrl = '/pages/admin/adminDashboard.html';
+  switch (role) {
+    case "user":
+      window.location.href = "../users/dashboard.html";
       break;
-    case 'company':
-      redirectUrl = '/pages/company/companyDashboard.html';
+    case "company":
+      window.location.href = "../company/companyDashboard.html";
       break;
-    case 'user':
+    case "admin":
+      window.location.href = "../admin/adminDashboard.html";
+      break;
+    case "driver":
+      window.location.href = "../drivers/driverDashboard.html";
+      break;
     default:
-      redirectUrl = '/pages/user/dashboard.html';
+      console.warn("Unknown role:", role);
+      window.location.href = "../users/dashboard.html";
   }
-
-  // Store user data in session storage
-  const userData = {
-    isAuthenticated: true,
-    role: role,
-    lastLogin: new Date().toISOString()
-  };
-  sessionStorage.setItem('userData', JSON.stringify(userData));
-
-  // Redirect to the appropriate dashboard
-  window.location.href = baseUrl + redirectUrl;
 }
 
-/**
- * Checks if user is authenticated and redirects to login if not
- * @param {string} requiredRole - Required role to access the page
- */
-export function requireAuth(requiredRole = 'user') {
-  const userData = JSON.parse(sessionStorage.getItem('userData') || '{}');
-  
-  if (!userData.isAuthenticated) {
-    window.location.href = '/pages/auth/login.html';
+// Check if user is authenticated
+export function isAuthenticated() {
+  const token =
+    localStorage.getItem("authToken") || sessionStorage.getItem("authToken");
+  return !!token;
+}
+
+// Get current user role
+export function getUserRole() {
+  return localStorage.getItem("userRole");
+}
+
+// Get user data
+export function getUserData() {
+  const userData = localStorage.getItem("userData");
+  return userData ? JSON.parse(userData) : null;
+}
+
+// Logout function
+export function logout() {
+  localStorage.removeItem("authToken");
+  sessionStorage.removeItem("authToken");
+  localStorage.removeItem("userRole");
+  localStorage.removeItem("userData");
+  window.location.href = "../auth/login.html";
+}
+
+// Protect routes - call this on dashboard pages
+export function protectRoute(allowedRoles = []) {
+  const token =
+    localStorage.getItem("authToken") || sessionStorage.getItem("authToken");
+  const userRole = getUserRole();
+
+  if (!token) {
+    window.location.href = "../auth/login.html";
     return false;
   }
 
-  if (requiredRole !== 'user' && userData.role !== requiredRole) {
-    // If user doesn't have required role, redirect to their dashboard
-    redirectBasedOnRole(userData.role);
+  if (allowedRoles.length > 0 && !allowedRoles.includes(userRole)) {
+    alert("Access denied. You do not have permission to view this page.");
+    window.location.href = "../auth/login.html";
     return false;
   }
 
