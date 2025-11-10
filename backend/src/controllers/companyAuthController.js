@@ -14,9 +14,15 @@ export const companySignup = async (req, res) => {
     company.role = "company";
     company.industry = industry;
     await company.save();
-    res
-      .status(201)
-      .json({ message: "Company registered successfully", company });
+    res.status(201).json({
+      message: "Company registered successfully",
+      company: {
+        id: company._id,
+        companyName: company.companyName,
+        companyEmail: company.companyEmail,
+        role: "company",
+      },
+    });
   } catch (error) {
     res.status(400).json({ message: error.message });
   }
@@ -27,7 +33,16 @@ export const companyLogin = async (req, res) => {
     const { company, token } = await companyAuthService.loginCompany(req.body);
     if (company.role !== "company")
       throw new Error("Not authorized as company");
-    res.status(200).json({ message: "Login successful", company, token });
+    res.status(200).json({
+      message: "Login successful",
+      company: {
+        id: company._id,
+        companyName: company.companyName,
+        companyEmail: company.companyEmail,
+        role: "company",
+      },
+      token,
+    });
   } catch (error) {
     res.status(400).json({ message: error.message });
   }

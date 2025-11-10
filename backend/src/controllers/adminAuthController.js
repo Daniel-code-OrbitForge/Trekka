@@ -7,7 +7,15 @@ export const adminSignup = async (req, res) => {
     const admin = await adminAuthService.signUpAdmin(req.body);
     admin.role = "admin";
     await admin.save();
-    res.status(201).json({ message: "Admin registered successfully", admin });
+    res.status(201).json({
+      message: "Admin registered successfully",
+      admin: {
+        id: admin._id,
+        name: admin.name,
+        email: admin.email,
+        role: "admin",
+      },
+    });
   } catch (error) {
     res.status(400).json({ message: error.message });
   }
@@ -17,7 +25,16 @@ export const adminLogin = async (req, res) => {
   try {
     const { admin, token } = await adminAuthService.loginAdmin(req.body);
     if (admin.role !== "admin") throw new Error("Not authorized as admin");
-    res.status(200).json({ message: "Login successful", admin, token });
+    res.status(200).json({
+      message: "Login successful",
+      admin: {
+        id: admin._id,
+        name: admin.name,
+        email: admin.email,
+        role: "admin",
+      },
+      token,
+    });
   } catch (error) {
     res.status(400).json({ message: error.message });
   }
